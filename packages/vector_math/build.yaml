@@ -1,3 +1,6 @@
+# Copyright 2013 The Flutter Authors
+# Use of this source code is governed by a BSD-style license that can be
+# found in the LICENSE file.
 # See https://github.com/dart-lang/build/tree/master/build_web_compilers#configuration
 # Matches previous configuration in pubspec.yaml - transformers - $dart2js
 targets:

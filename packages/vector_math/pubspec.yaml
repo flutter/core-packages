@@ -1,3 +1,6 @@
+# Copyright 2013 The Flutter Authors
+# Use of this source code is governed by a BSD-style license that can be
+# found in the LICENSE file.
 name: vector_math
 version: 2.4.0-wip
 description: A Vector Math library for 2D and 3D applications.
