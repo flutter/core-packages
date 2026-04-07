@@ -1,6 +1,6 @@
-// Copyright (c) 2015, Google Inc. Please see the AUTHORS file for details.
-// All rights reserved. Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
+// Copyright 2013 The Flutter Authors
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
 
 part of '../../vector_math.dart';
 
@@ -62,10 +62,9 @@ class Matrix2 {
   Matrix2.zero() : _m2storage = Float32List(4);
 
   /// Identity matrix.
-  factory Matrix2.identity() =>
-      Matrix2.zero()
-        .._m2storage[0] = 1.0
-        .._m2storage[3] = 1.0;
+  factory Matrix2.identity() => Matrix2.zero()
+    .._m2storage[0] = 1.0
+    .._m2storage[3] = 1.0;
 
   /// Copies values from [other].
   factory Matrix2.copy(Matrix2 other) => Matrix2.zero()..setFrom(other);

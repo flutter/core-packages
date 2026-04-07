@@ -1,6 +1,6 @@
-// Copyright (c) 2015, Google Inc. Please see the AUTHORS file for details.
-// All rights reserved. Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
+// Copyright 2013 The Flutter Authors
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
 
 part of '../../vector_math_64.dart';
 
@@ -480,12 +480,15 @@ class Vector3 implements Vector {
   void clamp(Vector3 min, Vector3 max) {
     final minStorage = min.storage;
     final maxStorage = max.storage;
-    _v3storage[2] =
-        _v3storage[2].clamp(minStorage[2], maxStorage[2]).toDouble();
-    _v3storage[1] =
-        _v3storage[1].clamp(minStorage[1], maxStorage[1]).toDouble();
-    _v3storage[0] =
-        _v3storage[0].clamp(minStorage[0], maxStorage[0]).toDouble();
+    _v3storage[2] = _v3storage[2]
+        .clamp(minStorage[2], maxStorage[2])
+        .toDouble();
+    _v3storage[1] = _v3storage[1]
+        .clamp(minStorage[1], maxStorage[1])
+        .toDouble();
+    _v3storage[0] = _v3storage[0]
+        .clamp(minStorage[0], maxStorage[0])
+        .toDouble();
   }
 
   /// Clamp entries in this in the range [min]-[max].
@@ -518,18 +521,15 @@ class Vector3 implements Vector {
 
   /// Round entries in this towards zero.
   void roundToZero() {
-    _v3storage[2] =
-        _v3storage[2] < 0.0
-            ? _v3storage[2].ceilToDouble()
-            : _v3storage[2].floorToDouble();
-    _v3storage[1] =
-        _v3storage[1] < 0.0
-            ? _v3storage[1].ceilToDouble()
-            : _v3storage[1].floorToDouble();
-    _v3storage[0] =
-        _v3storage[0] < 0.0
-            ? _v3storage[0].ceilToDouble()
-            : _v3storage[0].floorToDouble();
+    _v3storage[2] = _v3storage[2] < 0.0
+        ? _v3storage[2].ceilToDouble()
+        : _v3storage[2].floorToDouble();
+    _v3storage[1] = _v3storage[1] < 0.0
+        ? _v3storage[1].ceilToDouble()
+        : _v3storage[1].floorToDouble();
+    _v3storage[0] = _v3storage[0] < 0.0
+        ? _v3storage[0].ceilToDouble()
+        : _v3storage[0].floorToDouble();
   }
 
   /// Clone of this.

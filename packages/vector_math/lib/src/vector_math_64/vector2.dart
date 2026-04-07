@@ -1,6 +1,6 @@
-// Copyright (c) 2015, Google Inc. Please see the AUTHORS file for details.
-// All rights reserved. Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
+// Copyright 2013 The Flutter Authors
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
 
 part of '../../vector_math_64.dart';
 
@@ -333,10 +333,12 @@ class Vector2 implements Vector {
   void clamp(Vector2 min, Vector2 max) {
     final minStorage = min._v2storage;
     final maxStorage = max._v2storage;
-    _v2storage[1] =
-        _v2storage[1].clamp(minStorage[1], maxStorage[1]).toDouble();
-    _v2storage[0] =
-        _v2storage[0].clamp(minStorage[0], maxStorage[0]).toDouble();
+    _v2storage[1] = _v2storage[1]
+        .clamp(minStorage[1], maxStorage[1])
+        .toDouble();
+    _v2storage[0] = _v2storage[0]
+        .clamp(minStorage[0], maxStorage[0])
+        .toDouble();
   }
 
   /// Clamp entries this in the range [min]-[max].
@@ -365,14 +367,12 @@ class Vector2 implements Vector {
 
   /// Round entries in this towards zero.
   void roundToZero() {
-    _v2storage[1] =
-        _v2storage[1] < 0.0
-            ? _v2storage[1].ceilToDouble()
-            : _v2storage[1].floorToDouble();
-    _v2storage[0] =
-        _v2storage[0] < 0.0
-            ? _v2storage[0].ceilToDouble()
-            : _v2storage[0].floorToDouble();
+    _v2storage[1] = _v2storage[1] < 0.0
+        ? _v2storage[1].ceilToDouble()
+        : _v2storage[1].floorToDouble();
+    _v2storage[0] = _v2storage[0] < 0.0
+        ? _v2storage[0].ceilToDouble()
+        : _v2storage[0].floorToDouble();
   }
 
   /// Clone of this.

@@ -1,6 +1,6 @@
-// Copyright (c) 2015, Google Inc. Please see the AUTHORS file for details.
-// All rights reserved. Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
+// Copyright 2013 The Flutter Authors
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
 
 part of '../../vector_math.dart';
 
@@ -133,10 +133,9 @@ class Quaternion {
       _qStorage[1] = (rotationMatrixStorage[6] - rotationMatrixStorage[2]) * s;
       _qStorage[2] = (rotationMatrixStorage[1] - rotationMatrixStorage[3]) * s;
     } else {
-      final i =
-          rotationMatrixStorage[0] < rotationMatrixStorage[4]
-              ? (rotationMatrixStorage[4] < rotationMatrixStorage[8] ? 2 : 1)
-              : (rotationMatrixStorage[0] < rotationMatrixStorage[8] ? 2 : 0);
+      final i = rotationMatrixStorage[0] < rotationMatrixStorage[4]
+          ? (rotationMatrixStorage[4] < rotationMatrixStorage[8] ? 2 : 1)
+          : (rotationMatrixStorage[0] < rotationMatrixStorage[8] ? 2 : 0);
       final j = (i + 1) % 3;
       final k = (i + 2) % 3;
       var s = math.sqrt(

@@ -1,6 +1,6 @@
-// Copyright (c) 2015, Google Inc. Please see the AUTHORS file for details.
-// All rights reserved. Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
+// Copyright 2013 The Flutter Authors
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
 
 part of '../../vector_math_geometry.dart';
 
@@ -212,8 +212,9 @@ class MeshGeometry {
     // When combining meshes they must all have a matching set of VertexAttribs
     final firstMesh = meshes[0];
     var totalVerts = firstMesh.length;
-    var totalIndices =
-        firstMesh.indices != null ? firstMesh.indices!.length : 0;
+    var totalIndices = firstMesh.indices != null
+        ? firstMesh.indices!.length
+        : 0;
     for (var i = 1; i < meshes.length; ++i) {
       final srcMesh = meshes[i];
       if (!firstMesh.attribsAreCompatible(srcMesh)) {

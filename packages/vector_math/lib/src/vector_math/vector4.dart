@@ -1,6 +1,6 @@
-// Copyright (c) 2015, Google Inc. Please see the AUTHORS file for details.
-// All rights reserved. Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
+// Copyright 2013 The Flutter Authors
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
 
 part of '../../vector_math.dart';
 
@@ -375,14 +375,18 @@ class Vector4 implements Vector {
   void clamp(Vector4 min, Vector4 max) {
     final minStorage = min.storage;
     final maxStorage = max.storage;
-    _v4storage[3] =
-        _v4storage[3].clamp(minStorage[3], maxStorage[3]).toDouble();
-    _v4storage[2] =
-        _v4storage[2].clamp(minStorage[2], maxStorage[2]).toDouble();
-    _v4storage[1] =
-        _v4storage[1].clamp(minStorage[1], maxStorage[1]).toDouble();
-    _v4storage[0] =
-        _v4storage[0].clamp(minStorage[0], maxStorage[0]).toDouble();
+    _v4storage[3] = _v4storage[3]
+        .clamp(minStorage[3], maxStorage[3])
+        .toDouble();
+    _v4storage[2] = _v4storage[2]
+        .clamp(minStorage[2], maxStorage[2])
+        .toDouble();
+    _v4storage[1] = _v4storage[1]
+        .clamp(minStorage[1], maxStorage[1])
+        .toDouble();
+    _v4storage[0] = _v4storage[0]
+        .clamp(minStorage[0], maxStorage[0])
+        .toDouble();
   }
 
   /// Clamp entries in this in the range [min]-[max].
@@ -419,22 +423,18 @@ class Vector4 implements Vector {
 
   /// Round entries in this towards zero.
   void roundToZero() {
-    _v4storage[3] =
-        _v4storage[3] < 0.0
-            ? _v4storage[3].ceilToDouble()
-            : _v4storage[3].floorToDouble();
-    _v4storage[2] =
-        _v4storage[2] < 0.0
-            ? _v4storage[2].ceilToDouble()
-            : _v4storage[2].floorToDouble();
-    _v4storage[1] =
-        _v4storage[1] < 0.0
-            ? _v4storage[1].ceilToDouble()
-            : _v4storage[1].floorToDouble();
-    _v4storage[0] =
-        _v4storage[0] < 0.0
-            ? _v4storage[0].ceilToDouble()
-            : _v4storage[0].floorToDouble();
+    _v4storage[3] = _v4storage[3] < 0.0
+        ? _v4storage[3].ceilToDouble()
+        : _v4storage[3].floorToDouble();
+    _v4storage[2] = _v4storage[2] < 0.0
+        ? _v4storage[2].ceilToDouble()
+        : _v4storage[2].floorToDouble();
+    _v4storage[1] = _v4storage[1] < 0.0
+        ? _v4storage[1].ceilToDouble()
+        : _v4storage[1].floorToDouble();
+    _v4storage[0] = _v4storage[0] < 0.0
+        ? _v4storage[0].ceilToDouble()
+        : _v4storage[0].floorToDouble();
   }
 
   /// Create a copy of this.

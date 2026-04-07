@@ -1,6 +1,6 @@
-// Copyright (c) 2015, Google Inc. Please see the AUTHORS file for details.
-// All rights reserved. Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
+// Copyright 2013 The Flutter Authors
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
 
 import 'dart:typed_data';
 
@@ -11,8 +11,15 @@ import 'package:vector_math/vector_math.dart';
 import 'test_utils.dart';
 
 void testAabb3ByteBufferInstanciation() {
-  final buffer =
-      Float32List.fromList([1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0]).buffer;
+  final buffer = Float32List.fromList([
+    1.0,
+    2.0,
+    3.0,
+    4.0,
+    5.0,
+    6.0,
+    7.0,
+  ]).buffer;
   final aabb = Aabb3.fromBuffer(buffer, 0);
   final aabbOffest = Aabb3.fromBuffer(buffer, Float32List.bytesPerElement);
 
