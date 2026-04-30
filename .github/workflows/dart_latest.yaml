@@ -21,7 +21,7 @@ jobs:
         # This creates a separate job for every version in the list
         strategy:
             matrix:
-                dart-sdk: [ 3.10.7, 3.11.5, latest ]
+                dart-sdk: [ 3.10.7, 3.11.5, main ]
             fail-fast: false # Continues other versions even if one fails
 
         runs-on: ubuntu-latest
