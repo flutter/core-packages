@@ -1,0 +1,56 @@
+# Copyright 2026 The Flutter Authors. All rights reserved.
+# Use of this source code is governed by a BSD-style license that can be
+# found in the LICENSE file.
+
+# Workflow to run all packages against a matrix of Dart versions.
+#
+# To run locally:
+#     gh act pull_request
+name: Multi-Version Dart Test
+
+on:
+    push:
+        branches: [ main ]
+    pull_request:
+        branches: [ main ]
+
+jobs:
+    test:
+        name: Dart ${{ matrix.dart-sdk }}
+        
+        # This creates a separate job for every version in the list
+        strategy:
+            matrix:
+                dart-sdk: [ 3.10.7, 3.11.5, main ]
+            fail-fast: false # Continues other versions even if one fails
+
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
+            - name: Set up Dart (${{ matrix.dart-sdk }})
+              uses: dart-lang/setup-dart@v1
+              with:
+                  sdk: ${{ matrix.dart-sdk }}
+
+            # NOTE: This will be replaced with a call to the packages repo tools once they are published.
+            - name: Run tests in all subfolders
+              run: |
+                  # Find all directories containing a pubspec.yaml
+                  find . -name "pubspec.yaml" -not -path "*/.*/*" | while read -r pubspec_path; do
+                    dir=$(dirname "$pubspec_path")
+                    
+                    # Start a github workflow group.
+                    echo "::group::[${{ matrix.dart-sdk }}] Testing in $dir"
+                    
+                    # Using a subshell ( ... ) to avoid needing to 'cd -'
+                    (
+                      cd "$dir"
+                      dart pub get
+                      dart test
+                    ) || exit 1
+                    
+                    echo "::endgroup::"
+                  done
