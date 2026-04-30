@@ -8,6 +8,8 @@ on:
 
 jobs:
     test:
+        name: Dart ${{ matrix.dart-sdk }}
+        
         # This creates a separate job for every version in the list
         strategy:
             matrix:
