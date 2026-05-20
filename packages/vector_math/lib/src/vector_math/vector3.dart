@@ -2,6 +2,9 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+// Too many vector accessors that don't benefit from comments.
+// ignore_for_file: public_member_api_docs
+
 part of '../../vector_math.dart';
 
 /// 3D column vector.
