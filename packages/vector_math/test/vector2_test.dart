@@ -20,7 +20,7 @@ void testVector2InstacinfFromFloat32List() {
 
 void testVector2InstacingFromByteBuffer() {
   final float32List = Float32List.fromList([1.0, 2.0, 3.0, 4.0]);
-  final buffer = float32List.buffer;
+  final ByteBuffer buffer = float32List.buffer;
   final zeroOffset = Vector2.fromBuffer(buffer, 0);
   final offsetVector = Vector2.fromBuffer(buffer, Float32List.bytesPerElement);
 
@@ -81,7 +81,7 @@ void testVector2Mix() {
 void testVector2DotProduct() {
   final inputA = Vector2(0.417267069084370, 0.049654430325742);
   final inputB = Vector2(0.944787189721646, 0.490864092468080);
-  final expectedOutput = 0.418602158442475;
+  const expectedOutput = 0.418602158442475;
   relativeTest(dot2(inputA, inputB), expectedOutput);
   relativeTest(dot2(inputB, inputA), expectedOutput);
 }
@@ -105,7 +105,7 @@ void testVector2Postmultiplication() {
 void testVector2CrossProduct() {
   final inputA = Vector2(0.417267069084370, 0.049654430325742);
   final inputB = Vector2(0.944787189721646, 0.490864092468080);
-  final expectedOutputCross = inputA.x * inputB.y - inputA.y * inputB.x;
+  final double expectedOutputCross = inputA.x * inputB.y - inputA.y * inputB.x;
   dynamic result;
   result = cross2(inputA, inputB);
   relativeTest(result, expectedOutputCross);
@@ -252,8 +252,8 @@ void testVector2AngleTo() {
   final v0 = Vector2(1.0, 0.0);
   final v1 = Vector2(0.0, 1.0);
   final v2 = Vector2(1.0, 1.0);
-  final v3 = v2.normalized();
-  final tol = 1e-8;
+  final Vector2 v3 = v2.normalized();
+  const tol = 1e-8;
 
   expect(v0.angleTo(v0), equals(0.0));
   expect(v0.angleTo(v1), equals(math.pi / 2.0));
@@ -273,7 +273,7 @@ void testVector2AngleToSigned() {
 }
 
 void testVector2Clamp() {
-  final x = 2.0, y = 3.0;
+  const x = 2.0, y = 3.0;
   final v0 = Vector2(x, y);
   final v1 = Vector2(-x, -y);
   final v2 = Vector2(-2.0 * x, 2.0 * y)..clamp(v1, v0);
@@ -282,7 +282,7 @@ void testVector2Clamp() {
 }
 
 void testVector2ClampScalar() {
-  final x = 2.0;
+  const x = 2.0;
   final v0 = Vector2(-2.0 * x, 2.0 * x)..clampScalar(-x, x);
   expect(v0.storage, orderedEquals(<double>[-x, x]));
 }

@@ -6,36 +6,6 @@ part of '../../vector_math_64.dart';
 
 /// 3D column vector.
 class Vector3 implements Vector {
-  final Float64List _v3storage;
-
-  /// The components of the vector.
-  @override
-  Float64List get storage => _v3storage;
-
-  /// Set the values of [result] to the minimum of [a] and [b] for each line.
-  static void min(Vector3 a, Vector3 b, Vector3 result) {
-    result
-      ..x = math.min(a.x, b.x)
-      ..y = math.min(a.y, b.y)
-      ..z = math.min(a.z, b.z);
-  }
-
-  /// Set the values of [result] to the maximum of [a] and [b] for each line.
-  static void max(Vector3 a, Vector3 b, Vector3 result) {
-    result
-      ..x = math.max(a.x, b.x)
-      ..y = math.max(a.y, b.y)
-      ..z = math.max(a.z, b.z);
-  }
-
-  /// Interpolate between [min] and [max] with the amount of [a] using a linear
-  /// interpolation and store the values in [result].
-  static void mix(Vector3 min, Vector3 max, double a, Vector3 result) {
-    result
-      ..x = min.x + a * (max.x - min.x)
-      ..y = min.y + a * (max.y - min.y)
-      ..z = min.z + a * (max.z - min.z);
-  }
 
   /// Construct a new vector with the specified values.
   factory Vector3(double x, double y, double z) =>
@@ -68,6 +38,36 @@ class Vector3 implements Vector {
     rng ??= math.Random();
     return Vector3(rng.nextDouble(), rng.nextDouble(), rng.nextDouble());
   }
+  final Float64List _v3storage;
+
+  /// The components of the vector.
+  @override
+  Float64List get storage => _v3storage;
+
+  /// Set the values of [result] to the minimum of [a] and [b] for each line.
+  static void min(Vector3 a, Vector3 b, Vector3 result) {
+    result
+      ..x = math.min(a.x, b.x)
+      ..y = math.min(a.y, b.y)
+      ..z = math.min(a.z, b.z);
+  }
+
+  /// Set the values of [result] to the maximum of [a] and [b] for each line.
+  static void max(Vector3 a, Vector3 b, Vector3 result) {
+    result
+      ..x = math.max(a.x, b.x)
+      ..y = math.max(a.y, b.y)
+      ..z = math.max(a.z, b.z);
+  }
+
+  /// Interpolate between [min] and [max] with the amount of [a] using a linear
+  /// interpolation and store the values in [result].
+  static void mix(Vector3 min, Vector3 max, double a, Vector3 result) {
+    result
+      ..x = min.x + a * (max.x - min.x)
+      ..y = min.y + a * (max.y - min.y)
+      ..z = min.z + a * (max.z - min.z);
+  }
 
   /// Set the values of the vector.
   void setValues(double x, double y, double z) {
@@ -85,7 +85,7 @@ class Vector3 implements Vector {
 
   /// Set the values by copying them from [other].
   void setFrom(Vector3 other) {
-    final otherStorage = other._v3storage;
+    final Float64List otherStorage = other._v3storage;
     _v3storage[2] = otherStorage[2];
     _v3storage[1] = otherStorage[1];
     _v3storage[0] = otherStorage[0];
@@ -142,7 +142,7 @@ class Vector3 implements Vector {
     if (value == 0.0) {
       setZero();
     } else {
-      var l = length;
+      double l = length;
       if (l == 0.0) {
         return;
       }
@@ -167,11 +167,11 @@ class Vector3 implements Vector {
 
   /// Normalizes this.
   double normalize() {
-    final l = length;
+    final double l = length;
     if (l == 0.0) {
       return 0.0;
     }
-    final d = 1.0 / l;
+    final double d = 1.0 / l;
     _v3storage[2] *= d;
     _v3storage[1] *= d;
     _v3storage[0] *= d;
@@ -198,24 +198,24 @@ class Vector3 implements Vector {
 
   /// Squared distance from this to [arg]
   double distanceToSquared(Vector3 arg) {
-    final argStorage = arg._v3storage;
-    final dz = _v3storage[2] - argStorage[2];
-    final dy = _v3storage[1] - argStorage[1];
-    final dx = _v3storage[0] - argStorage[0];
+    final Float64List argStorage = arg._v3storage;
+    final double dz = _v3storage[2] - argStorage[2];
+    final double dy = _v3storage[1] - argStorage[1];
+    final double dx = _v3storage[0] - argStorage[0];
 
     return dx * dx + dy * dy + dz * dz;
   }
 
   /// Returns the angle between this vector and [other] in radians.
   double angleTo(Vector3 other) {
-    final otherStorage = other._v3storage;
+    final Float64List otherStorage = other._v3storage;
     if (_v3storage[2] == otherStorage[2] &&
         _v3storage[1] == otherStorage[1] &&
         _v3storage[0] == otherStorage[0]) {
       return 0.0;
     }
 
-    final d = dot(other) / (length * other.length);
+    final double d = dot(other) / (length * other.length);
 
     return math.acos(d.clamp(-1.0, 1.0));
   }
@@ -223,16 +223,16 @@ class Vector3 implements Vector {
   /// Returns the signed angle between this and [other] around [normal]
   /// in radians.
   double angleToSigned(Vector3 other, Vector3 normal) {
-    final angle = angleTo(other);
-    final c = cross(other);
-    final d = c.dot(normal);
+    final double angle = angleTo(other);
+    final Vector3 c = cross(other);
+    final double d = c.dot(normal);
 
     return d < 0.0 ? -angle : angle;
   }
 
   /// Inner product.
   double dot(Vector3 other) {
-    final otherStorage = other._v3storage;
+    final Float64List otherStorage = other._v3storage;
     return _v3storage[2] * otherStorage[2] +
         _v3storage[1] * otherStorage[1] +
         _v3storage[0] * otherStorage[0];
@@ -244,10 +244,10 @@ class Vector3 implements Vector {
   /// If [arg] is a rotation matrix, this is a computational shortcut for
   /// applying, the inverse of the transformation.
   void postmultiply(Matrix3 arg) {
-    final argStorage = arg._m3storage;
-    final v2 = _v3storage[2];
-    final v1 = _v3storage[1];
-    final v0 = _v3storage[0];
+    final Float64List argStorage = arg._m3storage;
+    final double v2 = _v3storage[2];
+    final double v1 = _v3storage[1];
+    final double v0 = _v3storage[0];
 
     _v3storage[2] =
         v0 * argStorage[6] + v1 * argStorage[7] + v2 * argStorage[8];
@@ -259,26 +259,26 @@ class Vector3 implements Vector {
 
   /// Cross product.
   Vector3 cross(Vector3 other) {
-    final z = _v3storage[2];
-    final y = _v3storage[1];
-    final x = _v3storage[0];
-    final otherStorage = other._v3storage;
-    final oz = otherStorage[2];
-    final oy = otherStorage[1];
-    final ox = otherStorage[0];
+    final double z = _v3storage[2];
+    final double y = _v3storage[1];
+    final double x = _v3storage[0];
+    final Float64List otherStorage = other._v3storage;
+    final double oz = otherStorage[2];
+    final double oy = otherStorage[1];
+    final double ox = otherStorage[0];
     return Vector3(y * oz - z * oy, z * ox - x * oz, x * oy - y * ox);
   }
 
   /// Cross product. Stores result in [out].
   Vector3 crossInto(Vector3 other, Vector3 out) {
-    final z = _v3storage[2];
-    final y = _v3storage[1];
-    final x = _v3storage[0];
-    final otherStorage = other._v3storage;
-    final oz = otherStorage[2];
-    final oy = otherStorage[1];
-    final ox = otherStorage[0];
-    final outStorage = out._v3storage;
+    final double z = _v3storage[2];
+    final double y = _v3storage[1];
+    final double x = _v3storage[0];
+    final Float64List otherStorage = other._v3storage;
+    final double oz = otherStorage[2];
+    final double oy = otherStorage[1];
+    final double ox = otherStorage[0];
+    final Float64List outStorage = out._v3storage;
     outStorage[2] = x * oy - y * ox;
     outStorage[1] = z * ox - x * oz;
     outStorage[0] = y * oz - z * oy;
@@ -287,7 +287,7 @@ class Vector3 implements Vector {
 
   /// Reflect this.
   void reflect(Vector3 normal) {
-    final dotProduct = 2.0 * normal.dot(this);
+    final double dotProduct = 2.0 * normal.dot(this);
     _v3storage[2] -= normal._v3storage[2] * dotProduct;
     _v3storage[1] -= normal._v3storage[1] * dotProduct;
     _v3storage[0] -= normal._v3storage[0] * dotProduct;
@@ -298,11 +298,11 @@ class Vector3 implements Vector {
 
   /// Projects this using the projection matrix [arg]
   void applyProjection(Matrix4 arg) {
-    final argStorage = arg._m4storage;
-    final z = _v3storage[2];
-    final y = _v3storage[1];
-    final x = _v3storage[0];
-    final d =
+    final Float64List argStorage = arg._m4storage;
+    final double z = _v3storage[2];
+    final double y = _v3storage[1];
+    final double x = _v3storage[0];
+    final double d =
         1.0 /
         (argStorage[15] +
             argStorage[11] * z +
@@ -335,18 +335,18 @@ class Vector3 implements Vector {
 
   /// Applies a quaternion transform.
   void applyQuaternion(Quaternion arg) {
-    final argStorage = arg._qStorage;
-    final v2 = _v3storage[2];
-    final v1 = _v3storage[1];
-    final v0 = _v3storage[0];
-    final qw = argStorage[3];
-    final qz = argStorage[2];
-    final qy = argStorage[1];
-    final qx = argStorage[0];
-    final ix = qw * v0 + qy * v2 - qz * v1;
-    final iy = qw * v1 + qz * v0 - qx * v2;
-    final iz = qw * v2 + qx * v1 - qy * v0;
-    final iw = -qx * v0 - qy * v1 - qz * v2;
+    final Float64List argStorage = arg._qStorage;
+    final double v2 = _v3storage[2];
+    final double v1 = _v3storage[1];
+    final double v0 = _v3storage[0];
+    final double qw = argStorage[3];
+    final double qz = argStorage[2];
+    final double qy = argStorage[1];
+    final double qx = argStorage[0];
+    final double ix = qw * v0 + qy * v2 - qz * v1;
+    final double iy = qw * v1 + qz * v0 - qx * v2;
+    final double iz = qw * v2 + qx * v1 - qy * v0;
+    final double iw = -qx * v0 - qy * v1 - qz * v2;
     _v3storage[2] = iz * qw + iw * -qz + ix * -qy - iy * -qx;
     _v3storage[1] = iy * qw + iw * -qy + iz * -qx - ix * -qz;
     _v3storage[0] = ix * qw + iw * -qx + iy * -qz - iz * -qy;
@@ -354,10 +354,10 @@ class Vector3 implements Vector {
 
   /// Multiplies this by [arg].
   void applyMatrix3(Matrix3 arg) {
-    final argStorage = arg._m3storage;
-    final v2 = _v3storage[2];
-    final v1 = _v3storage[1];
-    final v0 = _v3storage[0];
+    final Float64List argStorage = arg._m3storage;
+    final double v2 = _v3storage[2];
+    final double v1 = _v3storage[1];
+    final double v0 = _v3storage[0];
     _v3storage[2] =
         argStorage[2] * v0 + argStorage[5] * v1 + argStorage[8] * v2;
     _v3storage[1] =
@@ -369,10 +369,10 @@ class Vector3 implements Vector {
   /// Multiplies this by a 4x3 subset of [arg]. Expects [arg] to be an affine
   /// transformation matrix.
   void applyMatrix4(Matrix4 arg) {
-    final argStorage = arg._m4storage;
-    final v2 = _v3storage[2];
-    final v1 = _v3storage[1];
-    final v0 = _v3storage[0];
+    final Float64List argStorage = arg._m4storage;
+    final double v2 = _v3storage[2];
+    final double v1 = _v3storage[1];
+    final double v0 = _v3storage[0];
     _v3storage[2] =
         argStorage[2] * v0 +
         argStorage[6] * v1 +
@@ -396,9 +396,9 @@ class Vector3 implements Vector {
 
   /// Absolute error between this and [correct]
   double absoluteError(Vector3 correct) {
-    final zDiff = _v3storage[2] - correct._v3storage[2];
-    final yDiff = _v3storage[1] - correct._v3storage[1];
-    final xDiff = _v3storage[0] - correct._v3storage[0];
+    final double zDiff = _v3storage[2] - correct._v3storage[2];
+    final double yDiff = _v3storage[1] - correct._v3storage[1];
+    final double xDiff = _v3storage[0] - correct._v3storage[0];
     return math.sqrt(xDiff * xDiff + yDiff * yDiff + zDiff * zDiff);
   }
 
@@ -414,7 +414,7 @@ class Vector3 implements Vector {
 
   /// Add [arg] to this.
   void add(Vector3 arg) {
-    final argStorage = arg._v3storage;
+    final Float64List argStorage = arg._v3storage;
     _v3storage[2] += argStorage[2];
     _v3storage[1] += argStorage[1];
     _v3storage[0] += argStorage[0];
@@ -422,7 +422,7 @@ class Vector3 implements Vector {
 
   /// Add [arg] scaled by [factor] to this.
   void addScaled(Vector3 arg, double factor) {
-    final argStorage = arg._v3storage;
+    final Float64List argStorage = arg._v3storage;
     _v3storage[2] += argStorage[2] * factor;
     _v3storage[1] += argStorage[1] * factor;
     _v3storage[0] += argStorage[0] * factor;
@@ -430,7 +430,7 @@ class Vector3 implements Vector {
 
   /// Subtract [arg] from this.
   void sub(Vector3 arg) {
-    final argStorage = arg._v3storage;
+    final Float64List argStorage = arg._v3storage;
     _v3storage[2] -= argStorage[2];
     _v3storage[1] -= argStorage[1];
     _v3storage[0] -= argStorage[0];
@@ -438,7 +438,7 @@ class Vector3 implements Vector {
 
   /// Multiply entries in this with entries in [arg].
   void multiply(Vector3 arg) {
-    final argStorage = arg._v3storage;
+    final Float64List argStorage = arg._v3storage;
     _v3storage[2] *= argStorage[2];
     _v3storage[1] *= argStorage[1];
     _v3storage[0] *= argStorage[0];
@@ -446,7 +446,7 @@ class Vector3 implements Vector {
 
   /// Divide entries in this with entries in [arg].
   void divide(Vector3 arg) {
-    final argStorage = arg._v3storage;
+    final Float64List argStorage = arg._v3storage;
     _v3storage[2] /= argStorage[2];
     _v3storage[1] /= argStorage[1];
     _v3storage[0] /= argStorage[0];
@@ -478,24 +478,24 @@ class Vector3 implements Vector {
 
   /// Clamp each entry `n` in this in the range `[min[n]]-[max[n]]`.
   void clamp(Vector3 min, Vector3 max) {
-    final minStorage = min.storage;
-    final maxStorage = max.storage;
+    final Float64List minStorage = min.storage;
+    final Float64List maxStorage = max.storage;
     _v3storage[2] = _v3storage[2]
         .clamp(minStorage[2], maxStorage[2])
-        .toDouble();
+        ;
     _v3storage[1] = _v3storage[1]
         .clamp(minStorage[1], maxStorage[1])
-        .toDouble();
+        ;
     _v3storage[0] = _v3storage[0]
         .clamp(minStorage[0], maxStorage[0])
-        .toDouble();
+        ;
   }
 
   /// Clamp entries in this in the range [min]-[max].
   void clampScalar(double min, double max) {
-    _v3storage[2] = _v3storage[2].clamp(min, max).toDouble();
-    _v3storage[1] = _v3storage[1].clamp(min, max).toDouble();
-    _v3storage[0] = _v3storage[0].clamp(min, max).toDouble();
+    _v3storage[2] = _v3storage[2].clamp(min, max);
+    _v3storage[1] = _v3storage[1].clamp(min, max);
+    _v3storage[0] = _v3storage[0].clamp(min, max);
   }
 
   /// Floor entries in this.
@@ -537,7 +537,7 @@ class Vector3 implements Vector {
 
   /// Copy this into [arg].
   Vector3 copyInto(Vector3 arg) {
-    final argStorage = arg._v3storage;
+    final Float64List argStorage = arg._v3storage;
     argStorage[2] = _v3storage[2];
     argStorage[1] = _v3storage[1];
     argStorage[0] = _v3storage[0];
@@ -559,78 +559,78 @@ class Vector3 implements Vector {
   }
 
   set xy(Vector2 arg) {
-    final argStorage = arg._v2storage;
+    final Float64List argStorage = arg._v2storage;
     _v3storage[1] = argStorage[1];
     _v3storage[0] = argStorage[0];
   }
 
   set xz(Vector2 arg) {
-    final argStorage = arg._v2storage;
+    final Float64List argStorage = arg._v2storage;
     _v3storage[2] = argStorage[1];
     _v3storage[0] = argStorage[0];
   }
 
   set yx(Vector2 arg) {
-    final argStorage = arg._v2storage;
+    final Float64List argStorage = arg._v2storage;
     _v3storage[1] = argStorage[0];
     _v3storage[0] = argStorage[1];
   }
 
   set yz(Vector2 arg) {
-    final argStorage = arg._v2storage;
+    final Float64List argStorage = arg._v2storage;
     _v3storage[2] = argStorage[1];
     _v3storage[1] = argStorage[0];
   }
 
   set zx(Vector2 arg) {
-    final argStorage = arg._v2storage;
+    final Float64List argStorage = arg._v2storage;
     _v3storage[2] = argStorage[0];
     _v3storage[0] = argStorage[1];
   }
 
   set zy(Vector2 arg) {
-    final argStorage = arg._v2storage;
+    final Float64List argStorage = arg._v2storage;
     _v3storage[2] = argStorage[0];
     _v3storage[1] = argStorage[1];
   }
 
   set xyz(Vector3 arg) {
-    final argStorage = arg._v3storage;
+    final Float64List argStorage = arg._v3storage;
     _v3storage[2] = argStorage[2];
     _v3storage[1] = argStorage[1];
     _v3storage[0] = argStorage[0];
   }
 
   set xzy(Vector3 arg) {
-    final argStorage = arg._v3storage;
+    final Float64List argStorage = arg._v3storage;
     _v3storage[0] = argStorage[0];
     _v3storage[2] = argStorage[1];
     _v3storage[1] = argStorage[2];
   }
 
   set yxz(Vector3 arg) {
-    final argStorage = arg._v3storage;
+    final Float64List argStorage = arg._v3storage;
     _v3storage[2] = argStorage[2];
     _v3storage[1] = argStorage[0];
     _v3storage[0] = argStorage[1];
   }
 
   set yzx(Vector3 arg) {
-    final argStorage = arg._v3storage;
+    final Float64List argStorage = arg._v3storage;
     _v3storage[2] = argStorage[1];
     _v3storage[1] = argStorage[0];
     _v3storage[0] = argStorage[2];
   }
 
   set zxy(Vector3 arg) {
-    final argStorage = arg._v3storage;
+    final Float64List argStorage = arg._v3storage;
     _v3storage[2] = argStorage[0];
     _v3storage[0] = argStorage[1];
     _v3storage[1] = argStorage[2];
   }
 
   set zyx(Vector3 arg) {
-    final argStorage = arg._v3storage;
+    final Float64List argStorage = arg._v3storage;
     _v3storage[2] = argStorage[0];
     _v3storage[1] = argStorage[1];
     _v3storage[0] = argStorage[2];

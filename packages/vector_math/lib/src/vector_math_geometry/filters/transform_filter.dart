@@ -5,9 +5,9 @@
 part of '../../../vector_math_geometry.dart';
 
 class TransformFilter extends InplaceGeometryFilter {
-  Matrix4 transform;
 
   TransformFilter(this.transform);
+  Matrix4 transform;
 
   @override
   List<VertexAttrib> get requires => <VertexAttrib>[
@@ -16,7 +16,7 @@ class TransformFilter extends InplaceGeometryFilter {
 
   @override
   void filterInplace(MeshGeometry mesh) {
-    final position = mesh.getViewForAttrib('POSITION');
+    final VectorList<Vector>? position = mesh.getViewForAttrib('POSITION');
     if (position is Vector3List) {
       for (var i = 0; i < position.length; ++i) {
         // multiplication always returns Vector3 here

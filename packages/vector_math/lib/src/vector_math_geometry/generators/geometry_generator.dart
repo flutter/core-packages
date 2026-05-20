@@ -5,15 +5,15 @@
 part of '../../../vector_math_geometry.dart';
 
 class GeometryGeneratorFlags {
-  final bool texCoords;
-  final bool normals;
-  final bool tangents;
 
   GeometryGeneratorFlags({
     this.texCoords = true,
     this.normals = true,
     this.tangents = true,
   });
+  final bool texCoords;
+  final bool normals;
+  final bool tangents;
 }
 
 abstract class GeometryGenerator {
@@ -60,7 +60,7 @@ abstract class GeometryGenerator {
       ..indices = Uint16List(indexCount);
     generateIndices(mesh.indices!);
 
-    var view = mesh.getViewForAttrib('POSITION');
+    VectorList<Vector>? view = mesh.getViewForAttrib('POSITION');
     if (view is Vector3List) {
       positionView = view;
       generateVertexPositions(positionView, mesh.indices!);
@@ -97,7 +97,7 @@ abstract class GeometryGenerator {
     }
 
     if (filters != null) {
-      for (var filter in filters) {
+      for (final GeometryFilter filter in filters) {
         if (filter.inplace && filter is InplaceGeometryFilter) {
           filter.filterInplace(mesh);
         } else {
@@ -119,7 +119,7 @@ abstract class GeometryGenerator {
     Uint16List indices,
   ) {
     for (var i = 0; i < positions.length; ++i) {
-      final p = positions[i];
+      final Vector3 p = positions[i];
 
       // These are TERRIBLE texture coords, but it's better than nothing.
       // Override this function and put better ones in place!

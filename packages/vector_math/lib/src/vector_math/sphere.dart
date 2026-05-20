@@ -6,13 +6,6 @@ part of '../../vector_math.dart';
 
 /// Defines a sphere with a [center] and a [radius].
 class Sphere {
-  final Vector3 _center;
-
-  /// The [radius] of the sphere.
-  double radius;
-
-  /// The [center] of the sphere.
-  Vector3 get center => _center;
 
   /// Create a new, uninitialized sphere.
   Sphere() : _center = Vector3.zero(), radius = 0.0;
@@ -25,6 +18,13 @@ class Sphere {
   /// Create a sphere from a [center] and a [radius].
   Sphere.centerRadius(Vector3 center, this.radius)
     : _center = Vector3.copy(center);
+  final Vector3 _center;
+
+  /// The [radius] of the sphere.
+  double radius;
+
+  /// The [center] of the sphere.
+  Vector3 get center => _center;
 
   /// Copy the sphere from [other] into this.
   void copyFrom(Sphere other) {
@@ -42,7 +42,7 @@ class Sphere {
 
   /// Return if this intersects with [other].
   bool intersectsWithSphere(Sphere other) {
-    final radiusSum = radius + other.radius;
+    final double radiusSum = radius + other.radius;
 
     return other.center.distanceToSquared(center) <= (radiusSum * radiusSum);
   }

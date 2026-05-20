@@ -27,9 +27,9 @@ class FlatShadeFilter extends GeometryFilter {
 
     final p0 = Vector3.zero(), p1 = Vector3.zero(), p2 = Vector3.zero();
 
-    final srcPosition = mesh.getViewForAttrib('POSITION');
-    final destPosition = output.getViewForAttrib('POSITION');
-    final normals = output.getViewForAttrib('NORMAL');
+    final VectorList<Vector>? srcPosition = mesh.getViewForAttrib('POSITION');
+    final VectorList<Vector>? destPosition = output.getViewForAttrib('POSITION');
+    final VectorList<Vector>? normals = output.getViewForAttrib('NORMAL');
 
     if (srcPosition is! Vector3List ||
         destPosition is! Vector3List ||
@@ -39,7 +39,7 @@ class FlatShadeFilter extends GeometryFilter {
 
     final srcAttribs = <VectorList<Vector>>[];
     final destAttribs = <VectorList<Vector>>[];
-    for (var attrib in mesh.attribs) {
+    for (final VertexAttrib attrib in mesh.attribs) {
       if (attrib.name == 'POSITION' || attrib.name == 'NORMAL') {
         continue;
       }
@@ -49,9 +49,9 @@ class FlatShadeFilter extends GeometryFilter {
     }
 
     for (var i = 0; i < output.length; i += 3) {
-      final i0 = mesh.indices![i];
-      final i1 = mesh.indices![i + 1];
-      final i2 = mesh.indices![i + 2];
+      final int i0 = mesh.indices![i];
+      final int i1 = mesh.indices![i + 1];
+      final int i2 = mesh.indices![i + 2];
 
       srcPosition
         ..load(i0, p0)

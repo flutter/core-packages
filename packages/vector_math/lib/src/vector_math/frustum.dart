@@ -6,6 +6,21 @@ part of '../../vector_math.dart';
 
 /// Defines a frustum constructed out of six [Plane]s.
 class Frustum {
+
+  /// Create a new frustum without initializing its bounds.
+  Frustum()
+    : _plane0 = Plane(),
+      _plane1 = Plane(),
+      _plane2 = Plane(),
+      _plane3 = Plane(),
+      _plane4 = Plane(),
+      _plane5 = Plane();
+
+  /// Create a new frustum as a copy of [other].
+  factory Frustum.copy(Frustum other) => Frustum()..copyFrom(other);
+
+  /// Create a new furstum from a [matrix].
+  factory Frustum.matrix(Matrix4 matrix) => Frustum()..setFromMatrix(matrix);
   final Plane _plane0;
   final Plane _plane1;
   final Plane _plane2;
@@ -31,21 +46,6 @@ class Frustum {
   /// The sixed plane that defines the bounds of this frustum.
   Plane get plane5 => _plane5;
 
-  /// Create a new frustum without initializing its bounds.
-  Frustum()
-    : _plane0 = Plane(),
-      _plane1 = Plane(),
-      _plane2 = Plane(),
-      _plane3 = Plane(),
-      _plane4 = Plane(),
-      _plane5 = Plane();
-
-  /// Create a new frustum as a copy of [other].
-  factory Frustum.copy(Frustum other) => Frustum()..copyFrom(other);
-
-  /// Create a new furstum from a [matrix].
-  factory Frustum.matrix(Matrix4 matrix) => Frustum()..setFromMatrix(matrix);
-
   /// Copy the [other] frustum into this.
   void copyFrom(Frustum other) {
     _plane0.copyFrom(other._plane0);
@@ -58,11 +58,11 @@ class Frustum {
 
   /// Set this from [matrix].
   void setFromMatrix(Matrix4 matrix) {
-    final me = matrix.storage;
-    final me0 = me[0], me1 = me[1], me2 = me[2], me3 = me[3];
-    final me4 = me[4], me5 = me[5], me6 = me[6], me7 = me[7];
-    final me8 = me[8], me9 = me[9], me10 = me[10], me11 = me[11];
-    final me12 = me[12], me13 = me[13], me14 = me[14], me15 = me[15];
+    final Float32List me = matrix.storage;
+    final double me0 = me[0], me1 = me[1], me2 = me[2], me3 = me[3];
+    final double me4 = me[4], me5 = me[5], me6 = me[6], me7 = me[7];
+    final double me8 = me[8], me9 = me[9], me10 = me[10], me11 = me[11];
+    final double me12 = me[12], me13 = me[13], me14 = me[14], me15 = me[15];
 
     _plane0
       ..setFromComponents(me3 - me0, me7 - me4, me11 - me8, me15 - me12)
@@ -144,8 +144,8 @@ class Frustum {
 
   /// Check if this intersects with [sphere].
   bool intersectsWithSphere(Sphere sphere) {
-    final negativeRadius = -sphere.radius;
-    final center = sphere.center;
+    final double negativeRadius = -sphere.radius;
+    final Vector3 center = sphere.center;
 
     if (_plane0.distanceToVector3(center) < negativeRadius) {
       return false;
@@ -223,12 +223,12 @@ class Frustum {
       outNz = aabb.min.z;
     }
 
-    final d1 =
+    final double d1 =
         plane._normal.x * outPx +
         plane._normal.y * outPy +
         plane._normal.z * outPz +
         plane.constant;
-    final d2 =
+    final double d2 =
         plane._normal.x * outNx +
         plane._normal.y * outNy +
         plane._normal.z * outNz +

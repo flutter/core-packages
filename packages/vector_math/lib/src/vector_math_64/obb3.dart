@@ -6,26 +6,6 @@ part of '../../vector_math_64.dart';
 /// Defines a 3-dimensional oriented bounding box defined with a [center],
 /// [halfExtents] and axes.
 class Obb3 {
-  final Vector3 _center;
-  final Vector3 _halfExtents;
-  final Vector3 _axis0;
-  final Vector3 _axis1;
-  final Vector3 _axis2;
-
-  /// The center of the OBB.
-  Vector3 get center => _center;
-
-  /// The half extends of the OBB.
-  Vector3 get halfExtents => _halfExtents;
-
-  /// The first axis of the OBB.
-  Vector3 get axis0 => _axis0;
-
-  /// The second axis of the OBB.
-  Vector3 get axis1 => _axis1;
-
-  /// The third axis of the OBB.
-  Vector3 get axis2 => _axis2;
 
   /// Create a new OBB with erverything set to zero.
   Obb3()
@@ -55,6 +35,26 @@ class Obb3 {
       _axis0 = Vector3.copy(axis0),
       _axis1 = Vector3.copy(axis1),
       _axis2 = Vector3.copy(axis2);
+  final Vector3 _center;
+  final Vector3 _halfExtents;
+  final Vector3 _axis0;
+  final Vector3 _axis1;
+  final Vector3 _axis2;
+
+  /// The center of the OBB.
+  Vector3 get center => _center;
+
+  /// The half extends of the OBB.
+  Vector3 get halfExtents => _halfExtents;
+
+  /// The first axis of the OBB.
+  Vector3 get axis0 => _axis0;
+
+  /// The second axis of the OBB.
+  Vector3 get axis1 => _axis1;
+
+  /// The third axis of the OBB.
+  Vector3 get axis2 => _axis2;
 
   /// Copy from [other] into this.
   void copyFrom(Obb3 other) {
@@ -125,69 +125,61 @@ class Obb3 {
           ..addScaled(_axis0, -_halfExtents.x)
           ..addScaled(_axis1, -_halfExtents.y)
           ..addScaled(_axis2, -_halfExtents.z);
-        break;
       case 1:
         corner
           ..addScaled(_axis0, -_halfExtents.x)
           ..addScaled(_axis1, -_halfExtents.y)
           ..addScaled(_axis2, _halfExtents.z);
-        break;
       case 2:
         corner
           ..addScaled(_axis0, -_halfExtents.x)
           ..addScaled(_axis1, _halfExtents.y)
           ..addScaled(_axis2, -_halfExtents.z);
-        break;
       case 3:
         corner
           ..addScaled(_axis0, -_halfExtents.x)
           ..addScaled(_axis1, _halfExtents.y)
           ..addScaled(_axis2, _halfExtents.z);
-        break;
       case 4:
         corner
           ..addScaled(_axis0, _halfExtents.x)
           ..addScaled(_axis1, -_halfExtents.y)
           ..addScaled(_axis2, -_halfExtents.z);
-        break;
       case 5:
         corner
           ..addScaled(_axis0, _halfExtents.x)
           ..addScaled(_axis1, -_halfExtents.y)
           ..addScaled(_axis2, _halfExtents.z);
-        break;
       case 6:
         corner
           ..addScaled(_axis0, _halfExtents.x)
           ..addScaled(_axis1, _halfExtents.y)
           ..addScaled(_axis2, -_halfExtents.z);
-        break;
       case 7:
         corner
           ..addScaled(_axis0, _halfExtents.x)
           ..addScaled(_axis1, _halfExtents.y)
           ..addScaled(_axis2, _halfExtents.z);
-        break;
     }
   }
 
   /// Find the closest point [q] on the OBB to the point [p] and store it in
   /// [q].
   void closestPointTo(Vector3 p, Vector3 q) {
-    final d = p - _center;
+    final Vector3 d = p - _center;
 
     q.setFrom(_center);
 
-    var dist = d.dot(_axis0);
-    dist = dist.clamp(-_halfExtents.x, _halfExtents.x).toDouble();
+    double dist = d.dot(_axis0);
+    dist = dist.clamp(-_halfExtents.x, _halfExtents.x);
     q.addScaled(_axis0, dist);
 
     dist = d.dot(_axis1);
-    dist = dist.clamp(-_halfExtents.y, _halfExtents.y).toDouble();
+    dist = dist.clamp(-_halfExtents.y, _halfExtents.y);
     q.addScaled(_axis1, dist);
 
     dist = d.dot(_axis2);
-    dist = dist.clamp(-_halfExtents.z, _halfExtents.z).toDouble();
+    dist = dist.clamp(-_halfExtents.z, _halfExtents.z);
     q.addScaled(_axis2, dist);
   }
 

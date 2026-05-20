@@ -96,7 +96,7 @@ class ConstructorFromBufferBenchmark extends BenchmarkBase {
   @override
   void run() {
     Vector2? v;
-    final buffer = Uint32List(2).buffer;
+    final ByteBuffer buffer = Uint32List(2).buffer;
     for (var i = 0.0; i < 100000; i++) {
       v = Vector2.fromBuffer(buffer, 0);
     }

@@ -12,7 +12,7 @@ import 'test_utils.dart';
 
 void testAabb2Center() {
   final aabb = Aabb2.minMax($v2(1.0, 2.0), $v2(8.0, 16.0));
-  final center = aabb.center;
+  final Vector2 center = aabb.center;
 
   expect(center.x, equals(4.5));
   expect(center.y, equals(9.0));
@@ -78,9 +78,9 @@ void testAabb2ContainsAabb2() {
 
 void testAabb2ContainsVector2() {
   final parent = Aabb2.minMax($v2(1.0, 1.0), $v2(8.0, 8.0));
-  final child = $v2(2.0, 2.0);
-  final cutting = $v2(1.0, 8.0);
-  final outside = $v2(-1.0, 0.0);
+  final Vector2 child = $v2(2.0, 2.0);
+  final Vector2 cutting = $v2(1.0, 8.0);
+  final Vector2 outside = $v2(-1.0, 0.0);
 
   expect(parent.containsVector2(child), isTrue);
   expect(parent.containsVector2(cutting), isFalse);
@@ -126,9 +126,9 @@ void testAabb2IntersectionAabb2() {
 
 void testAabb2IntersectionVector2() {
   final parent = Aabb2.minMax($v2(1.0, 1.0), $v2(8.0, 8.0));
-  final child = $v2(2.0, 2.0);
-  final cutting = $v2(1.0, 8.0);
-  final outside = $v2(-1.0, 0.0);
+  final Vector2 child = $v2(2.0, 2.0);
+  final Vector2 cutting = $v2(1.0, 8.0);
+  final Vector2 outside = $v2(-1.0, 0.0);
 
   expect(parent.intersectsWithVector2(child), isTrue);
   expect(parent.intersectsWithVector2(cutting), isTrue);
@@ -149,7 +149,7 @@ void testAabb2Hull() {
 
 void testAabb2HullPoint() {
   final a = Aabb2.minMax($v2(1.0, 1.0), $v2(3.0, 4.0));
-  final b = $v2(6.0, 2.0);
+  final Vector2 b = $v2(6.0, 2.0);
 
   a.hullPoint(b);
 
@@ -158,7 +158,7 @@ void testAabb2HullPoint() {
   expect(a.max.x, equals(6.0));
   expect(a.max.y, equals(4.0));
 
-  final c = $v2(0.0, 1.0);
+  final Vector2 c = $v2(0.0, 1.0);
 
   a.hullPoint(c);
 
@@ -187,7 +187,7 @@ void testAabb2Transform() {
   final input = Aabb2.minMax($v2(1.0, 1.0), $v2(3.0, 3.0));
 
   final result = input..transform(rotation);
-  final newCenterY = math.sqrt(8);
+  final double newCenterY = math.sqrt(8);
 
   relativeTest(result.min.x, -math.sqrt(2));
   relativeTest(result.min.y, newCenterY - math.sqrt(2));

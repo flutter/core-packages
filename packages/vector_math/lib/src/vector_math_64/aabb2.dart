@@ -7,19 +7,6 @@ part of '../../vector_math_64.dart';
 /// Defines a 2-dimensional axis-aligned bounding box between a [min] and a
 /// [max] position.
 class Aabb2 {
-  final Vector2 _min;
-  final Vector2 _max;
-
-  /// The minimum point defining the AABB.
-  Vector2 get min => _min;
-
-  /// The maximum point defining the AABB.
-  Vector2 get max => _max;
-
-  /// The center of the AABB.
-  Vector2 get center => _min.clone()
-    ..add(_max)
-    ..scale(0.5);
 
   /// Create a new AABB with [min] and [max] set to the origin.
   Aabb2() : _min = Vector2.zero(), _max = Vector2.zero();
@@ -47,6 +34,19 @@ class Aabb2 {
         buffer,
         offset + Float64List.bytesPerElement * 2,
       );
+  final Vector2 _min;
+  final Vector2 _max;
+
+  /// The minimum point defining the AABB.
+  Vector2 get min => _min;
+
+  /// The maximum point defining the AABB.
+  Vector2 get max => _max;
+
+  /// The center of the AABB.
+  Vector2 get center => _min.clone()
+    ..add(_max)
+    ..scale(0.5);
 
   /// Set the AABB by a [center] and [halfExtents].
   void setCenterAndHalfExtents(Vector2 center, Vector2 halfExtents) {
@@ -134,8 +134,8 @@ class Aabb2 {
 
   /// Return if this contains [other].
   bool containsAabb2(Aabb2 other) {
-    final otherMax = other._max;
-    final otherMin = other._min;
+    final Vector2 otherMax = other._max;
+    final Vector2 otherMin = other._min;
 
     return (_min.x < otherMin.x) &&
         (_min.y < otherMin.y) &&
@@ -152,8 +152,8 @@ class Aabb2 {
 
   /// Return if this intersects with [other].
   bool intersectsWithAabb2(Aabb2 other) {
-    final otherMax = other._max;
-    final otherMin = other._min;
+    final Vector2 otherMax = other._max;
+    final Vector2 otherMin = other._min;
 
     return (_min.x <= otherMax.x) &&
         (_min.y <= otherMax.y) &&

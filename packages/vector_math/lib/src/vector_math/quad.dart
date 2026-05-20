@@ -6,22 +6,6 @@ part of '../../vector_math.dart';
 
 /// Defines a quad by four points.
 class Quad {
-  final Vector3 _point0;
-  final Vector3 _point1;
-  final Vector3 _point2;
-  final Vector3 _point3;
-
-  /// The first point of the quad.
-  Vector3 get point0 => _point0;
-
-  /// The second point of the quad.
-  Vector3 get point1 => _point1;
-
-  /// The third point of the quad.
-  Vector3 get point2 => _point2;
-
-  /// The fourth point of the quad.
-  Vector3 get point3 => _point3;
 
   /// Create a new, uninitialized quad.
   Quad()
@@ -43,6 +27,22 @@ class Quad {
       _point1 = Vector3.copy(point1),
       _point2 = Vector3.copy(point2),
       _point3 = Vector3.copy(point3);
+  final Vector3 _point0;
+  final Vector3 _point1;
+  final Vector3 _point2;
+  final Vector3 _point3;
+
+  /// The first point of the quad.
+  Vector3 get point0 => _point0;
+
+  /// The second point of the quad.
+  Vector3 get point1 => _point1;
+
+  /// The third point of the quad.
+  Vector3 get point2 => _point2;
+
+  /// The fourth point of the quad.
+  Vector3 get point3 => _point3;
 
   /// Copy the quad from [other] into this.
   void copyFrom(Quad other) {
@@ -54,7 +54,7 @@ class Quad {
 
   /// Copy the normal of this into [normal].
   void copyNormalInto(Vector3 normal) {
-    final v0 = _point0.clone()..sub(_point1);
+    final Vector3 v0 = _point0.clone()..sub(_point1);
     normal
       ..setFrom(_point2)
       ..sub(_point1)

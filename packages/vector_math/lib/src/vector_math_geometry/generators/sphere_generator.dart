@@ -33,8 +33,8 @@ class SphereGenerator extends GeometryGenerator {
   void generateIndices(Uint16List indices) {
     var i = 0;
     for (var y = 0; y < _latSegments; ++y) {
-      final base1 = (_lonSegments + 1) * y;
-      final base2 = (_lonSegments + 1) * (y + 1);
+      final int base1 = (_lonSegments + 1) * y;
+      final int base2 = (_lonSegments + 1) * (y + 1);
 
       for (var x = 0; x < _lonSegments; ++x) {
         indices[i++] = base1 + x;
@@ -52,12 +52,12 @@ class SphereGenerator extends GeometryGenerator {
   void generateVertexPositions(Vector3List positions, Uint16List indices) {
     var i = 0;
     for (var y = 0; y <= _latSegments; ++y) {
-      final v = y / _latSegments;
-      final sv = math.sin(v * math.pi);
-      final cv = math.cos(v * math.pi);
+      final double v = y / _latSegments;
+      final double sv = math.sin(v * math.pi);
+      final double cv = math.cos(v * math.pi);
 
       for (var x = 0; x <= _lonSegments; ++x) {
-        final u = x / _lonSegments;
+        final double u = x / _lonSegments;
 
         positions[i++] = Vector3(
           _radius * math.cos(u * math.pi * 2.0) * sv,
@@ -76,10 +76,10 @@ class SphereGenerator extends GeometryGenerator {
   ) {
     var i = 0;
     for (var y = 0; y <= _latSegments; ++y) {
-      final v = y / _latSegments;
+      final double v = y / _latSegments;
 
       for (var x = 0; x <= _lonSegments; ++x) {
-        final u = x / _lonSegments;
+        final double u = x / _lonSegments;
         texCoords[i++] = Vector2(u, v);
       }
     }
@@ -93,12 +93,12 @@ class SphereGenerator extends GeometryGenerator {
   ) {
     var i = 0;
     for (var y = 0; y <= _latSegments; ++y) {
-      final v = y / _latSegments;
-      final sv = math.sin(v * math.pi);
-      final cv = math.cos(v * math.pi);
+      final double v = y / _latSegments;
+      final double sv = math.sin(v * math.pi);
+      final double cv = math.cos(v * math.pi);
 
       for (var x = 0; x <= _lonSegments; ++x) {
-        final u = x / _lonSegments;
+        final double u = x / _lonSegments;
 
         normals[i++] = Vector3(
           math.cos(u * math.pi * 2.0) * sv,

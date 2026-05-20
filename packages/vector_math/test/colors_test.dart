@@ -10,7 +10,7 @@ import 'test_utils.dart';
 
 void testToGrayscale() {
   final input = Vector4(0.0, 1.0, 0.5, 1.0);
-  final output = input.clone();
+  final Vector4 output = input.clone();
 
   Colors.toGrayscale(output, output);
 
@@ -221,7 +221,7 @@ void testRgbHsl() {
   expect(rgb.a, equals(input.a));
 
   void testRoundtrip(Vector4 input) {
-    final result = input.clone();
+    final Vector4 result = input.clone();
 
     Colors.rgbToHsl(result, result);
     Colors.hslToRgb(result, result);
@@ -264,7 +264,7 @@ void testRgbHsv() {
   expect(rgb.a, equals(input.a));
 
   void testRoundtrip(Vector4 input) {
-    final result = input.clone();
+    final Vector4 result = input.clone();
 
     Colors.rgbToHsv(result, result);
     Colors.hsvToRgb(result, result);

@@ -5,35 +5,6 @@
 part of '../../vector_math.dart';
 
 class Plane {
-  final Vector3 _normal;
-  double constant;
-
-  /// Find the intersection point between the three planes [a], [b] and [c] and
-  /// copy it into [result].
-  static void intersection(Plane a, Plane b, Plane c, Vector3 result) {
-    final cross = Vector3.zero();
-
-    b.normal.crossInto(c.normal, cross);
-
-    final f = -a.normal.dot(cross);
-
-    final v1 = cross.scaled(a.constant);
-
-    c.normal.crossInto(a.normal, cross);
-
-    final v2 = cross.scaled(b.constant);
-
-    a.normal.crossInto(b.normal, cross);
-
-    final v3 = cross.scaled(c.constant);
-
-    result
-      ..x = (v1.x + v2.x + v3.x) / f
-      ..y = (v1.y + v2.y + v3.y) / f
-      ..z = (v1.z + v2.z + v3.z) / f;
-  }
-
-  Vector3 get normal => _normal;
 
   Plane() : _normal = Vector3.zero(), constant = 0.0;
 
@@ -46,6 +17,35 @@ class Plane {
 
   Plane.normalconstant(Vector3 normal_, this.constant)
     : _normal = Vector3.copy(normal_);
+  final Vector3 _normal;
+  double constant;
+
+  /// Find the intersection point between the three planes [a], [b] and [c] and
+  /// copy it into [result].
+  static void intersection(Plane a, Plane b, Plane c, Vector3 result) {
+    final cross = Vector3.zero();
+
+    b.normal.crossInto(c.normal, cross);
+
+    final double f = -a.normal.dot(cross);
+
+    final Vector3 v1 = cross.scaled(a.constant);
+
+    c.normal.crossInto(a.normal, cross);
+
+    final Vector3 v2 = cross.scaled(b.constant);
+
+    a.normal.crossInto(b.normal, cross);
+
+    final Vector3 v3 = cross.scaled(c.constant);
+
+    result
+      ..x = (v1.x + v2.x + v3.x) / f
+      ..y = (v1.y + v2.y + v3.y) / f
+      ..z = (v1.z + v2.z + v3.z) / f;
+  }
+
+  Vector3 get normal => _normal;
 
   void copyFrom(Plane o) {
     _normal.setFrom(o._normal);
@@ -58,7 +58,7 @@ class Plane {
   }
 
   void normalize() {
-    final inverseLength = 1.0 / normal.length;
+    final double inverseLength = 1.0 / normal.length;
     _normal.scale(inverseLength);
     constant *= inverseLength;
   }

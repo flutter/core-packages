@@ -21,7 +21,7 @@ class BarycentricFilter extends GeometryFilter {
     final output = MeshGeometry(mesh.triangleVertexCount, newAttribs);
 
     Vector3List barycentricCoords;
-    final view = output.getViewForAttrib('BARYCENTRIC');
+    final VectorList<Vector>? view = output.getViewForAttrib('BARYCENTRIC');
     if (view is Vector3List) {
       barycentricCoords = view;
     } else {
@@ -30,7 +30,7 @@ class BarycentricFilter extends GeometryFilter {
 
     final srcAttribs = <VectorList<Vector>>[];
     final destAttribs = <VectorList<Vector>>[];
-    for (var attrib in mesh.attribs) {
+    for (final VertexAttrib attrib in mesh.attribs) {
       if (attrib.name == 'BARYCENTRIC') {
         continue;
       }

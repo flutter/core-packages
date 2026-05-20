@@ -22,7 +22,7 @@ void testVector4InstacinfFromFloat32List() {
 
 void testVector4InstacingFromByteBuffer() {
   final float32List = Float32List.fromList([1.0, 2.0, 3.0, 4.0, 5.0]);
-  final buffer = float32List.buffer;
+  final ByteBuffer buffer = float32List.buffer;
   final zeroOffset = Vector4.fromBuffer(buffer, 0);
   final offsetVector = Vector4.fromBuffer(buffer, Float32List.bytesPerElement);
 
@@ -215,7 +215,7 @@ void testVector4DistanceToSquared() {
 }
 
 void testVector4Clamp() {
-  final x = 2.0, y = 3.0, z = 4.0, w = 5.0;
+  const x = 2.0, y = 3.0, z = 4.0, w = 5.0;
   final v0 = Vector4(x, y, z, w);
   final v1 = Vector4(-x, -y, -z, -w);
   final v2 = Vector4(-2.0 * x, 2.0 * y, -2.0 * z, 2.0 * w)..clamp(v1, v0);
@@ -224,7 +224,7 @@ void testVector4Clamp() {
 }
 
 void testVector4ClampScalar() {
-  final x = 2.0;
+  const x = 2.0;
   final v0 = Vector4(-2.0 * x, 2.0 * x, -2.0 * x, 2.0 * x)..clampScalar(-x, x);
 
   expect(v0.storage, orderedEquals(<double>[-x, x, -x, x]));

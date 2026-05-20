@@ -7,16 +7,6 @@ part of '../../vector_math_64.dart';
 /// Defines a 3-dimensional axis-aligned bounding box between a [min] and a
 /// [max] position.
 class Aabb3 {
-  final Vector3 _min;
-  final Vector3 _max;
-
-  Vector3 get min => _min;
-  Vector3 get max => _max;
-
-  /// The center of the AABB.
-  Vector3 get center => _min.clone()
-    ..add(_max)
-    ..scale(0.5);
 
   /// Create a new AABB with [min] and [max] set to the origin.
   Aabb3() : _min = Vector3.zero(), _max = Vector3.zero();
@@ -62,6 +52,16 @@ class Aabb3 {
         buffer,
         offset + Float64List.bytesPerElement * 3,
       );
+  final Vector3 _min;
+  final Vector3 _max;
+
+  Vector3 get min => _min;
+  Vector3 get max => _max;
+
+  /// The center of the AABB.
+  Vector3 get center => _min.clone()
+    ..add(_max)
+    ..scale(0.5);
 
   /// Set the AABB by a [center] and [halfExtents].
   void setCenterAndHalfExtents(Vector3 center, Vector3 halfExtents) {
@@ -185,19 +185,19 @@ class Aabb3 {
       ..copyAt(_max, limitMax);
 
     if (_max.x < _min.x) {
-      final temp = _max.x;
+      final double temp = _max.x;
       _max.x = _min.x;
       _min.x = temp;
     }
 
     if (_max.y < _min.y) {
-      final temp = _max.y;
+      final double temp = _max.y;
       _max.y = _min.y;
       _min.y = temp;
     }
 
     if (_max.z < _min.z) {
-      final temp = _max.z;
+      final double temp = _max.z;
       _max.z = _min.z;
       _min.z = temp;
     }
@@ -313,8 +313,8 @@ class Aabb3 {
 
   /// Return if this contains [other].
   bool containsAabb3(Aabb3 other) {
-    final otherMax = other._max;
-    final otherMin = other._min;
+    final Vector3 otherMax = other._max;
+    final Vector3 otherMin = other._min;
 
     return (_min.x < otherMin.x) &&
         (_min.y < otherMin.y) &&
@@ -349,8 +349,8 @@ class Aabb3 {
 
   /// Return if this intersects with [other].
   bool intersectsWithAabb3(Aabb3 other) {
-    final otherMax = other._max;
-    final otherMin = other._min;
+    final Vector3 otherMax = other._max;
+    final Vector3 otherMin = other._min;
 
     return (_min.x <= otherMax.x) &&
         (_min.y <= otherMax.y) &&
@@ -362,8 +362,8 @@ class Aabb3 {
 
   /// Return if this intersects with [other].
   bool intersectsWithSphere(Sphere other) {
-    final center = other._center;
-    final radius = other.radius;
+    final Vector3 center = other._center;
+    final double radius = other.radius;
     var d = 0.0;
     var e = 0.0;
 
@@ -666,15 +666,15 @@ class Aabb3 {
     copyCenterAndHalfExtents(_aabbCenter, _aabbHalfExtents);
 
     // Compute the projection interval radius of b onto L(t) = b.c + t * p.n
-    final r =
+    final double r =
         _aabbHalfExtents[0] * other.normal[0].abs() +
         _aabbHalfExtents[1] * other.normal[1].abs() +
         _aabbHalfExtents[2] * other.normal[2].abs();
     // Compute distance of box center from plane
-    final s = other.normal.dot(_aabbCenter) - other.constant;
+    final double s = other.normal.dot(_aabbCenter) - other.constant;
     // Intersection occurs when distance s falls within [-r,+r] interval
     if (s.abs() <= r) {
-      final a = s - r;
+      final double a = s - r;
       if (result != null && (result._depth == null || (result._depth!) < a)) {
         result._depth = a;
         result.axis.setFrom(other.normal);

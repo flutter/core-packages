@@ -20,7 +20,7 @@ void generateNormals(
   // Loop through every polygon, find it's normal, and add that to the vertex
   // normals.
   for (var i = 0; i < indices.length; i += 3) {
-    final i0 = indices[i], i1 = indices[i + 1], i2 = indices[i + 2];
+    final int i0 = indices[i], i1 = indices[i + 1], i2 = indices[i + 2];
     positions
       ..load(i0, p0)
       ..load(i1, p1)
@@ -84,7 +84,7 @@ void generateTangents(
       tan1 = Vector3List(positions.length);
 
   for (var i = 0; i < indices.length; i += 3) {
-    final i0 = indices[i], i1 = indices[i + 1], i2 = indices[i + 2];
+    final int i0 = indices[i], i1 = indices[i + 1], i2 = indices[i + 2];
     positions
       ..load(i0, p0)
       ..load(i1, p1)
@@ -101,7 +101,7 @@ void generateTangents(
     uv1.sub(uv0);
     uv2.sub(uv0);
 
-    final r = 1.0 / (uv1.x * uv2.y - uv2.x * uv1.y);
+    final double r = 1.0 / (uv1.x * uv2.y - uv2.x * uv1.y);
 
     udir.setValues(
       (uv2.y * p1.x - uv1.y * p2.x) * r,

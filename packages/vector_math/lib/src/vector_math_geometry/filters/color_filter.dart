@@ -5,9 +5,9 @@
 part of '../../../vector_math_geometry.dart';
 
 class ColorFilter extends GeometryFilter {
-  Vector4 color;
 
   ColorFilter(this.color);
+  Vector4 color;
 
   @override
   List<VertexAttrib> get generates => <VertexAttrib>[
@@ -27,7 +27,7 @@ class ColorFilter extends GeometryFilter {
       output = MeshGeometry.copy(mesh);
     }
 
-    final colors = output.getViewForAttrib('COLOR');
+    final VectorList<Vector>? colors = output.getViewForAttrib('COLOR');
     if (colors is Vector4List) {
       for (var i = 0; i < colors.length; ++i) {
         colors[i] = color;

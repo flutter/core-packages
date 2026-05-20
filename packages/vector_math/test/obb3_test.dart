@@ -305,10 +305,10 @@ void testIntersectionVector3() {
   final parent = Obb3()
     ..center.setValues(4.5, 4.5, 4.5)
     ..halfExtents.setValues(3.5, 3.5, 3.5);
-  final child = $v3(7.0, 7.0, 7.0);
-  final cutting = $v3(1.0, 2.0, 1.0);
-  final outside1 = $v3(-10.0, 10.0, 10.0);
-  final outside2 = $v3(4.5, 4.5, 9.0);
+  final Vector3 child = $v3(7.0, 7.0, 7.0);
+  final Vector3 cutting = $v3(1.0, 2.0, 1.0);
+  final Vector3 outside1 = $v3(-10.0, 10.0, 10.0);
+  final Vector3 outside2 = $v3(4.5, 4.5, 9.0);
 
   expect(parent.intersectsWithVector3(child), isTrue);
   expect(parent.intersectsWithVector3(cutting), isTrue);
