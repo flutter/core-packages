@@ -264,6 +264,7 @@ class Matrix2 {
   /// Returns the tranpose of this.
   Matrix2 transposed() => clone()..transpose();
 
+  /// Transposes this matrix in place.
   void transpose() {
     final double temp = _m2storage[2];
     _m2storage[2] = _m2storage[1];

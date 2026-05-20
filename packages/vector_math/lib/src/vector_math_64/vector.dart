@@ -68,5 +68,6 @@ void buildPlaneVectors(final Vector3 planeNormal, Vector3 u, Vector3 v) {
 
 /// Base class for vectors
 abstract class Vector {
+  /// The values in the vector.
   List<double> get storage;
 }

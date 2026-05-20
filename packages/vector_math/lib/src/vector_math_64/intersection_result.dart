@@ -5,7 +5,7 @@ part of '../../vector_math_64.dart';
 
 /// Defines a result of an intersection test.
 class IntersectionResult {
-
+  /// Creates a new mutable result instance, with no initial values.
   IntersectionResult();
   double? _depth;
 

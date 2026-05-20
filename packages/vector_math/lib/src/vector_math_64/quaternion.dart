@@ -161,6 +161,9 @@ class Quaternion {
     }
   }
 
+  // TODO(stuartmorgan): Remove this and add the missing docs.
+  //  https://github.com/flutter/flutter/issues/186827
+  // ignore: public_member_api_docs
   void setFromTwoVectors(Vector3 a, Vector3 b) {
     final Vector3 v1 = a.normalized();
     final Vector3 v2 = b.normalized();
