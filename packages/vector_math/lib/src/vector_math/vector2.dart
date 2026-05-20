@@ -99,12 +99,14 @@ class Vector2 implements Vector {
 
   /// Check if two vectors are the same.
   @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
   bool operator ==(Object other) =>
       other is Vector2 &&
       _v2storage[1] == other._v2storage[1] &&
       _v2storage[0] == other._v2storage[0];
 
   @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
   int get hashCode => Object.hashAll(_v2storage);
 
   /// Negate.

@@ -97,6 +97,7 @@ class Quad {
 
   /// Check if two quad are the same.
   @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
   bool operator ==(Object other) =>
       (other is Quad) &&
       (_point3 == other._point3) &&
@@ -105,5 +106,6 @@ class Quad {
       (_point0 == other._point0);
 
   @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
   int get hashCode => Object.hash(_point0, _point1, _point2, _point3);
 }

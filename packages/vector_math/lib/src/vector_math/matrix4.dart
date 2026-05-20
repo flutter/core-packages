@@ -557,6 +557,7 @@ class Matrix4 {
 
   /// Check if two matrices are the same.
   @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
   bool operator ==(Object other) =>
       (other is Matrix4) &&
       (_m4storage[0] == other._m4storage[0]) &&
@@ -577,6 +578,7 @@ class Matrix4 {
       (_m4storage[15] == other._m4storage[15]);
 
   @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
   int get hashCode => Object.hashAll(_m4storage);
 
   /// Returns row 0

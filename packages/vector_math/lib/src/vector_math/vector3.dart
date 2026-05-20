@@ -107,6 +107,7 @@ class Vector3 implements Vector {
 
   /// Check if two vectors are the same.
   @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
   bool operator ==(Object other) =>
       (other is Vector3) &&
       (_v3storage[2] == other._v3storage[2]) &&
@@ -114,6 +115,7 @@ class Vector3 implements Vector {
       (_v3storage[0] == other._v3storage[0]);
 
   @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
   int get hashCode => Object.hashAll(_v3storage);
 
   /// Negate

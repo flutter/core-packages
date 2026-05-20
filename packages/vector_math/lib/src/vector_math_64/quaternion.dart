@@ -414,6 +414,7 @@ class Quaternion {
 
   /// Check if two quaternions are the same.
   @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
   bool operator ==(Object other) =>
       (other is Quaternion) &&
       (_qStorage[3] == other._qStorage[3]) &&
@@ -422,6 +423,7 @@ class Quaternion {
       (_qStorage[0] == other._qStorage[0]);
 
   @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
   int get hashCode => Object.hashAll(_qStorage);
 
   /// Returns copy of this + [other].
