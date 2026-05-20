@@ -2,6 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+// ignore_for_file: avoid_print
+
 import 'dart:async';
 import 'dart:io';
 
@@ -17,7 +19,7 @@ Future<void> generateVectorMath64() async {
   final directory = Directory('lib/src/vector_math_64/');
   final libraryFile = File('lib/vector_math_64.dart');
 
-  if (await directory.exists()) {
+  if (directory.existsSync()) {
     await directory.delete(recursive: true);
   }
 

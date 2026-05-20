@@ -11,8 +11,8 @@ part of '../../../vector_math_geometry.dart';
 class InvertFilter extends InplaceGeometryFilter {
   @override
   void filterInplace(MeshGeometry mesh) {
-    // TODO: Do the tangents need to be inverted? Maybe just the W component?
-    // TODO: Should modify in-place be allowed, or should it be required
+    // TODO(toji): Do the tangents need to be inverted? Maybe just the W component?
+    // TODO(toji): Should modify in-place be allowed, or should it be required
     // to return a new geometry?
 
     // Swap all the triangle indices

@@ -97,25 +97,25 @@ class Matrix3 {
 
   /// Solve [A] * [x] = [b].
   static void solve(Matrix3 A, Vector3 x, Vector3 b) {
-    final double A0x = A.entry(0, 0);
-    final double A0y = A.entry(1, 0);
-    final double A0z = A.entry(2, 0);
-    final double A1x = A.entry(0, 1);
-    final double A1y = A.entry(1, 1);
-    final double A1z = A.entry(2, 1);
-    final double A2x = A.entry(0, 2);
-    final double A2y = A.entry(1, 2);
-    final double A2z = A.entry(2, 2);
+    final double a0x = A.entry(0, 0);
+    final double a0y = A.entry(1, 0);
+    final double a0z = A.entry(2, 0);
+    final double a1x = A.entry(0, 1);
+    final double a1y = A.entry(1, 1);
+    final double a1z = A.entry(2, 1);
+    final double a2x = A.entry(0, 2);
+    final double a2y = A.entry(1, 2);
+    final double a2z = A.entry(2, 2);
     double rx, ry, rz;
     double det;
 
     // Column1 cross Column 2
-    rx = A1y * A2z - A1z * A2y;
-    ry = A1z * A2x - A1x * A2z;
-    rz = A1x * A2y - A1y * A2x;
+    rx = a1y * a2z - a1z * a2y;
+    ry = a1z * a2x - a1x * a2z;
+    rz = a1x * a2y - a1y * a2x;
 
     // A.getColumn(0).dot(x)
-    det = A0x * rx + A0y * ry + A0z * rz;
+    det = a0x * rx + a0y * ry + a0z * rz;
     if (det != 0.0) {
       det = 1.0 / det;
     }
@@ -124,18 +124,18 @@ class Matrix3 {
     final double x_ = det * (b.x * rx + b.y * ry + b.z * rz);
 
     // Column2 cross b
-    rx = -(A2y * b.z - A2z * b.y);
-    ry = -(A2z * b.x - A2x * b.z);
-    rz = -(A2x * b.y - A2y * b.x);
+    rx = -(a2y * b.z - a2z * b.y);
+    ry = -(a2z * b.x - a2x * b.z);
+    rz = -(a2x * b.y - a2y * b.x);
     // Column0 dot -[Column2 cross b (Column3)]
-    final double y_ = det * (A0x * rx + A0y * ry + A0z * rz);
+    final double y_ = det * (a0x * rx + a0y * ry + a0z * rz);
 
     // b cross Column 1
-    rx = -(b.y * A1z - b.z * A1y);
-    ry = -(b.z * A1x - b.x * A1z);
-    rz = -(b.x * A1y - b.y * A1x);
+    rx = -(b.y * a1z - b.z * a1y);
+    ry = -(b.z * a1x - b.x * a1z);
+    rz = -(b.x * a1y - b.y * a1x);
     // Column0 dot -[b cross Column 1]
-    final double z_ = det * (A0x * rx + A0y * ry + A0z * rz);
+    final double z_ = det * (a0x * rx + a0y * ry + a0z * rz);
 
     x
       ..x = x_

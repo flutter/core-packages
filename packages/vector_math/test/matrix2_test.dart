@@ -115,15 +115,15 @@ void testMatrix2Scale() {
 }
 
 void testMatrix2Solving() {
-  final A = Matrix2(2.0, 2.0, 8.0, 20.0);
-  final AA = Matrix2.fromList([2.0, 2.0, 8.0, 20.0]);
-  expect(A, equals(AA));
+  final a = Matrix2(2.0, 2.0, 8.0, 20.0);
+  final aa = Matrix2.fromList([2.0, 2.0, 8.0, 20.0]);
+  expect(a, equals(aa));
   final b = Vector2(20.0, 64.0);
   final result = Vector2.zero();
 
-  Matrix2.solve(A, result, b);
+  Matrix2.solve(a, result, b);
 
-  final Vector2 backwards = A.transform(Vector2.copy(result));
+  final Vector2 backwards = a.transform(Vector2.copy(result));
 
   expect(backwards.x, equals(b.x));
   expect(backwards.y, equals(b.y));
