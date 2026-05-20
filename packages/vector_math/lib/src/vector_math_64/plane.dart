@@ -9,7 +9,6 @@
 part of '../../vector_math_64.dart';
 
 class Plane {
-
   Plane() : _normal = Vector3.zero(), constant = 0.0;
 
   Plane.copy(Plane other)

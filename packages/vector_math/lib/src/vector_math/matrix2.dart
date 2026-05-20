@@ -7,7 +7,6 @@ part of '../../vector_math.dart';
 /// 2D Matrix.
 /// Values are stored in column major order.
 class Matrix2 {
-
   /// New matrix with specified values.
   factory Matrix2(double arg0, double arg1, double arg2, double arg3) =>
       Matrix2.zero()..setValues(arg0, arg1, arg2, arg3);
@@ -20,9 +19,10 @@ class Matrix2 {
   Matrix2.zero() : _m2storage = Float32List(4);
 
   /// Identity matrix.
-  factory Matrix2.identity() => Matrix2.zero()
-    .._m2storage[0] = 1.0
-    .._m2storage[3] = 1.0;
+  factory Matrix2.identity() =>
+      Matrix2.zero()
+        .._m2storage[0] = 1.0
+        .._m2storage[3] = 1.0;
 
   /// Copies values from [other].
   factory Matrix2.copy(Matrix2 other) => Matrix2.zero()..setFrom(other);
@@ -478,8 +478,10 @@ class Matrix2 {
   /// this.
   Vector2 transform(Vector2 arg) {
     final Float32List argStorage = arg._v2storage;
-    final double x = (_m2storage[0] * argStorage[0]) + (_m2storage[2] * argStorage[1]);
-    final double y = (_m2storage[1] * argStorage[0]) + (_m2storage[3] * argStorage[1]);
+    final double x =
+        (_m2storage[0] * argStorage[0]) + (_m2storage[2] * argStorage[1]);
+    final double y =
+        (_m2storage[1] * argStorage[0]) + (_m2storage[3] * argStorage[1]);
     argStorage[0] = x;
     argStorage[1] = y;
     return arg;

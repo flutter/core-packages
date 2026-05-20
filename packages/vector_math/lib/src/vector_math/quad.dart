@@ -6,7 +6,6 @@ part of '../../vector_math.dart';
 
 /// Defines a quad by four points.
 class Quad {
-
   /// Create a new, uninitialized quad.
   Quad()
     : _point0 = Vector3.zero(),

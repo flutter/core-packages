@@ -6,7 +6,6 @@ part of '../../vector_math.dart';
 
 /// Defines a sphere with a [center] and a [radius].
 class Sphere {
-
   /// Create a new, uninitialized sphere.
   Sphere() : _center = Vector3.zero(), radius = 0.0;
 

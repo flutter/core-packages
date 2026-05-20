@@ -9,7 +9,6 @@ part of '../../vector_math.dart';
 
 /// 3D column vector.
 class Vector3 implements Vector {
-
   /// Construct a new vector with the specified values.
   factory Vector3(double x, double y, double z) =>
       Vector3.zero()..setValues(x, y, z);
@@ -485,15 +484,9 @@ class Vector3 implements Vector {
   void clamp(Vector3 min, Vector3 max) {
     final Float32List minStorage = min.storage;
     final Float32List maxStorage = max.storage;
-    _v3storage[2] = _v3storage[2]
-        .clamp(minStorage[2], maxStorage[2])
-        ;
-    _v3storage[1] = _v3storage[1]
-        .clamp(minStorage[1], maxStorage[1])
-        ;
-    _v3storage[0] = _v3storage[0]
-        .clamp(minStorage[0], maxStorage[0])
-        ;
+    _v3storage[2] = _v3storage[2].clamp(minStorage[2], maxStorage[2]);
+    _v3storage[1] = _v3storage[1].clamp(minStorage[1], maxStorage[1]);
+    _v3storage[0] = _v3storage[0].clamp(minStorage[0], maxStorage[0]);
   }
 
   /// Clamp entries in this in the range [min]-[max].
@@ -526,15 +519,18 @@ class Vector3 implements Vector {
 
   /// Round entries in this towards zero.
   void roundToZero() {
-    _v3storage[2] = _v3storage[2] < 0.0
-        ? _v3storage[2].ceilToDouble()
-        : _v3storage[2].floorToDouble();
-    _v3storage[1] = _v3storage[1] < 0.0
-        ? _v3storage[1].ceilToDouble()
-        : _v3storage[1].floorToDouble();
-    _v3storage[0] = _v3storage[0] < 0.0
-        ? _v3storage[0].ceilToDouble()
-        : _v3storage[0].floorToDouble();
+    _v3storage[2] =
+        _v3storage[2] < 0.0
+            ? _v3storage[2].ceilToDouble()
+            : _v3storage[2].floorToDouble();
+    _v3storage[1] =
+        _v3storage[1] < 0.0
+            ? _v3storage[1].ceilToDouble()
+            : _v3storage[1].floorToDouble();
+    _v3storage[0] =
+        _v3storage[0] < 0.0
+            ? _v3storage[0].ceilToDouble()
+            : _v3storage[0].floorToDouble();
   }
 
   /// Clone of this.

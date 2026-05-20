@@ -49,7 +49,8 @@ class Matrix4TweenBenchmark1 extends BenchmarkBase with Setup {
     final endScale = Vector3.zero();
     begin.decompose(beginTranslation, beginRotation, beginScale);
     end.decompose(endTranslation, endRotation, endScale);
-    final Vector3 lerpTranslation = beginTranslation * (1.0 - t) + endTranslation * t;
+    final Vector3 lerpTranslation =
+        beginTranslation * (1.0 - t) + endTranslation * t;
     final Quaternion lerpRotation =
         (beginRotation.scaled(1.0 - t) + endRotation.scaled(t)).normalized();
     final Vector3 lerpScale = beginScale * (1.0 - t) + endScale * t;

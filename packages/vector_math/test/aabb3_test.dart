@@ -11,15 +11,8 @@ import 'package:vector_math/vector_math.dart';
 import 'test_utils.dart';
 
 void testAabb3ByteBufferInstanciation() {
-  final ByteBuffer buffer = Float32List.fromList([
-    1.0,
-    2.0,
-    3.0,
-    4.0,
-    5.0,
-    6.0,
-    7.0,
-  ]).buffer;
+  final ByteBuffer buffer =
+      Float32List.fromList([1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0]).buffer;
   final aabb = Aabb3.fromBuffer(buffer, 0);
   final aabbOffest = Aabb3.fromBuffer(buffer, Float32List.bytesPerElement);
 

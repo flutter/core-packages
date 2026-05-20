@@ -7,7 +7,6 @@ part of '../../vector_math.dart';
 /// Defines a 2-dimensional axis-aligned bounding box between a [min] and a
 /// [max] position.
 class Aabb2 {
-
   /// Create a new AABB with [min] and [max] set to the origin.
   Aabb2() : _min = Vector2.zero(), _max = Vector2.zero();
 
@@ -44,9 +43,10 @@ class Aabb2 {
   Vector2 get max => _max;
 
   /// The center of the AABB.
-  Vector2 get center => _min.clone()
-    ..add(_max)
-    ..scale(0.5);
+  Vector2 get center =>
+      _min.clone()
+        ..add(_max)
+        ..scale(0.5);
 
   /// Set the AABB by a [center] and [halfExtents].
   void setCenterAndHalfExtents(Vector2 center, Vector2 halfExtents) {
@@ -109,15 +109,17 @@ class Aabb2 {
 
   /// Create a copy of this that is transformed by the transform [t] and store
   /// it in [out].
-  Aabb2 transformed(Matrix3 t, Aabb2 out) => out
-    ..copyFrom(this)
-    ..transform(t);
+  Aabb2 transformed(Matrix3 t, Aabb2 out) =>
+      out
+        ..copyFrom(this)
+        ..transform(t);
 
   /// Create a copy of this that is rotated by the rotation matrix [t] and
   /// store it in [out].
-  Aabb2 rotated(Matrix3 t, Aabb2 out) => out
-    ..copyFrom(this)
-    ..rotate(t);
+  Aabb2 rotated(Matrix3 t, Aabb2 out) =>
+      out
+        ..copyFrom(this)
+        ..rotate(t);
 
   /// Set the min and max of this so that this is a hull of this and
   /// [other].

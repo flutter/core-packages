@@ -9,7 +9,6 @@
 part of '../../../vector_math_geometry.dart';
 
 class TransformFilter extends InplaceGeometryFilter {
-
   TransformFilter(this.transform);
   Matrix4 transform;
 

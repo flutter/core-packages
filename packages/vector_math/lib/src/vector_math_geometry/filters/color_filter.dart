@@ -9,7 +9,6 @@
 part of '../../../vector_math_geometry.dart';
 
 class ColorFilter extends GeometryFilter {
-
   ColorFilter(this.color);
   Vector4 color;
 

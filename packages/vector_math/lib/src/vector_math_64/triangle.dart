@@ -6,7 +6,6 @@ part of '../../vector_math_64.dart';
 
 /// Defines a triangle by three points.
 class Triangle {
-
   /// Create a new, uninitialized triangle.
   Triangle()
     : _point0 = Vector3.zero(),

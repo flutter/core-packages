@@ -360,7 +360,9 @@ Matrix4 makePlaneProjection(Vector3 planeNormal, Vector3 planePoint) {
   final outer = Matrix4.outer(v, v);
   var r = Matrix4.zero();
   r = r - outer;
-  final Vector3 scaledNormal = planeNormal.scaled(dot3(planePoint, planeNormal));
+  final Vector3 scaledNormal = planeNormal.scaled(
+    dot3(planePoint, planeNormal),
+  );
   final T = Vector4(
     scaledNormal.storage[0],
     scaledNormal.storage[1],

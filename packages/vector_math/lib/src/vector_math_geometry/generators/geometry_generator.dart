@@ -9,7 +9,6 @@
 part of '../../../vector_math_geometry.dart';
 
 class GeometryGeneratorFlags {
-
   GeometryGeneratorFlags({
     this.texCoords = true,
     this.normals = true,

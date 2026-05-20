@@ -11,7 +11,6 @@ part of '../../vector_math.dart';
 /// 3D Matrix.
 /// Values are stored in column major order.
 class Matrix3 {
-
   /// New matrix with specified values.
   factory Matrix3(
     double arg0,
@@ -28,27 +27,28 @@ class Matrix3 {
         ..setValues(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
 
   /// New matrix from [values].
-  factory Matrix3.fromList(List<double> values) => Matrix3.zero()
-    ..setValues(
-      values[0],
-      values[1],
-      values[2],
-      values[3],
-      values[4],
-      values[5],
-      values[6],
-      values[7],
-      values[8],
-    );
+  factory Matrix3.fromList(List<double> values) =>
+      Matrix3.zero()..setValues(
+        values[0],
+        values[1],
+        values[2],
+        values[3],
+        values[4],
+        values[5],
+        values[6],
+        values[7],
+        values[8],
+      );
 
   /// Constructs a new [Matrix3] filled with zeros.
   Matrix3.zero() : _m3storage = Float32List(9);
 
   /// Identity matrix.
-  factory Matrix3.identity() => Matrix3.zero()
-    .._m3storage[0] = 1.0
-    .._m3storage[4] = 1.0
-    .._m3storage[8] = 1.0;
+  factory Matrix3.identity() =>
+      Matrix3.zero()
+        .._m3storage[0] = 1.0
+        .._m3storage[4] = 1.0
+        .._m3storage[8] = 1.0;
 
   /// Copes values from [other].
   factory Matrix3.copy(Matrix3 other) => Matrix3.zero()..setFrom(other);

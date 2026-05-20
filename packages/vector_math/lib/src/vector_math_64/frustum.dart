@@ -6,7 +6,6 @@ part of '../../vector_math_64.dart';
 
 /// Defines a frustum constructed out of six [Plane]s.
 class Frustum {
-
   /// Create a new frustum without initializing its bounds.
   Frustum()
     : _plane0 = Plane(),

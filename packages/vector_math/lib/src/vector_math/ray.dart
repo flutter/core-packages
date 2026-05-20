@@ -6,7 +6,6 @@ part of '../../vector_math.dart';
 
 /// Defines a [Ray] by an [origin] and a [direction].
 class Ray {
-
   /// Create a new, uninitialized ray.
   Ray() : _origin = Vector3.zero(), _direction = Vector3.zero();
 

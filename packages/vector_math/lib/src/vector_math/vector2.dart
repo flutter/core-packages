@@ -9,7 +9,6 @@ part of '../../vector_math.dart';
 
 /// 2D column vector.
 class Vector2 implements Vector {
-
   /// Construct a new vector with the specified values.
   factory Vector2(double x, double y) => Vector2.zero()..setValues(x, y);
 
@@ -338,12 +337,8 @@ class Vector2 implements Vector {
   void clamp(Vector2 min, Vector2 max) {
     final Float32List minStorage = min._v2storage;
     final Float32List maxStorage = max._v2storage;
-    _v2storage[1] = _v2storage[1]
-        .clamp(minStorage[1], maxStorage[1])
-        ;
-    _v2storage[0] = _v2storage[0]
-        .clamp(minStorage[0], maxStorage[0])
-        ;
+    _v2storage[1] = _v2storage[1].clamp(minStorage[1], maxStorage[1]);
+    _v2storage[0] = _v2storage[0].clamp(minStorage[0], maxStorage[0]);
   }
 
   /// Clamp entries this in the range [min]-[max].
@@ -372,12 +367,14 @@ class Vector2 implements Vector {
 
   /// Round entries in this towards zero.
   void roundToZero() {
-    _v2storage[1] = _v2storage[1] < 0.0
-        ? _v2storage[1].ceilToDouble()
-        : _v2storage[1].floorToDouble();
-    _v2storage[0] = _v2storage[0] < 0.0
-        ? _v2storage[0].ceilToDouble()
-        : _v2storage[0].floorToDouble();
+    _v2storage[1] =
+        _v2storage[1] < 0.0
+            ? _v2storage[1].ceilToDouble()
+            : _v2storage[1].floorToDouble();
+    _v2storage[0] =
+        _v2storage[0] < 0.0
+            ? _v2storage[0].ceilToDouble()
+            : _v2storage[0].floorToDouble();
   }
 
   /// Clone of this.

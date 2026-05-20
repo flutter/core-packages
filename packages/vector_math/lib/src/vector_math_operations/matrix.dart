@@ -35,10 +35,14 @@ class Matrix44Operations {
     final double m10 = matrix[10 + offset];
     final double m11 = matrix[11 + offset];
 
-    final double det3_201_012 = m8 * det2_01_12 - m9 * det2_01_02 + m10 * det2_01_01;
-    final double det3_201_013 = m8 * det2_01_13 - m9 * det2_01_03 + m11 * det2_01_01;
-    final double det3_201_023 = m8 * det2_01_23 - m10 * det2_01_03 + m11 * det2_01_02;
-    final double det3_201_123 = m9 * det2_01_23 - m10 * det2_01_13 + m11 * det2_01_12;
+    final double det3_201_012 =
+        m8 * det2_01_12 - m9 * det2_01_02 + m10 * det2_01_01;
+    final double det3_201_013 =
+        m8 * det2_01_13 - m9 * det2_01_03 + m11 * det2_01_01;
+    final double det3_201_023 =
+        m8 * det2_01_23 - m10 * det2_01_03 + m11 * det2_01_02;
+    final double det3_201_123 =
+        m9 * det2_01_23 - m10 * det2_01_13 + m11 * det2_01_12;
 
     final double m12 = matrix[12 + offset];
     final double m13 = matrix[13 + offset];

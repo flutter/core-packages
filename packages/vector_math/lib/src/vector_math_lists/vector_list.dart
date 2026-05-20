@@ -7,7 +7,6 @@ part of '../../vector_math_lists.dart';
 /// Abstract base class for vector lists. See [Vector2List], [Vector3List], and
 /// [Vector4List] for implementations of this class.
 abstract class VectorList<T extends Vector> {
-
   /// Create a new vector list with [length] elements that have a size of
   /// [vectorLength]. Optionally it is possible to specify an [offset] in the
   /// [buffer] and a [stride] between each vector.

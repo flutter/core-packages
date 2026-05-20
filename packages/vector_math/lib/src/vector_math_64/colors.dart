@@ -8,7 +8,6 @@ part of '../../vector_math_64.dart';
 /// manipulating colors. In addition to that, some known colors can be accessed
 /// for fast prototyping.
 class Colors {
-
   Colors._();
   static final _hexStringFullRegex = RegExp(
     r'\#?([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})(?:([0-9a-f]{2}))?',
@@ -270,9 +269,10 @@ class Colors {
     if (hslColor.y == 0.0) {
       rgbColor.setValues(hslColor.z, hslColor.z, hslColor.z, hslColor.a);
     } else {
-      final double q = hslColor.z < 0.5
-          ? hslColor.z * (1.0 + hslColor.y)
-          : hslColor.z + hslColor.y - hslColor.z * hslColor.y;
+      final double q =
+          hslColor.z < 0.5
+              ? hslColor.z * (1.0 + hslColor.y)
+              : hslColor.z + hslColor.y - hslColor.z * hslColor.y;
       final double p = 2.0 * hslColor.z - q;
 
       final double r = _hueToRgb(p, q, hslColor.x + 1.0 / 3.0);

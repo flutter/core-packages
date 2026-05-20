@@ -11,7 +11,6 @@ part of '../../vector_math_64.dart';
 /// Defines a 3-dimensional axis-aligned bounding box between a [min] and a
 /// [max] position.
 class Aabb3 {
-
   /// Create a new AABB with [min] and [max] set to the origin.
   Aabb3() : _min = Vector3.zero(), _max = Vector3.zero();
 
@@ -63,9 +62,10 @@ class Aabb3 {
   Vector3 get max => _max;
 
   /// The center of the AABB.
-  Vector3 get center => _min.clone()
-    ..add(_max)
-    ..scale(0.5);
+  Vector3 get center =>
+      _min.clone()
+        ..add(_max)
+        ..scale(0.5);
 
   /// Set the AABB by a [center] and [halfExtents].
   void setCenterAndHalfExtents(Vector3 center, Vector3 halfExtents) {
@@ -266,15 +266,17 @@ class Aabb3 {
 
   /// Create a copy of this that is transformed by the transform [t] and store
   /// it in [out].
-  Aabb3 transformed(Matrix4 t, Aabb3 out) => out
-    ..copyFrom(this)
-    ..transform(t);
+  Aabb3 transformed(Matrix4 t, Aabb3 out) =>
+      out
+        ..copyFrom(this)
+        ..transform(t);
 
   /// Create a copy of this that is rotated by the rotation matrix [t] and
   /// store it in [out].
-  Aabb3 rotated(Matrix4 t, Aabb3 out) => out
-    ..copyFrom(this)
-    ..rotate(t);
+  Aabb3 rotated(Matrix4 t, Aabb3 out) =>
+      out
+        ..copyFrom(this)
+        ..rotate(t);
 
   void getPN(Vector3 planeNormal, Vector3 outP, Vector3 outN) {
     if (planeNormal.x < 0.0) {

@@ -9,7 +9,6 @@ part of '../../vector_math_64.dart';
 
 /// 4D column vector.
 class Vector4 implements Vector {
-
   /// Construct a new vector with the specified values.
   factory Vector4(double x, double y, double z, double w) =>
       Vector4.zero()..setValues(x, y, z, w);
@@ -380,18 +379,10 @@ class Vector4 implements Vector {
   void clamp(Vector4 min, Vector4 max) {
     final Float64List minStorage = min.storage;
     final Float64List maxStorage = max.storage;
-    _v4storage[3] = _v4storage[3]
-        .clamp(minStorage[3], maxStorage[3])
-        ;
-    _v4storage[2] = _v4storage[2]
-        .clamp(minStorage[2], maxStorage[2])
-        ;
-    _v4storage[1] = _v4storage[1]
-        .clamp(minStorage[1], maxStorage[1])
-        ;
-    _v4storage[0] = _v4storage[0]
-        .clamp(minStorage[0], maxStorage[0])
-        ;
+    _v4storage[3] = _v4storage[3].clamp(minStorage[3], maxStorage[3]);
+    _v4storage[2] = _v4storage[2].clamp(minStorage[2], maxStorage[2]);
+    _v4storage[1] = _v4storage[1].clamp(minStorage[1], maxStorage[1]);
+    _v4storage[0] = _v4storage[0].clamp(minStorage[0], maxStorage[0]);
   }
 
   /// Clamp entries in this in the range [min]-[max].
@@ -428,18 +419,22 @@ class Vector4 implements Vector {
 
   /// Round entries in this towards zero.
   void roundToZero() {
-    _v4storage[3] = _v4storage[3] < 0.0
-        ? _v4storage[3].ceilToDouble()
-        : _v4storage[3].floorToDouble();
-    _v4storage[2] = _v4storage[2] < 0.0
-        ? _v4storage[2].ceilToDouble()
-        : _v4storage[2].floorToDouble();
-    _v4storage[1] = _v4storage[1] < 0.0
-        ? _v4storage[1].ceilToDouble()
-        : _v4storage[1].floorToDouble();
-    _v4storage[0] = _v4storage[0] < 0.0
-        ? _v4storage[0].ceilToDouble()
-        : _v4storage[0].floorToDouble();
+    _v4storage[3] =
+        _v4storage[3] < 0.0
+            ? _v4storage[3].ceilToDouble()
+            : _v4storage[3].floorToDouble();
+    _v4storage[2] =
+        _v4storage[2] < 0.0
+            ? _v4storage[2].ceilToDouble()
+            : _v4storage[2].floorToDouble();
+    _v4storage[1] =
+        _v4storage[1] < 0.0
+            ? _v4storage[1].ceilToDouble()
+            : _v4storage[1].floorToDouble();
+    _v4storage[0] =
+        _v4storage[0] < 0.0
+            ? _v4storage[0].ceilToDouble()
+            : _v4storage[0].floorToDouble();
   }
 
   /// Create a copy of this.

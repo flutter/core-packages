@@ -11,7 +11,6 @@ part of '../../vector_math_64.dart';
 /// 4D Matrix.
 /// Values are stored in column major order.
 class Matrix4 {
-
   /// Constructs a new mat4.
   factory Matrix4(
     double arg0,
@@ -30,56 +29,57 @@ class Matrix4 {
     double arg13,
     double arg14,
     double arg15,
-  ) => Matrix4.zero()
-    ..setValues(
-      arg0,
-      arg1,
-      arg2,
-      arg3,
-      arg4,
-      arg5,
-      arg6,
-      arg7,
-      arg8,
-      arg9,
-      arg10,
-      arg11,
-      arg12,
-      arg13,
-      arg14,
-      arg15,
-    );
+  ) =>
+      Matrix4.zero()..setValues(
+        arg0,
+        arg1,
+        arg2,
+        arg3,
+        arg4,
+        arg5,
+        arg6,
+        arg7,
+        arg8,
+        arg9,
+        arg10,
+        arg11,
+        arg12,
+        arg13,
+        arg14,
+        arg15,
+      );
 
   /// New matrix from [values].
-  factory Matrix4.fromList(List<double> values) => Matrix4.zero()
-    ..setValues(
-      values[0],
-      values[1],
-      values[2],
-      values[3],
-      values[4],
-      values[5],
-      values[6],
-      values[7],
-      values[8],
-      values[9],
-      values[10],
-      values[11],
-      values[12],
-      values[13],
-      values[14],
-      values[15],
-    );
+  factory Matrix4.fromList(List<double> values) =>
+      Matrix4.zero()..setValues(
+        values[0],
+        values[1],
+        values[2],
+        values[3],
+        values[4],
+        values[5],
+        values[6],
+        values[7],
+        values[8],
+        values[9],
+        values[10],
+        values[11],
+        values[12],
+        values[13],
+        values[14],
+        values[15],
+      );
 
   /// Zero matrix.
   Matrix4.zero() : _m4storage = Float64List(16);
 
   /// Identity matrix.
-  factory Matrix4.identity() => Matrix4.zero()
-    .._m4storage[0] = 1.0
-    .._m4storage[5] = 1.0
-    .._m4storage[10] = 1.0
-    .._m4storage[15] = 1.0;
+  factory Matrix4.identity() =>
+      Matrix4.zero()
+        .._m4storage[0] = 1.0
+        .._m4storage[5] = 1.0
+        .._m4storage[10] = 1.0
+        .._m4storage[15] = 1.0;
 
   /// Copies values from [other].
   factory Matrix4.copy(Matrix4 other) => Matrix4.zero()..setFrom(other);
@@ -106,24 +106,28 @@ class Matrix4 {
   factory Matrix4.outer(Vector4 u, Vector4 v) => Matrix4.zero()..setOuter(u, v);
 
   /// Rotation of [radians] around X.
-  factory Matrix4.rotationX(double radians) => Matrix4.zero()
-    .._m4storage[15] = 1.0
-    ..setRotationX(radians);
+  factory Matrix4.rotationX(double radians) =>
+      Matrix4.zero()
+        .._m4storage[15] = 1.0
+        ..setRotationX(radians);
 
   /// Rotation of [radians] around Y.
-  factory Matrix4.rotationY(double radians) => Matrix4.zero()
-    .._m4storage[15] = 1.0
-    ..setRotationY(radians);
+  factory Matrix4.rotationY(double radians) =>
+      Matrix4.zero()
+        .._m4storage[15] = 1.0
+        ..setRotationY(radians);
 
   /// Rotation of [radians] around Z.
-  factory Matrix4.rotationZ(double radians) => Matrix4.zero()
-    .._m4storage[15] = 1.0
-    ..setRotationZ(radians);
+  factory Matrix4.rotationZ(double radians) =>
+      Matrix4.zero()
+        .._m4storage[15] = 1.0
+        ..setRotationZ(radians);
 
   /// Translation matrix.
-  factory Matrix4.translation(Vector3 translation) => Matrix4.zero()
-    ..setIdentity()
-    ..setTranslation(translation);
+  factory Matrix4.translation(Vector3 translation) =>
+      Matrix4.zero()
+        ..setIdentity()
+        ..setTranslation(translation);
 
   /// Translation matrix.
   factory Matrix4.translationValues(double x, double y, double z) =>
@@ -884,16 +888,26 @@ class Matrix4 {
     final double m31 = z * x * C - y * s;
     final double m32 = z * y * C + x * s;
     final double m33 = z * z * C + c;
-    final double t1 = _m4storage[0] * m11 + _m4storage[4] * m21 + _m4storage[8] * m31;
-    final double t2 = _m4storage[1] * m11 + _m4storage[5] * m21 + _m4storage[9] * m31;
-    final double t3 = _m4storage[2] * m11 + _m4storage[6] * m21 + _m4storage[10] * m31;
-    final double t4 = _m4storage[3] * m11 + _m4storage[7] * m21 + _m4storage[11] * m31;
-    final double t5 = _m4storage[0] * m12 + _m4storage[4] * m22 + _m4storage[8] * m32;
-    final double t6 = _m4storage[1] * m12 + _m4storage[5] * m22 + _m4storage[9] * m32;
-    final double t7 = _m4storage[2] * m12 + _m4storage[6] * m22 + _m4storage[10] * m32;
-    final double t8 = _m4storage[3] * m12 + _m4storage[7] * m22 + _m4storage[11] * m32;
-    final double t9 = _m4storage[0] * m13 + _m4storage[4] * m23 + _m4storage[8] * m33;
-    final double t10 = _m4storage[1] * m13 + _m4storage[5] * m23 + _m4storage[9] * m33;
+    final double t1 =
+        _m4storage[0] * m11 + _m4storage[4] * m21 + _m4storage[8] * m31;
+    final double t2 =
+        _m4storage[1] * m11 + _m4storage[5] * m21 + _m4storage[9] * m31;
+    final double t3 =
+        _m4storage[2] * m11 + _m4storage[6] * m21 + _m4storage[10] * m31;
+    final double t4 =
+        _m4storage[3] * m11 + _m4storage[7] * m21 + _m4storage[11] * m31;
+    final double t5 =
+        _m4storage[0] * m12 + _m4storage[4] * m22 + _m4storage[8] * m32;
+    final double t6 =
+        _m4storage[1] * m12 + _m4storage[5] * m22 + _m4storage[9] * m32;
+    final double t7 =
+        _m4storage[2] * m12 + _m4storage[6] * m22 + _m4storage[10] * m32;
+    final double t8 =
+        _m4storage[3] * m12 + _m4storage[7] * m22 + _m4storage[11] * m32;
+    final double t9 =
+        _m4storage[0] * m13 + _m4storage[4] * m23 + _m4storage[8] * m33;
+    final double t10 =
+        _m4storage[1] * m13 + _m4storage[5] * m23 + _m4storage[9] * m33;
     final double t11 =
         _m4storage[2] * m13 + _m4storage[6] * m23 + _m4storage[10] * m33;
     final double t12 =
@@ -2045,7 +2059,8 @@ class Matrix4 {
   /// Decomposes this into [translation], [rotation] and [scale] components.
   void decompose(Vector3 translation, Quaternion rotation, Vector3 scale) {
     final Vector3 v = _decomposeV ??= Vector3.zero();
-    double sx = (v..setValues(_m4storage[0], _m4storage[1], _m4storage[2])).length;
+    double sx =
+        (v..setValues(_m4storage[0], _m4storage[1], _m4storage[2])).length;
     final double sy =
         (v..setValues(_m4storage[4], _m4storage[5], _m4storage[6])).length;
     final double sz =

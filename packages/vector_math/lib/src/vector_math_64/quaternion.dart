@@ -11,7 +11,6 @@ part of '../../vector_math_64.dart';
 /// [gimbal lock](http://de.wikipedia.org/wiki/Gimbal_Lock) problem compared to
 /// euler rotations.
 class Quaternion {
-
   /// Constructs a quaternion using the raw values [x], [y], [z], and [w].
   factory Quaternion(double x, double y, double z, double w) =>
       Quaternion._()..setValues(x, y, z, w);
@@ -133,9 +132,10 @@ class Quaternion {
       _qStorage[1] = (rotationMatrixStorage[6] - rotationMatrixStorage[2]) * s;
       _qStorage[2] = (rotationMatrixStorage[1] - rotationMatrixStorage[3]) * s;
     } else {
-      final i = rotationMatrixStorage[0] < rotationMatrixStorage[4]
-          ? (rotationMatrixStorage[4] < rotationMatrixStorage[8] ? 2 : 1)
-          : (rotationMatrixStorage[0] < rotationMatrixStorage[8] ? 2 : 0);
+      final i =
+          rotationMatrixStorage[0] < rotationMatrixStorage[4]
+              ? (rotationMatrixStorage[4] < rotationMatrixStorage[8] ? 2 : 1)
+              : (rotationMatrixStorage[0] < rotationMatrixStorage[8] ? 2 : 0);
       final int j = (i + 1) % 3;
       final int k = (i + 2) % 3;
       double s = math.sqrt(

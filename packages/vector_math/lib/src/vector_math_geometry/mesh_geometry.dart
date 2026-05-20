@@ -9,7 +9,6 @@
 part of '../../vector_math_geometry.dart';
 
 class VertexAttrib {
-
   VertexAttrib(this.name, this.size, this.type) : stride = 0, offset = 0;
 
   VertexAttrib.copy(VertexAttrib attrib)
@@ -79,7 +78,6 @@ class VertexAttrib {
 }
 
 class MeshGeometry {
-
   factory MeshGeometry(int length, List<VertexAttrib> attributes) {
     var stride = 0;
     for (final a in attributes) {
@@ -191,7 +189,9 @@ class MeshGeometry {
           );
         }
 
-        final VectorList<Vector> inputView = inputAttrib.getView(inputMesh.buffer);
+        final VectorList<Vector> inputView = inputAttrib.getView(
+          inputMesh.buffer,
+        );
 
         // Copy [inputView] to a view from attrib
         attrib.getView(mesh.buffer).copy(inputView);
@@ -211,9 +211,8 @@ class MeshGeometry {
     // When combining meshes they must all have a matching set of VertexAttribs
     final MeshGeometry firstMesh = meshes[0];
     int totalVerts = firstMesh.length;
-    int totalIndices = firstMesh.indices != null
-        ? firstMesh.indices!.length
-        : 0;
+    int totalIndices =
+        firstMesh.indices != null ? firstMesh.indices!.length : 0;
     for (var i = 1; i < meshes.length; ++i) {
       final MeshGeometry srcMesh = meshes[i];
       if (!firstMesh.attribsAreCompatible(srcMesh)) {

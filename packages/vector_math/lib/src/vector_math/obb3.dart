@@ -6,7 +6,6 @@ part of '../../vector_math.dart';
 /// Defines a 3-dimensional oriented bounding box defined with a [center],
 /// [halfExtents] and axes.
 class Obb3 {
-
   /// Create a new OBB with erverything set to zero.
   Obb3()
     : _center = Vector3.zero(),

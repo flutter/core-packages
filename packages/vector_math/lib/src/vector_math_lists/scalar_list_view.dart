@@ -7,7 +7,6 @@ part of '../../vector_math_lists.dart';
 /// Defines a view of scalar values over a [Float32List] that allows for a
 /// custom offset and stride.
 class ScalarListView {
-
   /// Create a new vector list with [length] elements.
   ///
   /// Optionally it is possible to specify an [offset] in the
