@@ -1,0 +1,30 @@
+# Repo-specific configuration for the flutter_plugin_tools repository tooling.
+
+repo_name: flutter/core-packages
+
+# The minimum Dart version that can be used as the minimum SDK constraint
+# by packages in this repository. For example, if this is set to 3.10.0, then a
+# package can have a minimum SDK version of 3.10.0, 3.11.0, 3.12.0, etc., but
+# not 3.9.0.
+#
+# The major and minor version here should match the lowest version analyzed
+# in legacy version analysis.
+# TODO(stuartmorgan): Set up legacy analysis in this repo. For now this matches
+# the N-2 used in flutter/packages, but we aren't actually testing N-1 or N-2.
+min_dart: '3.10.0'
+
+# The list of external packages that are allowed as dependencies.
+# All entries here must have an explanation for why they are here. See
+# https://github.com/flutter/flutter/blob/master/docs/ecosystem/contributing/README.md#Dependencies
+allowed_dependencies:
+  # Dependencies that can be unpinned. Package should only ever be added here if
+  # we fully trust the package's development and publishing process.
+  unpinned:
+    ## Allowed by default:
+    # Dart-team-owned packages
+    - benchmark_harness
+    - build_runner
+    - build_test
+    - build_web_compilers
+    - path
+    - test
