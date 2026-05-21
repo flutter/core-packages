@@ -74,12 +74,12 @@ void testTransformFilter() {
   final scaleMat = Matrix4.identity();
   scaleMat.scale(2.0, 2.0, 2.0);
   final filter = TransformFilter(scaleMat);
-  final cube = filterUnitCube(filter);
+  final MeshGeometry cube = filterUnitCube(filter);
 
   // Check to ensure all the vertices were properly scaled
-  final positions = cube.getViewForAttrib('POSITION') as Vector3List;
+  final positions = cube.getViewForAttrib('POSITION')! as Vector3List;
   for (var i = 0; i < positions.length; ++i) {
-    final position = positions[i];
+    final Vector3 position = positions[i];
     expect(position.storage[0].abs(), equals(2.0));
     expect(position.storage[1].abs(), equals(2.0));
     expect(position.storage[2].abs(), equals(2.0));
@@ -88,7 +88,7 @@ void testTransformFilter() {
 
 void testFlatShadeFilter() {
   final filter = FlatShadeFilter();
-  final cube = filterUnitCube(filter);
+  final MeshGeometry cube = filterUnitCube(filter);
 
   // Flat shading removes indices and duplicates vertices
   expect(cube.indices, equals(null));
@@ -97,7 +97,7 @@ void testFlatShadeFilter() {
 
 void testBarycentricFilter() {
   final filter = BarycentricFilter();
-  final cube = filterUnitCube(filter);
+  final MeshGeometry cube = filterUnitCube(filter);
 
   // Generating barycentric coords removes indices and duplicates vertices
   expect(cube.indices, equals(null));
@@ -109,12 +109,12 @@ void testBarycentricFilter() {
 void testColorFilter() {
   final filterColor = Vector4(1.0, 0.0, 0.0, 1.0);
   final filter = ColorFilter(filterColor);
-  final cube = filterUnitCube(filter);
+  final MeshGeometry cube = filterUnitCube(filter);
 
   // Ensure that the same color was applied to all vertices
-  final colors = cube.getViewForAttrib('COLOR') as Vector4List;
+  final colors = cube.getViewForAttrib('COLOR')! as Vector4List;
   for (var i = 0; i < colors.length; ++i) {
-    final color = colors[i];
+    final Vector4 color = colors[i];
     relativeTest(color, filterColor);
   }
 }
@@ -123,12 +123,12 @@ void testCombineIndices() {
   // Combining two meshes should generate indices that are not out of range.
   final sphereGenerator = SphereGenerator();
 
-  final sphere0 = sphereGenerator.createSphere(
+  final MeshGeometry sphere0 = sphereGenerator.createSphere(
     10.0,
     latSegments: 8,
     lonSegments: 8,
   );
-  final sphere1 = sphereGenerator.createSphere(
+  final MeshGeometry sphere1 = sphereGenerator.createSphere(
     10.0,
     latSegments: 8,
     lonSegments: 8,

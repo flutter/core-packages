@@ -2,6 +2,10 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+// TODO(stuartmorgan): Remove this and fix violations. See
+//  https://github.com/flutter/flutter/issues/186827
+// ignore_for_file: public_member_api_docs
+
 part of '../../../vector_math_geometry.dart';
 
 class RingGenerator extends GeometryGenerator {
@@ -42,7 +46,7 @@ class RingGenerator extends GeometryGenerator {
     final v = Vector3.zero();
     var index = 0;
     for (var i = 0; i <= _segments; i++) {
-      final percent = i / _segments;
+      final double percent = i / _segments;
       v
         ..x = _innerRadius * math.cos(_thetaStart + percent * _thetaLength)
         ..z = _innerRadius * math.sin(_thetaStart + percent * _thetaLength);
@@ -67,7 +71,7 @@ class RingGenerator extends GeometryGenerator {
       final v = Vector2.zero();
       var index = 0;
       for (var i = 0; i <= _segments; i++) {
-        final percent = i / _segments;
+        final double percent = i / _segments;
         v
           ..x = 0.0
           ..y = percent;
@@ -83,9 +87,9 @@ class RingGenerator extends GeometryGenerator {
       final v = Vector2.zero();
       var index = 0;
       for (var i = 0; i <= _segments; i++) {
-        var position = positions[index];
-        var x = (position.x / (_outerRadius + 1.0)) * 0.5;
-        var y = (position.z / (_outerRadius + 1.0)) * 0.5;
+        Vector3 position = positions[index];
+        double x = (position.x / (_outerRadius + 1.0)) * 0.5;
+        double y = (position.z / (_outerRadius + 1.0)) * 0.5;
         v
           ..x = x + 0.5
           ..y = y + 0.5;
@@ -107,7 +111,7 @@ class RingGenerator extends GeometryGenerator {
   @override
   void generateIndices(Uint16List indices) {
     var index = 0;
-    final length = _segments * 2;
+    final int length = _segments * 2;
     for (var i = 0; i < length; i += 2) {
       indices[index + 0] = i + 0;
       indices[index + 1] = i + 1;

@@ -7,22 +7,6 @@ part of '../../vector_math_lists.dart';
 /// Defines a view of scalar values over a [Float32List] that allows for a
 /// custom offset and stride.
 class ScalarListView {
-  final int _offset;
-  final int _stride;
-  final int _length;
-  final Float32List _buffer;
-
-  /// The count of vectors in this list.
-  int get length => _length;
-
-  /// The internal storage buffer of this list.
-  Float32List get buffer => _buffer;
-
-  static int _listLength(int offset, int stride, int length) {
-    final width = stride == 0 ? 1 : stride;
-    return offset + width * length;
-  }
-
   /// Create a new vector list with [length] elements.
   ///
   /// Optionally it is possible to specify an [offset] in the
@@ -56,6 +40,21 @@ class ScalarListView {
           (buffer.length - math.max(0, offset - stride)) ~/
           (stride == 0 ? 1 : stride),
       _buffer = buffer;
+  final int _offset;
+  final int _stride;
+  final int _length;
+  final Float32List _buffer;
+
+  /// The count of vectors in this list.
+  int get length => _length;
+
+  /// The internal storage buffer of this list.
+  Float32List get buffer => _buffer;
+
+  static int _listLength(int offset, int stride, int length) {
+    final width = stride == 0 ? 1 : stride;
+    return offset + width * length;
+  }
 
   int _elementIndexToBufferIndex(int index) => _offset + _stride * index;
 
@@ -69,7 +68,7 @@ class ScalarListView {
 
   /// Store [value] in the list at [index].
   void store(int index, double value) {
-    final i = _elementIndexToBufferIndex(index);
+    final int i = _elementIndexToBufferIndex(index);
     _buffer[i] = value;
   }
 

@@ -21,7 +21,7 @@ void testVector3InstacinfFromFloat32List() {
 
 void testVector3InstacingFromByteBuffer() {
   final float32List = Float32List.fromList([1.0, 2.0, 3.0, 4.0]);
-  final buffer = float32List.buffer;
+  final ByteBuffer buffer = float32List.buffer;
   final zeroOffset = Vector3.fromBuffer(buffer, 0);
   final offsetVector = Vector3.fromBuffer(buffer, Float32List.bytesPerElement);
 
@@ -93,12 +93,14 @@ void testVector3DotProduct() {
   final inputB = <Vector3>[];
   final expectedOutput = <double>[];
   inputA.add(
-    parseVector<Vector3>('''0.417267069084370
+    parseVector<Vector3>('''
+0.417267069084370
                                      0.049654430325742
                                      0.902716109915281'''),
   );
   inputB.add(
-    parseVector<Vector3>('''0.944787189721646
+    parseVector<Vector3>('''
+0.944787189721646
                                      0.490864092468080
                                      0.489252638400019'''),
   );
@@ -106,8 +108,8 @@ void testVector3DotProduct() {
   assert(inputA.length == inputB.length);
   assert(inputB.length == expectedOutput.length);
   for (var i = 0; i < inputA.length; i++) {
-    final output1 = dot3(inputA[i], inputB[i]);
-    final output2 = dot3(inputB[i], inputA[i]);
+    final double output1 = dot3(inputA[i], inputB[i]);
+    final double output2 = dot3(inputB[i], inputA[i]);
     relativeTest(output1, expectedOutput[i]);
     relativeTest(output2, expectedOutput[i]);
   }
@@ -137,33 +139,39 @@ void testVector3CrossProduct() {
   final expectedOutput = <Vector3>[];
 
   inputA.add(
-    parseVector<Vector3>('''0.417267069084370
+    parseVector<Vector3>('''
+0.417267069084370
                                      0.049654430325742
                                      0.902716109915281'''),
   );
   inputB.add(
-    parseVector<Vector3>('''0.944787189721646
+    parseVector<Vector3>('''
+0.944787189721646
                                      0.490864092468080
                                      0.489252638400019'''),
   );
   expectedOutput.add(
-    parseVector<Vector3>(''' -0.418817363004761
+    parseVector<Vector3>('''
+ -0.418817363004761
                                                0.648725602136344
                                                0.157908551498227'''),
   );
 
   inputA.add(
-    parseVector<Vector3>('''0.944787189721646
+    parseVector<Vector3>('''
+0.944787189721646
                                      0.490864092468080
                                      0.489252638400019'''),
   );
   inputB.add(
-    parseVector<Vector3>('''0.417267069084370
+    parseVector<Vector3>('''
+0.417267069084370
                                      0.049654430325742
                                      0.902716109915281'''),
   );
   expectedOutput.add(
-    parseVector<Vector3>(''' 0.418817363004761
+    parseVector<Vector3>('''
+ 0.418817363004761
                                              -0.648725602136344
                                              -0.157908551498227'''),
   );
@@ -340,8 +348,8 @@ void testVector3Reflect() {
 
 void testVector3Projection() {
   final v = Vector3(1.0, 1.0, 1.0);
-  final a = 2.0 / 3.0;
-  final b = 1.0 / 3.0;
+  const double a = 2.0 / 3.0;
+  const double b = 1.0 / 3.0;
   final m = Matrix4(
     a,
     b,
@@ -389,8 +397,8 @@ void testVector3AngleTo() {
   final v0 = Vector3(1.0, 0.0, 0.0);
   final v1 = Vector3(0.0, 1.0, 0.0);
   final v2 = Vector3(1.0, 1.0, 0.0);
-  final v3 = v2.normalized();
-  final tol = 1e-8;
+  final Vector3 v3 = v2.normalized();
+  const tol = 1e-8;
 
   expect(v0.angleTo(v0), equals(0.0));
   expect(v0.angleTo(v1), equals(math.pi / 2.0));
@@ -409,7 +417,7 @@ void testVector3AngleToSigned() {
 }
 
 void testVector3Clamp() {
-  final x = 2.0, y = 3.0, z = 4.0;
+  const x = 2.0, y = 3.0, z = 4.0;
   final v0 = Vector3(x, y, z);
   final v1 = Vector3(-x, -y, -z);
   final v2 = Vector3(-2.0 * x, 2.0 * y, -2.0 * z)..clamp(v1, v0);
@@ -418,7 +426,7 @@ void testVector3Clamp() {
 }
 
 void testVector3ClampScalar() {
-  final x = 2.0;
+  const x = 2.0;
   final v0 = Vector3(-2.0 * x, 2.0 * x, -2.0 * x)..clampScalar(-x, x);
 
   expect(v0.storage, orderedEquals(<double>[-x, x, -x]));

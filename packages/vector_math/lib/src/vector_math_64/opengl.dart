@@ -65,10 +65,10 @@ void setModelMatrix(
   double ty,
   double tz,
 ) {
-  final right = forwardDirection.cross(upDirection)..normalize();
+  final Vector3 right = forwardDirection.cross(upDirection)..normalize();
   final c1 = right;
   final c2 = upDirection;
-  final c3 = -forwardDirection;
+  final Vector3 c3 = -forwardDirection;
   modelMatrix.setValues(
     c1[0],
     c1[1],
@@ -103,13 +103,13 @@ void setViewMatrix(
   Vector3 cameraFocusPosition,
   Vector3 upDirection,
 ) {
-  final z = (cameraPosition - cameraFocusPosition)..normalize();
-  final x = upDirection.cross(z)..normalize();
-  final y = z.cross(x)..normalize();
+  final Vector3 z = (cameraPosition - cameraFocusPosition)..normalize();
+  final Vector3 x = upDirection.cross(z)..normalize();
+  final Vector3 y = z.cross(x)..normalize();
 
-  final rotatedEyeX = -x.dot(cameraPosition);
-  final rotatedEyeY = -y.dot(cameraPosition);
-  final rotatedEyeZ = -z.dot(cameraPosition);
+  final double rotatedEyeX = -x.dot(cameraPosition);
+  final double rotatedEyeY = -y.dot(cameraPosition);
+  final double rotatedEyeZ = -z.dot(cameraPosition);
 
   viewMatrix.setValues(
     x[0],
@@ -163,17 +163,17 @@ void setPerspectiveMatrix(
   double zNear,
   double zFar,
 ) {
-  final height = math.tan(fovYRadians * 0.5);
-  final width = height * aspectRatio;
-  final near_minus_far = zNear - zFar;
+  final double height = math.tan(fovYRadians * 0.5);
+  final double width = height * aspectRatio;
+  final double nearMinusFar = zNear - zFar;
 
   perspectiveMatrix
     ..setZero()
     ..setEntry(0, 0, 1.0 / width)
     ..setEntry(1, 1, 1.0 / height)
-    ..setEntry(2, 2, (zFar + zNear) / near_minus_far)
+    ..setEntry(2, 2, (zFar + zNear) / nearMinusFar)
     ..setEntry(3, 2, -1.0)
-    ..setEntry(2, 3, (2.0 * zNear * zFar) / near_minus_far);
+    ..setEntry(2, 3, (2.0 * zNear * zFar) / nearMinusFar);
 }
 
 /// Constructs a new OpenGL perspective projection matrix.
@@ -210,8 +210,8 @@ void setInfiniteMatrix(
   double aspectRatio,
   double zNear,
 ) {
-  final height = math.tan(fovYRadians * 0.5);
-  final width = height * aspectRatio;
+  final double height = math.tan(fovYRadians * 0.5);
+  final double width = height * aspectRatio;
 
   infiniteMatrix
     ..setZero()
@@ -257,19 +257,19 @@ void setFrustumMatrix(
   double near,
   double far,
 ) {
-  final two_near = 2.0 * near;
-  final right_minus_left = right - left;
-  final top_minus_bottom = top - bottom;
-  final far_minus_near = far - near;
+  final double twoNear = 2.0 * near;
+  final double rightMinusLeft = right - left;
+  final double topMinusBottom = top - bottom;
+  final double farMinusNear = far - near;
   perspectiveMatrix
     ..setZero()
-    ..setEntry(0, 0, two_near / right_minus_left)
-    ..setEntry(1, 1, two_near / top_minus_bottom)
-    ..setEntry(0, 2, (right + left) / right_minus_left)
-    ..setEntry(1, 2, (top + bottom) / top_minus_bottom)
-    ..setEntry(2, 2, -(far + near) / far_minus_near)
+    ..setEntry(0, 0, twoNear / rightMinusLeft)
+    ..setEntry(1, 1, twoNear / topMinusBottom)
+    ..setEntry(0, 2, (right + left) / rightMinusLeft)
+    ..setEntry(1, 2, (top + bottom) / topMinusBottom)
+    ..setEntry(2, 2, -(far + near) / farMinusNear)
     ..setEntry(3, 2, -1.0)
-    ..setEntry(2, 3, -(two_near * far) / far_minus_near);
+    ..setEntry(2, 3, -(twoNear * far) / farMinusNear);
 }
 
 /// Constructs a new OpenGL perspective projection matrix.
@@ -310,12 +310,12 @@ void setOrthographicMatrix(
   double near,
   double far,
 ) {
-  final rml = right - left;
-  final rpl = right + left;
-  final tmb = top - bottom;
-  final tpb = top + bottom;
-  final fmn = far - near;
-  final fpn = far + near;
+  final double rml = right - left;
+  final double rpl = right + left;
+  final double tmb = top - bottom;
+  final double tpb = top + bottom;
+  final double fmn = far - near;
+  final double fpn = far + near;
   orthographicMatrix
     ..setZero()
     ..setEntry(0, 0, 2.0 / rml)
@@ -360,7 +360,9 @@ Matrix4 makePlaneProjection(Vector3 planeNormal, Vector3 planePoint) {
   final outer = Matrix4.outer(v, v);
   var r = Matrix4.zero();
   r = r - outer;
-  final scaledNormal = planeNormal.scaled(dot3(planePoint, planeNormal));
+  final Vector3 scaledNormal = planeNormal.scaled(
+    dot3(planePoint, planeNormal),
+  );
   final T = Vector4(
     scaledNormal.storage[0],
     scaledNormal.storage[1],
@@ -383,8 +385,8 @@ Matrix4 makePlaneReflection(Vector3 planeNormal, Vector3 planePoint) {
   final outer = Matrix4.outer(v, v)..scaleByDouble(2.0, 2.0, 2.0, 1.0);
   var r = Matrix4.zero();
   r = r - outer;
-  final scale = 2.0 * planePoint.dot(planeNormal);
-  final scaledNormal = planeNormal.scaled(scale);
+  final double scale = 2.0 * planePoint.dot(planeNormal);
+  final Vector3 scaledNormal = planeNormal.scaled(scale);
   final T = Vector4(
     scaledNormal.storage[0],
     scaledNormal.storage[1],
@@ -449,7 +451,7 @@ bool unproject(
   if (v.w == 0.0) {
     return false;
   }
-  final invW = 1.0 / v.w;
+  final double invW = 1.0 / v.w;
   pickWorld
     ..x = v.x * invW
     ..y = v.y * invW

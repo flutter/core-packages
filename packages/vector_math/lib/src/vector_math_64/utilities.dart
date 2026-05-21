@@ -18,7 +18,7 @@ double mix(double min, double max, double a) => min + a * (max - min);
 /// [edge1] by [amount]. The computation is equivalent to the GLSL function
 /// smoothstep.
 double smoothStep(double edge0, double edge1, double amount) {
-  final t = ((amount - edge0) / (edge1 - edge0)).clamp(0.0, 1.0).toDouble();
+  final double t = ((amount - edge0) / (edge1 - edge0)).clamp(0.0, 1.0);
 
   return t * t * (3.0 - 2.0 * t);
 }

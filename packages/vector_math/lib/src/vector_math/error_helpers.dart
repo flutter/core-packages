@@ -9,7 +9,7 @@ part of '../../vector_math.dart';
 /// be any vector, matrix, or quaternion.
 double relativeError(dynamic calculated, dynamic correct) {
   if (calculated is num && correct is num) {
-    final diff = (calculated - correct).abs().toDouble();
+    final double diff = (calculated - correct).abs().toDouble();
     return diff / correct;
   }
   // avoiding an `as double` cast here to maximize speed on dart2js
@@ -22,7 +22,7 @@ double relativeError(dynamic calculated, dynamic correct) {
 /// be any vector, matrix, or quaternion.
 double absoluteError(dynamic calculated, dynamic correct) {
   if (calculated is num && correct is num) {
-    final diff = (calculated - correct).abs().toDouble();
+    final double diff = (calculated - correct).abs().toDouble();
     return diff;
   }
   // avoiding an `as double` cast here to maximize speed on dart2js

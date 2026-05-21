@@ -12,7 +12,7 @@ Vector3 $v3(double x, double y, double z) => Vector3(x, y, z);
 Vector4 $v4(double x, double y, double z, double w) => Vector4(x, y, z, w);
 
 void relativeTest(dynamic output, dynamic expectedOutput) {
-  final errorThreshold = 0.0005;
+  const errorThreshold = 0.0005;
   final num error = relativeError(output, expectedOutput).abs();
   expect(
     error >= errorThreshold,
@@ -22,7 +22,7 @@ void relativeTest(dynamic output, dynamic expectedOutput) {
 }
 
 void absoluteTest(dynamic output, dynamic expectedOutput) {
-  final errorThreshold = 0.0005;
+  const errorThreshold = 0.0005;
   final num error = absoluteError(output, expectedOutput).abs();
   expect(
     error >= errorThreshold,
@@ -51,12 +51,12 @@ dynamic makeMatrix(int rows, int cols) {
 
 T parseMatrix<T>(String input) {
   input = input.trim();
-  final rows = input.split('\n');
+  final List<String> rows = input.split('\n');
   final values = <double>[];
-  var col_count = 0;
+  var colCount = 0;
   for (var i = 0; i < rows.length; i++) {
     rows[i] = rows[i].trim();
-    final cols = rows[i].split(' ');
+    final List<String> cols = rows[i].split(' ');
     for (var j = 0; j < cols.length; j++) {
       cols[j] = cols[j].trim();
     }
@@ -66,17 +66,17 @@ T parseMatrix<T>(String input) {
         continue;
       }
       if (i == 0) {
-        col_count++;
+        colCount++;
       }
       values.add(double.parse(cols[j]));
     }
   }
 
-  final dynamic m = makeMatrix(rows.length, col_count);
+  final dynamic m = makeMatrix(rows.length, colCount);
   for (var j = 0; j < rows.length; j++) {
-    for (var i = 0; i < col_count; i++) {
+    for (var i = 0; i < colCount; i++) {
       // ignore: avoid_dynamic_calls
-      m[m.index(j, i)] = values[j * col_count + i];
+      m[m.index(j, i)] = values[j * colCount + i];
     }
   }
 
@@ -86,11 +86,11 @@ T parseMatrix<T>(String input) {
 T parseVector<T extends Vector>(String v) {
   v = v.trim();
   final Pattern pattern = RegExp(
-    '[\\s]+',
+    r'[\s]+',
     multiLine: true,
     caseSensitive: false,
   );
-  final rows = v.split(pattern);
+  final List<String> rows = v.split(pattern);
   final values = <double>[];
   for (var i = 0; i < rows.length; i++) {
     rows[i] = rows[i].trim();

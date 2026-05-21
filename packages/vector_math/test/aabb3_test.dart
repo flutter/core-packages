@@ -11,15 +11,8 @@ import 'package:vector_math/vector_math.dart';
 import 'test_utils.dart';
 
 void testAabb3ByteBufferInstanciation() {
-  final buffer = Float32List.fromList([
-    1.0,
-    2.0,
-    3.0,
-    4.0,
-    5.0,
-    6.0,
-    7.0,
-  ]).buffer;
+  final ByteBuffer buffer =
+      Float32List.fromList([1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0]).buffer;
   final aabb = Aabb3.fromBuffer(buffer, 0);
   final aabbOffest = Aabb3.fromBuffer(buffer, Float32List.bytesPerElement);
 
@@ -40,7 +33,7 @@ void testAabb3ByteBufferInstanciation() {
 
 void testAabb3Center() {
   final aabb = Aabb3.minMax($v3(1.0, 2.0, 4.0), $v3(8.0, 16.0, 32.0));
-  final center = aabb.center;
+  final Vector3 center = aabb.center;
 
   expect(center.x, equals(4.5));
   expect(center.y, equals(9.0));
@@ -156,9 +149,9 @@ void testAabb3ContainsSphere() {
 
 void testAabb3ContainsVector3() {
   final parent = Aabb3.minMax($v3(1.0, 1.0, 1.0), $v3(8.0, 8.0, 8.0));
-  final child = $v3(7.0, 7.0, 7.0);
-  final cutting = $v3(1.0, 2.0, 1.0);
-  final outside = $v3(-10.0, 10.0, 10.0);
+  final Vector3 child = $v3(7.0, 7.0, 7.0);
+  final Vector3 cutting = $v3(1.0, 2.0, 1.0);
+  final Vector3 outside = $v3(-10.0, 10.0, 10.0);
 
   expect(parent.containsVector3(child), isTrue);
   expect(parent.containsVector3(cutting), isFalse);
@@ -333,9 +326,9 @@ void testIntersectionPlane() {
 
 void testAabb3IntersectionVector3() {
   final parent = Aabb3.minMax($v3(1.0, 1.0, 1.0), $v3(8.0, 8.0, 8.0));
-  final child = $v3(7.0, 7.0, 7.0);
-  final cutting = $v3(1.0, 2.0, 1.0);
-  final outside = $v3(-10.0, 10.0, 10.0);
+  final Vector3 child = $v3(7.0, 7.0, 7.0);
+  final Vector3 cutting = $v3(1.0, 2.0, 1.0);
+  final Vector3 outside = $v3(-10.0, 10.0, 10.0);
 
   expect(parent.intersectsWithVector3(child), isTrue);
   expect(parent.intersectsWithVector3(cutting), isTrue);
@@ -358,7 +351,7 @@ void testAabb3Hull() {
 
 void testAabb3HullPoint() {
   final a = Aabb3.minMax($v3(1.0, 1.0, 4.0), $v3(3.0, 4.0, 10.0));
-  final b = $v3(6.0, 2.0, 8.0);
+  final Vector3 b = $v3(6.0, 2.0, 8.0);
 
   a.hullPoint(b);
 
@@ -369,7 +362,7 @@ void testAabb3HullPoint() {
   expect(a.max.y, equals(4.0));
   expect(a.max.z, equals(10.0));
 
-  final c = $v3(6.0, 0.0, 2.0);
+  final Vector3 c = $v3(6.0, 0.0, 2.0);
 
   a.hullPoint(c);
 

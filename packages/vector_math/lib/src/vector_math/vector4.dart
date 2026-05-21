@@ -2,44 +2,13 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+// Too many vector accessors that don't benefit from comments.
+// ignore_for_file: public_member_api_docs
+
 part of '../../vector_math.dart';
 
 /// 4D column vector.
 class Vector4 implements Vector {
-  final Float32List _v4storage;
-
-  /// Set the values of [result] to the minimum of [a] and [b] for each line.
-  static void min(Vector4 a, Vector4 b, Vector4 result) {
-    result
-      ..x = math.min(a.x, b.x)
-      ..y = math.min(a.y, b.y)
-      ..z = math.min(a.z, b.z)
-      ..w = math.min(a.w, b.w);
-  }
-
-  /// Set the values of [result] to the maximum of [a] and [b] for each line.
-  static void max(Vector4 a, Vector4 b, Vector4 result) {
-    result
-      ..x = math.max(a.x, b.x)
-      ..y = math.max(a.y, b.y)
-      ..z = math.max(a.z, b.z)
-      ..w = math.max(a.w, b.w);
-  }
-
-  /// Interpolate between [min] and [max] with the amount of [a] using a linear
-  /// interpolation and store the values in [result].
-  static void mix(Vector4 min, Vector4 max, double a, Vector4 result) {
-    result
-      ..x = min.x + a * (max.x - min.x)
-      ..y = min.y + a * (max.y - min.y)
-      ..z = min.z + a * (max.z - min.z)
-      ..w = min.w + a * (max.w - min.w);
-  }
-
-  /// The components of the vector.
-  @override
-  Float32List get storage => _v4storage;
-
   /// Construct a new vector with the specified values.
   factory Vector4(double x, double y, double z, double w) =>
       Vector4.zero()..setValues(x, y, z, w);
@@ -79,6 +48,39 @@ class Vector4 implements Vector {
       rng.nextDouble(),
     );
   }
+  final Float32List _v4storage;
+
+  /// Set the values of [result] to the minimum of [a] and [b] for each line.
+  static void min(Vector4 a, Vector4 b, Vector4 result) {
+    result
+      ..x = math.min(a.x, b.x)
+      ..y = math.min(a.y, b.y)
+      ..z = math.min(a.z, b.z)
+      ..w = math.min(a.w, b.w);
+  }
+
+  /// Set the values of [result] to the maximum of [a] and [b] for each line.
+  static void max(Vector4 a, Vector4 b, Vector4 result) {
+    result
+      ..x = math.max(a.x, b.x)
+      ..y = math.max(a.y, b.y)
+      ..z = math.max(a.z, b.z)
+      ..w = math.max(a.w, b.w);
+  }
+
+  /// Interpolate between [min] and [max] with the amount of [a] using a linear
+  /// interpolation and store the values in [result].
+  static void mix(Vector4 min, Vector4 max, double a, Vector4 result) {
+    result
+      ..x = min.x + a * (max.x - min.x)
+      ..y = min.y + a * (max.y - min.y)
+      ..z = min.z + a * (max.z - min.z)
+      ..w = min.w + a * (max.w - min.w);
+  }
+
+  /// The components of the vector.
+  @override
+  Float32List get storage => _v4storage;
 
   /// Set the values of the vector.
   void setValues(double x, double y, double z, double w) {
@@ -106,7 +108,7 @@ class Vector4 implements Vector {
 
   /// Set the values by copying them from [other].
   void setFrom(Vector4 other) {
-    final otherStorage = other._v4storage;
+    final Float32List otherStorage = other._v4storage;
     _v4storage[3] = otherStorage[3];
     _v4storage[2] = otherStorage[2];
     _v4storage[1] = otherStorage[1];
@@ -129,6 +131,7 @@ class Vector4 implements Vector {
 
   /// Check if two vectors are the same.
   @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
   bool operator ==(Object other) =>
       (other is Vector4) &&
       (_v4storage[3] == other._v4storage[3]) &&
@@ -137,6 +140,7 @@ class Vector4 implements Vector {
       (_v4storage[0] == other._v4storage[0]);
 
   @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
   int get hashCode => Object.hashAll(_v4storage);
 
   /// Negate.
@@ -168,7 +172,7 @@ class Vector4 implements Vector {
     if (value == 0.0) {
       setZero();
     } else {
-      var l = length;
+      double l = length;
       if (l == 0.0) {
         return;
       }
@@ -192,11 +196,11 @@ class Vector4 implements Vector {
 
   /// Normalizes this.
   double normalize() {
-    final l = length;
+    final double l = length;
     if (l == 0.0) {
       return 0.0;
     }
-    final d = 1.0 / l;
+    final double d = 1.0 / l;
     _v4storage[3] *= d;
     _v4storage[2] *= d;
     _v4storage[1] *= d;
@@ -224,18 +228,18 @@ class Vector4 implements Vector {
 
   /// Squared distance from this to [arg]
   double distanceToSquared(Vector4 arg) {
-    final argStorage = arg._v4storage;
-    final dw = _v4storage[3] - argStorage[3];
-    final dz = _v4storage[2] - argStorage[2];
-    final dy = _v4storage[1] - argStorage[1];
-    final dx = _v4storage[0] - argStorage[0];
+    final Float32List argStorage = arg._v4storage;
+    final double dw = _v4storage[3] - argStorage[3];
+    final double dz = _v4storage[2] - argStorage[2];
+    final double dy = _v4storage[1] - argStorage[1];
+    final double dx = _v4storage[0] - argStorage[0];
 
     return dx * dx + dy * dy + dz * dz + dw * dw;
   }
 
   /// Inner product.
   double dot(Vector4 other) {
-    final otherStorage = other._v4storage;
+    final Float32List otherStorage = other._v4storage;
     return _v4storage[3] * otherStorage[3] +
         _v4storage[2] * otherStorage[2] +
         _v4storage[1] * otherStorage[1] +
@@ -244,11 +248,11 @@ class Vector4 implements Vector {
 
   /// Multiplies this by [arg].
   void applyMatrix4(Matrix4 arg) {
-    final v4 = _v4storage[3];
-    final v3 = _v4storage[2];
-    final v2 = _v4storage[1];
-    final v1 = _v4storage[0];
-    final argStorage = arg._m4storage;
+    final double v4 = _v4storage[3];
+    final double v3 = _v4storage[2];
+    final double v2 = _v4storage[1];
+    final double v1 = _v4storage[0];
+    final Float32List argStorage = arg._m4storage;
     _v4storage[3] =
         argStorage[3] * v1 +
         argStorage[7] * v2 +
@@ -277,10 +281,10 @@ class Vector4 implements Vector {
 
   /// Absolute error between this and [correct]
   double absoluteError(Vector4 correct) {
-    final wDiff = _v4storage[3] - correct._v4storage[3];
-    final zDiff = _v4storage[2] - correct._v4storage[2];
-    final yDiff = _v4storage[1] - correct._v4storage[1];
-    final xDiff = _v4storage[0] - correct._v4storage[0];
+    final double wDiff = _v4storage[3] - correct._v4storage[3];
+    final double zDiff = _v4storage[2] - correct._v4storage[2];
+    final double yDiff = _v4storage[1] - correct._v4storage[1];
+    final double xDiff = _v4storage[0] - correct._v4storage[0];
     return math.sqrt(
       xDiff * xDiff + yDiff * yDiff + zDiff * zDiff + wDiff * wDiff,
     );
@@ -301,7 +305,7 @@ class Vector4 implements Vector {
       _v4storage[0].isNaN;
 
   void add(Vector4 arg) {
-    final argStorage = arg._v4storage;
+    final Float32List argStorage = arg._v4storage;
     _v4storage[3] += argStorage[3];
     _v4storage[2] += argStorage[2];
     _v4storage[1] += argStorage[1];
@@ -310,7 +314,7 @@ class Vector4 implements Vector {
 
   /// Add [arg] scaled by [factor] to this.
   void addScaled(Vector4 arg, double factor) {
-    final argStorage = arg._v4storage;
+    final Float32List argStorage = arg._v4storage;
     _v4storage[3] += argStorage[3] * factor;
     _v4storage[2] += argStorage[2] * factor;
     _v4storage[1] += argStorage[1] * factor;
@@ -319,7 +323,7 @@ class Vector4 implements Vector {
 
   /// Subtract [arg] from this.
   void sub(Vector4 arg) {
-    final argStorage = arg._v4storage;
+    final Float32List argStorage = arg._v4storage;
     _v4storage[3] -= argStorage[3];
     _v4storage[2] -= argStorage[2];
     _v4storage[1] -= argStorage[1];
@@ -328,7 +332,7 @@ class Vector4 implements Vector {
 
   /// Multiply this by [arg].
   void multiply(Vector4 arg) {
-    final argStorage = arg._v4storage;
+    final Float32List argStorage = arg._v4storage;
     _v4storage[3] *= argStorage[3];
     _v4storage[2] *= argStorage[2];
     _v4storage[1] *= argStorage[1];
@@ -337,7 +341,7 @@ class Vector4 implements Vector {
 
   /// Divide this by [arg].
   void div(Vector4 arg) {
-    final argStorage = arg._v4storage;
+    final Float32List argStorage = arg._v4storage;
     _v4storage[3] /= argStorage[3];
     _v4storage[2] /= argStorage[2];
     _v4storage[1] /= argStorage[1];
@@ -373,28 +377,20 @@ class Vector4 implements Vector {
 
   /// Clamp each entry `n` in this in the range `[min[n]]-[max[n]]`.
   void clamp(Vector4 min, Vector4 max) {
-    final minStorage = min.storage;
-    final maxStorage = max.storage;
-    _v4storage[3] = _v4storage[3]
-        .clamp(minStorage[3], maxStorage[3])
-        .toDouble();
-    _v4storage[2] = _v4storage[2]
-        .clamp(minStorage[2], maxStorage[2])
-        .toDouble();
-    _v4storage[1] = _v4storage[1]
-        .clamp(minStorage[1], maxStorage[1])
-        .toDouble();
-    _v4storage[0] = _v4storage[0]
-        .clamp(minStorage[0], maxStorage[0])
-        .toDouble();
+    final Float32List minStorage = min.storage;
+    final Float32List maxStorage = max.storage;
+    _v4storage[3] = _v4storage[3].clamp(minStorage[3], maxStorage[3]);
+    _v4storage[2] = _v4storage[2].clamp(minStorage[2], maxStorage[2]);
+    _v4storage[1] = _v4storage[1].clamp(minStorage[1], maxStorage[1]);
+    _v4storage[0] = _v4storage[0].clamp(minStorage[0], maxStorage[0]);
   }
 
   /// Clamp entries in this in the range [min]-[max].
   void clampScalar(double min, double max) {
-    _v4storage[3] = _v4storage[3].clamp(min, max).toDouble();
-    _v4storage[2] = _v4storage[2].clamp(min, max).toDouble();
-    _v4storage[1] = _v4storage[1].clamp(min, max).toDouble();
-    _v4storage[0] = _v4storage[0].clamp(min, max).toDouble();
+    _v4storage[3] = _v4storage[3].clamp(min, max);
+    _v4storage[2] = _v4storage[2].clamp(min, max);
+    _v4storage[1] = _v4storage[1].clamp(min, max);
+    _v4storage[0] = _v4storage[0].clamp(min, max);
   }
 
   /// Floor entries in this.
@@ -423,18 +419,22 @@ class Vector4 implements Vector {
 
   /// Round entries in this towards zero.
   void roundToZero() {
-    _v4storage[3] = _v4storage[3] < 0.0
-        ? _v4storage[3].ceilToDouble()
-        : _v4storage[3].floorToDouble();
-    _v4storage[2] = _v4storage[2] < 0.0
-        ? _v4storage[2].ceilToDouble()
-        : _v4storage[2].floorToDouble();
-    _v4storage[1] = _v4storage[1] < 0.0
-        ? _v4storage[1].ceilToDouble()
-        : _v4storage[1].floorToDouble();
-    _v4storage[0] = _v4storage[0] < 0.0
-        ? _v4storage[0].ceilToDouble()
-        : _v4storage[0].floorToDouble();
+    _v4storage[3] =
+        _v4storage[3] < 0.0
+            ? _v4storage[3].ceilToDouble()
+            : _v4storage[3].floorToDouble();
+    _v4storage[2] =
+        _v4storage[2] < 0.0
+            ? _v4storage[2].ceilToDouble()
+            : _v4storage[2].floorToDouble();
+    _v4storage[1] =
+        _v4storage[1] < 0.0
+            ? _v4storage[1].ceilToDouble()
+            : _v4storage[1].floorToDouble();
+    _v4storage[0] =
+        _v4storage[0] < 0.0
+            ? _v4storage[0].ceilToDouble()
+            : _v4storage[0].floorToDouble();
   }
 
   /// Create a copy of this.
@@ -442,7 +442,7 @@ class Vector4 implements Vector {
 
   /// Copy this
   Vector4 copyInto(Vector4 arg) {
-    final argStorage = arg._v4storage;
+    final Float32List argStorage = arg._v4storage;
     argStorage[3] = _v4storage[3];
     argStorage[2] = _v4storage[2];
     argStorage[1] = _v4storage[1];
@@ -467,247 +467,247 @@ class Vector4 implements Vector {
   }
 
   set xy(Vector2 arg) {
-    final argStorage = arg._v2storage;
+    final Float32List argStorage = arg._v2storage;
     _v4storage[1] = argStorage[1];
     _v4storage[0] = argStorage[0];
   }
 
   set xz(Vector2 arg) {
-    final argStorage = arg._v2storage;
+    final Float32List argStorage = arg._v2storage;
     _v4storage[2] = argStorage[1];
     _v4storage[0] = argStorage[0];
   }
 
   set xw(Vector2 arg) {
-    final argStorage = arg._v2storage;
+    final Float32List argStorage = arg._v2storage;
     _v4storage[3] = argStorage[1];
     _v4storage[0] = argStorage[0];
   }
 
   set yx(Vector2 arg) {
-    final argStorage = arg._v2storage;
+    final Float32List argStorage = arg._v2storage;
     _v4storage[1] = argStorage[0];
     _v4storage[0] = argStorage[1];
   }
 
   set yz(Vector2 arg) {
-    final argStorage = arg._v2storage;
+    final Float32List argStorage = arg._v2storage;
     _v4storage[2] = argStorage[1];
     _v4storage[1] = argStorage[0];
   }
 
   set yw(Vector2 arg) {
-    final argStorage = arg._v2storage;
+    final Float32List argStorage = arg._v2storage;
     _v4storage[3] = argStorage[1];
     _v4storage[1] = argStorage[0];
   }
 
   set zx(Vector2 arg) {
-    final argStorage = arg._v2storage;
+    final Float32List argStorage = arg._v2storage;
     _v4storage[2] = argStorage[0];
     _v4storage[0] = argStorage[1];
   }
 
   set zy(Vector2 arg) {
-    final argStorage = arg._v2storage;
+    final Float32List argStorage = arg._v2storage;
     _v4storage[2] = argStorage[0];
     _v4storage[1] = argStorage[1];
   }
 
   set zw(Vector2 arg) {
-    final argStorage = arg._v2storage;
+    final Float32List argStorage = arg._v2storage;
     _v4storage[2] = argStorage[0];
     _v4storage[3] = argStorage[1];
   }
 
   set wx(Vector2 arg) {
-    final argStorage = arg._v2storage;
+    final Float32List argStorage = arg._v2storage;
     _v4storage[3] = argStorage[0];
     _v4storage[0] = argStorage[1];
   }
 
   set wy(Vector2 arg) {
-    final argStorage = arg._v2storage;
+    final Float32List argStorage = arg._v2storage;
     _v4storage[3] = argStorage[0];
     _v4storage[1] = argStorage[1];
   }
 
   set wz(Vector2 arg) {
-    final argStorage = arg._v2storage;
+    final Float32List argStorage = arg._v2storage;
     _v4storage[3] = argStorage[0];
     _v4storage[2] = argStorage[1];
   }
 
   set xyz(Vector3 arg) {
-    final argStorage = arg._v3storage;
+    final Float32List argStorage = arg._v3storage;
     _v4storage[2] = argStorage[2];
     _v4storage[1] = argStorage[1];
     _v4storage[0] = argStorage[0];
   }
 
   set xyw(Vector3 arg) {
-    final argStorage = arg._v3storage;
+    final Float32List argStorage = arg._v3storage;
     _v4storage[3] = argStorage[2];
     _v4storage[1] = argStorage[1];
     _v4storage[0] = argStorage[0];
   }
 
   set xzy(Vector3 arg) {
-    final argStorage = arg._v3storage;
+    final Float32List argStorage = arg._v3storage;
     _v4storage[2] = argStorage[1];
     _v4storage[1] = argStorage[2];
     _v4storage[0] = argStorage[0];
   }
 
   set xzw(Vector3 arg) {
-    final argStorage = arg._v3storage;
+    final Float32List argStorage = arg._v3storage;
     _v4storage[3] = argStorage[2];
     _v4storage[2] = argStorage[1];
     _v4storage[0] = argStorage[0];
   }
 
   set xwy(Vector3 arg) {
-    final argStorage = arg._v3storage;
+    final Float32List argStorage = arg._v3storage;
     _v4storage[3] = argStorage[1];
     _v4storage[1] = argStorage[2];
     _v4storage[0] = argStorage[0];
   }
 
   set xwz(Vector3 arg) {
-    final argStorage = arg._v3storage;
+    final Float32List argStorage = arg._v3storage;
     _v4storage[3] = argStorage[1];
     _v4storage[2] = argStorage[2];
     _v4storage[0] = argStorage[0];
   }
 
   set yxz(Vector3 arg) {
-    final argStorage = arg._v3storage;
+    final Float32List argStorage = arg._v3storage;
     _v4storage[2] = argStorage[2];
     _v4storage[1] = argStorage[0];
     _v4storage[0] = argStorage[1];
   }
 
   set yxw(Vector3 arg) {
-    final argStorage = arg._v3storage;
+    final Float32List argStorage = arg._v3storage;
     _v4storage[3] = argStorage[2];
     _v4storage[1] = argStorage[0];
     _v4storage[0] = argStorage[1];
   }
 
   set yzx(Vector3 arg) {
-    final argStorage = arg._v3storage;
+    final Float32List argStorage = arg._v3storage;
     _v4storage[1] = argStorage[0];
     _v4storage[2] = argStorage[1];
     _v4storage[0] = argStorage[2];
   }
 
   set yzw(Vector3 arg) {
-    final argStorage = arg._v3storage;
+    final Float32List argStorage = arg._v3storage;
     _v4storage[3] = argStorage[2];
     _v4storage[2] = argStorage[1];
     _v4storage[1] = argStorage[0];
   }
 
   set ywx(Vector3 arg) {
-    final argStorage = arg._v3storage;
+    final Float32List argStorage = arg._v3storage;
     _v4storage[3] = argStorage[1];
     _v4storage[1] = argStorage[0];
     _v4storage[0] = argStorage[2];
   }
 
   set ywz(Vector3 arg) {
-    final argStorage = arg._v3storage;
+    final Float32List argStorage = arg._v3storage;
     _v4storage[3] = argStorage[1];
     _v4storage[2] = argStorage[2];
     _v4storage[1] = argStorage[0];
   }
 
   set zxy(Vector3 arg) {
-    final argStorage = arg._v3storage;
+    final Float32List argStorage = arg._v3storage;
     _v4storage[2] = argStorage[0];
     _v4storage[0] = argStorage[1];
     _v4storage[1] = argStorage[2];
   }
 
   set zxw(Vector3 arg) {
-    final argStorage = arg._v3storage;
+    final Float32List argStorage = arg._v3storage;
     _v4storage[3] = argStorage[2];
     _v4storage[2] = argStorage[0];
     _v4storage[0] = argStorage[1];
   }
 
   set zyx(Vector3 arg) {
-    final argStorage = arg._v3storage;
+    final Float32List argStorage = arg._v3storage;
     _v4storage[2] = argStorage[0];
     _v4storage[1] = argStorage[1];
     _v4storage[0] = argStorage[2];
   }
 
   set zyw(Vector3 arg) {
-    final argStorage = arg._v3storage;
+    final Float32List argStorage = arg._v3storage;
     _v4storage[3] = argStorage[2];
     _v4storage[2] = argStorage[0];
     _v4storage[1] = argStorage[1];
   }
 
   set zwx(Vector3 arg) {
-    final argStorage = arg._v3storage;
+    final Float32List argStorage = arg._v3storage;
     _v4storage[3] = argStorage[1];
     _v4storage[2] = argStorage[0];
     _v4storage[0] = argStorage[2];
   }
 
   set zwy(Vector3 arg) {
-    final argStorage = arg._v3storage;
+    final Float32List argStorage = arg._v3storage;
     _v4storage[3] = argStorage[1];
     _v4storage[2] = argStorage[0];
     _v4storage[1] = argStorage[2];
   }
 
   set wxy(Vector3 arg) {
-    final argStorage = arg._v3storage;
+    final Float32List argStorage = arg._v3storage;
     _v4storage[3] = argStorage[0];
     _v4storage[1] = argStorage[2];
     _v4storage[0] = argStorage[1];
   }
 
   set wxz(Vector3 arg) {
-    final argStorage = arg._v3storage;
+    final Float32List argStorage = arg._v3storage;
     _v4storage[3] = argStorage[0];
     _v4storage[2] = argStorage[2];
     _v4storage[0] = argStorage[1];
   }
 
   set wyx(Vector3 arg) {
-    final argStorage = arg._v3storage;
+    final Float32List argStorage = arg._v3storage;
     _v4storage[3] = argStorage[0];
     _v4storage[0] = argStorage[2];
     _v4storage[1] = argStorage[1];
   }
 
   set wyz(Vector3 arg) {
-    final argStorage = arg._v3storage;
+    final Float32List argStorage = arg._v3storage;
     _v4storage[3] = argStorage[0];
     _v4storage[2] = argStorage[2];
     _v4storage[1] = argStorage[1];
   }
 
   set wzx(Vector3 arg) {
-    final argStorage = arg._v3storage;
+    final Float32List argStorage = arg._v3storage;
     _v4storage[3] = argStorage[0];
     _v4storage[0] = argStorage[2];
     _v4storage[2] = argStorage[1];
   }
 
   set wzy(Vector3 arg) {
-    final argStorage = arg._v3storage;
+    final Float32List argStorage = arg._v3storage;
     _v4storage[3] = argStorage[0];
     _v4storage[1] = argStorage[2];
     _v4storage[2] = argStorage[1];
   }
 
   set xyzw(Vector4 arg) {
-    final argStorage = arg._v4storage;
+    final Float32List argStorage = arg._v4storage;
     _v4storage[3] = argStorage[3];
     _v4storage[2] = argStorage[2];
     _v4storage[1] = argStorage[1];
@@ -715,7 +715,7 @@ class Vector4 implements Vector {
   }
 
   set xywz(Vector4 arg) {
-    final argStorage = arg._v4storage;
+    final Float32List argStorage = arg._v4storage;
     _v4storage[3] = argStorage[2];
     _v4storage[2] = argStorage[3];
     _v4storage[1] = argStorage[1];
@@ -723,7 +723,7 @@ class Vector4 implements Vector {
   }
 
   set xzyw(Vector4 arg) {
-    final argStorage = arg._v4storage;
+    final Float32List argStorage = arg._v4storage;
     _v4storage[3] = argStorage[3];
     _v4storage[2] = argStorage[1];
     _v4storage[1] = argStorage[2];
@@ -731,7 +731,7 @@ class Vector4 implements Vector {
   }
 
   set xzwy(Vector4 arg) {
-    final argStorage = arg._v4storage;
+    final Float32List argStorage = arg._v4storage;
     _v4storage[3] = argStorage[2];
     _v4storage[2] = argStorage[1];
     _v4storage[1] = argStorage[3];
@@ -739,7 +739,7 @@ class Vector4 implements Vector {
   }
 
   set xwyz(Vector4 arg) {
-    final argStorage = arg._v4storage;
+    final Float32List argStorage = arg._v4storage;
     _v4storage[3] = argStorage[1];
     _v4storage[2] = argStorage[3];
     _v4storage[1] = argStorage[2];
@@ -747,7 +747,7 @@ class Vector4 implements Vector {
   }
 
   set xwzy(Vector4 arg) {
-    final argStorage = arg._v4storage;
+    final Float32List argStorage = arg._v4storage;
     _v4storage[3] = argStorage[1];
     _v4storage[2] = argStorage[2];
     _v4storage[1] = argStorage[3];
@@ -755,7 +755,7 @@ class Vector4 implements Vector {
   }
 
   set yxzw(Vector4 arg) {
-    final argStorage = arg._v4storage;
+    final Float32List argStorage = arg._v4storage;
     _v4storage[3] = argStorage[3];
     _v4storage[2] = argStorage[2];
     _v4storage[1] = argStorage[0];
@@ -763,7 +763,7 @@ class Vector4 implements Vector {
   }
 
   set yxwz(Vector4 arg) {
-    final argStorage = arg._v4storage;
+    final Float32List argStorage = arg._v4storage;
     _v4storage[3] = argStorage[2];
     _v4storage[2] = argStorage[3];
     _v4storage[1] = argStorage[0];
@@ -771,7 +771,7 @@ class Vector4 implements Vector {
   }
 
   set yzxw(Vector4 arg) {
-    final argStorage = arg._v4storage;
+    final Float32List argStorage = arg._v4storage;
     _v4storage[3] = argStorage[3];
     _v4storage[2] = argStorage[1];
     _v4storage[1] = argStorage[0];
@@ -779,7 +779,7 @@ class Vector4 implements Vector {
   }
 
   set yzwx(Vector4 arg) {
-    final argStorage = arg._v4storage;
+    final Float32List argStorage = arg._v4storage;
     _v4storage[3] = argStorage[2];
     _v4storage[2] = argStorage[1];
     _v4storage[1] = argStorage[0];
@@ -787,7 +787,7 @@ class Vector4 implements Vector {
   }
 
   set ywxz(Vector4 arg) {
-    final argStorage = arg._v4storage;
+    final Float32List argStorage = arg._v4storage;
     _v4storage[3] = argStorage[1];
     _v4storage[2] = argStorage[3];
     _v4storage[1] = argStorage[0];
@@ -795,7 +795,7 @@ class Vector4 implements Vector {
   }
 
   set ywzx(Vector4 arg) {
-    final argStorage = arg._v4storage;
+    final Float32List argStorage = arg._v4storage;
     _v4storage[3] = argStorage[1];
     _v4storage[0] = argStorage[3];
     _v4storage[2] = argStorage[2];
@@ -803,7 +803,7 @@ class Vector4 implements Vector {
   }
 
   set zxyw(Vector4 arg) {
-    final argStorage = arg._v4storage;
+    final Float32List argStorage = arg._v4storage;
     _v4storage[3] = argStorage[3];
     _v4storage[2] = argStorage[0];
     _v4storage[1] = argStorage[2];
@@ -811,7 +811,7 @@ class Vector4 implements Vector {
   }
 
   set zxwy(Vector4 arg) {
-    final argStorage = arg._v4storage;
+    final Float32List argStorage = arg._v4storage;
     _v4storage[3] = argStorage[2];
     _v4storage[1] = argStorage[3];
     _v4storage[2] = argStorage[0];
@@ -819,7 +819,7 @@ class Vector4 implements Vector {
   }
 
   set zyxw(Vector4 arg) {
-    final argStorage = arg._v4storage;
+    final Float32List argStorage = arg._v4storage;
     _v4storage[3] = argStorage[3];
     _v4storage[2] = argStorage[0];
     _v4storage[1] = argStorage[1];
@@ -827,7 +827,7 @@ class Vector4 implements Vector {
   }
 
   set zywx(Vector4 arg) {
-    final argStorage = arg._v4storage;
+    final Float32List argStorage = arg._v4storage;
     _v4storage[3] = argStorage[2];
     _v4storage[0] = argStorage[3];
     _v4storage[2] = argStorage[0];
@@ -835,7 +835,7 @@ class Vector4 implements Vector {
   }
 
   set zwxy(Vector4 arg) {
-    final argStorage = arg._v4storage;
+    final Float32List argStorage = arg._v4storage;
     _v4storage[3] = argStorage[1];
     _v4storage[1] = argStorage[3];
     _v4storage[2] = argStorage[0];
@@ -843,7 +843,7 @@ class Vector4 implements Vector {
   }
 
   set zwyx(Vector4 arg) {
-    final argStorage = arg._v4storage;
+    final Float32List argStorage = arg._v4storage;
     _v4storage[3] = argStorage[1];
     _v4storage[0] = argStorage[3];
     _v4storage[2] = argStorage[0];
@@ -851,7 +851,7 @@ class Vector4 implements Vector {
   }
 
   set wxyz(Vector4 arg) {
-    final argStorage = arg._v4storage;
+    final Float32List argStorage = arg._v4storage;
     _v4storage[3] = argStorage[0];
     _v4storage[2] = argStorage[3];
     _v4storage[1] = argStorage[2];
@@ -859,7 +859,7 @@ class Vector4 implements Vector {
   }
 
   set wxzy(Vector4 arg) {
-    final argStorage = arg._v4storage;
+    final Float32List argStorage = arg._v4storage;
     _v4storage[3] = argStorage[0];
     _v4storage[1] = argStorage[3];
     _v4storage[2] = argStorage[2];
@@ -867,7 +867,7 @@ class Vector4 implements Vector {
   }
 
   set wyxz(Vector4 arg) {
-    final argStorage = arg._v4storage;
+    final Float32List argStorage = arg._v4storage;
     _v4storage[3] = argStorage[0];
     _v4storage[2] = argStorage[3];
     _v4storage[1] = argStorage[1];
@@ -875,7 +875,7 @@ class Vector4 implements Vector {
   }
 
   set wyzx(Vector4 arg) {
-    final argStorage = arg._v4storage;
+    final Float32List argStorage = arg._v4storage;
     _v4storage[3] = argStorage[0];
     _v4storage[0] = argStorage[3];
     _v4storage[2] = argStorage[2];
@@ -883,7 +883,7 @@ class Vector4 implements Vector {
   }
 
   set wzxy(Vector4 arg) {
-    final argStorage = arg._v4storage;
+    final Float32List argStorage = arg._v4storage;
     _v4storage[3] = argStorage[0];
     _v4storage[1] = argStorage[3];
     _v4storage[2] = argStorage[1];
@@ -891,7 +891,7 @@ class Vector4 implements Vector {
   }
 
   set wzyx(Vector4 arg) {
-    final argStorage = arg._v4storage;
+    final Float32List argStorage = arg._v4storage;
     _v4storage[3] = argStorage[0];
     _v4storage[0] = argStorage[3];
     _v4storage[1] = argStorage[2];

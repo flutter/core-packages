@@ -13,14 +13,14 @@ void testUnproject() {
   final position = Vector3(0.0, 0.0, 0.0);
   final focusPosition = Vector3(0.0, 0.0, -1.0);
   final upDirection = Vector3(0.0, 1.0, 0.0);
-  final lookat = makeViewMatrix(position, focusPosition, upDirection);
-  final n = 0.1;
-  final f = 1000.0;
-  final l = -10.0;
-  final r = 10.0;
-  final b = -10.0;
-  final t = 10.0;
-  final frustum = makeFrustumMatrix(l, r, b, t, n, f);
+  final Matrix4 lookat = makeViewMatrix(position, focusPosition, upDirection);
+  const n = 0.1;
+  const f = 1000.0;
+  const l = -10.0;
+  const r = 10.0;
+  const b = -10.0;
+  const t = 10.0;
+  final Matrix4 frustum = makeFrustumMatrix(l, r, b, t, n, f);
   final C = frustum * lookat as Matrix4;
   final re = Vector3.zero();
   unproject(C, 0.0, 100.0, 0.0, 100.0, 50.0, 50.0, 1.0, re);
@@ -31,7 +31,11 @@ void testLookAt() {
   final lookAtPosition = Vector3(0.0, 0.0, -1.0);
   final upDirection = Vector3(0.0, 1.0, 0.0);
 
-  final lookat = makeViewMatrix(eyePosition, lookAtPosition, upDirection);
+  final Matrix4 lookat = makeViewMatrix(
+    eyePosition,
+    lookAtPosition,
+    upDirection,
+  );
   assert(lookat.getColumn(0).w == 0.0);
   assert(lookat.getColumn(1).w == 0.0);
   assert(lookat.getColumn(2).w == 0.0);
@@ -43,13 +47,13 @@ void testLookAt() {
 }
 
 void testFrustumMatrix() {
-  final n = 0.1;
-  final f = 1000.0;
-  final l = -1.0;
-  final r = 1.0;
-  final b = -1.0;
-  final t = 1.0;
-  final frustum = makeFrustumMatrix(l, r, b, t, n, f);
+  const n = 0.1;
+  const f = 1000.0;
+  const l = -1.0;
+  const r = 1.0;
+  const b = -1.0;
+  const t = 1.0;
+  final Matrix4 frustum = makeFrustumMatrix(l, r, b, t, n, f);
   relativeTest(frustum.getColumn(0), Vector4(2 * n / (r - l), 0.0, 0.0, 0.0));
   relativeTest(frustum.getColumn(1), Vector4(0.0, 2 * n / (t - b), 0.0, 0.0));
   relativeTest(
@@ -63,12 +67,17 @@ void testFrustumMatrix() {
 }
 
 void testPerspectiveMatrix() {
-  final fov = pi / 2;
-  final aspectRatio = 2.0;
-  final zNear = 1.0;
-  final zFar = 100.0;
+  const double fov = pi / 2;
+  const aspectRatio = 2.0;
+  const zNear = 1.0;
+  const zFar = 100.0;
 
-  final perspective = makePerspectiveMatrix(fov, aspectRatio, zNear, zFar);
+  final Matrix4 perspective = makePerspectiveMatrix(
+    fov,
+    aspectRatio,
+    zNear,
+    zFar,
+  );
   relativeTest(perspective.getColumn(0), Vector4(0.5, 0.0, 0.0, 0.0));
   relativeTest(perspective.getColumn(1), Vector4(0.0, 1.0, 0.0, 0.0));
   relativeTest(
@@ -79,11 +88,11 @@ void testPerspectiveMatrix() {
 }
 
 void testInfiniteMatrix() {
-  final fov = pi / 2;
-  final aspectRatio = 2.0;
-  final zNear = 1.0;
+  const double fov = pi / 2;
+  const aspectRatio = 2.0;
+  const zNear = 1.0;
 
-  final infinite = makeInfiniteMatrix(fov, aspectRatio, zNear);
+  final Matrix4 infinite = makeInfiniteMatrix(fov, aspectRatio, zNear);
   relativeTest(infinite.getColumn(0), Vector4(0.5, 0.0, 0.0, 0.0));
   relativeTest(infinite.getColumn(1), Vector4(0.0, 1.0, 0.0, 0.0));
   relativeTest(infinite.getColumn(2), Vector4(0.0, 0.0, -1.0, -1.0));
@@ -91,13 +100,13 @@ void testInfiniteMatrix() {
 }
 
 void testOrthographicMatrix() {
-  final n = 0.1;
-  final f = 1000.0;
-  final l = -1.0;
-  final r = 1.0;
-  final b = -1.0;
-  final t = 1.0;
-  final ortho = makeOrthographicMatrix(l, r, b, t, n, f);
+  const n = 0.1;
+  const f = 1000.0;
+  const l = -1.0;
+  const r = 1.0;
+  const b = -1.0;
+  const t = 1.0;
+  final Matrix4 ortho = makeOrthographicMatrix(l, r, b, t, n, f);
   relativeTest(ortho.getColumn(0), Vector4(2 / (r - l), 0.0, 0.0, 0.0));
   relativeTest(ortho.getColumn(1), Vector4(0.0, 2 / (t - b), 0.0, 0.0));
   relativeTest(ortho.getColumn(2), Vector4(0.0, 0.0, -2 / (f - n), 0.0));
@@ -117,16 +126,16 @@ void testModelMatrix() {
 
   final model = Matrix4.zero();
 
-  final forward = focus.clone();
+  final Vector3 forward = focus.clone();
   forward.sub(position);
   forward.normalize();
 
-  final right = forward.cross(up).normalized();
-  final u = right.cross(forward).normalized();
+  final Vector3 right = forward.cross(up).normalized();
+  final Vector3 u = right.cross(forward).normalized();
 
   setModelMatrix(model, forward, u, position.x, position.y, position.z);
 
-  final result1 = view.clone();
+  final Matrix4 result1 = view.clone();
   result1.multiply(model);
 
   relativeTest(result1, Matrix4.identity());

@@ -13,9 +13,9 @@ import 'test_utils.dart';
 void testRayAt() {
   final parent = Ray.originDirection($v3(1.0, 1.0, 1.0), $v3(-1.0, 1.0, 1.0));
 
-  final atOrigin = parent.at(0.0);
-  final atPositive = parent.at(1.0);
-  final atNegative = parent.at(-2.0);
+  final Vector3 atOrigin = parent.at(0.0);
+  final Vector3 atPositive = parent.at(1.0);
+  final Vector3 atNegative = parent.at(-2.0);
 
   expect(atOrigin.x, equals(1.0));
   expect(atOrigin.y, equals(1.0));

@@ -23,7 +23,7 @@ void testQuaternionInstacinfFromFloat32List() {
 
 void testQuaternionInstacingFromByteBuffer() {
   final float32List = Float32List.fromList([1.0, 2.0, 3.0, 4.0, 5.0]);
-  final buffer = float32List.buffer;
+  final ByteBuffer buffer = float32List.buffer;
   final zeroOffset = Quaternion.fromBuffer(buffer, 0);
   final offsetVector = Quaternion.fromBuffer(
     buffer,
@@ -44,8 +44,8 @@ void testQuaternionInstacingFromByteBuffer() {
 void testNegate(List<Quaternion> input, List<Quaternion> expectedOutput) {
   assert(input.length == expectedOutput.length);
   for (var i = 0; i < input.length; i++) {
-    final output1 = -input[i];
-    final output2 = input[i]..negate();
+    final Quaternion output1 = -input[i];
+    final Quaternion output2 = input[i]..negate();
     relativeTest(output1, expectedOutput[i]);
     relativeTest(output2, expectedOutput[i]);
   }
@@ -54,14 +54,14 @@ void testNegate(List<Quaternion> input, List<Quaternion> expectedOutput) {
 void testConjugate(List<Quaternion> input, List<Quaternion> expectedOutput) {
   assert(input.length == expectedOutput.length);
   for (var i = 0; i < input.length; i++) {
-    final output = input[i]..conjugate();
+    final Quaternion output = input[i]..conjugate();
     relativeTest(output, expectedOutput[i]);
   }
 }
 
 void testQuaternionMatrixRoundTrip(List<Quaternion> input) {
   for (var i = 0; i < input.length; i++) {
-    final R = input[i].asRotationMatrix();
+    final Matrix3 R = input[i].asRotationMatrix();
     final output = Quaternion.fromRotation(R);
     relativeTest(output, input[i]);
   }
@@ -73,7 +73,7 @@ void testQuaternionMultiply(
   List<Quaternion> expectedOutput,
 ) {
   for (var i = 0; i < inputA.length; i++) {
-    final output = inputA[i] * inputB[i];
+    final Quaternion output = inputA[i] * inputB[i];
     relativeTest(output, expectedOutput[i]);
   }
 }
@@ -88,7 +88,7 @@ void testQuaternionVectorRotate(
         (inputB.length == expectedOutput.length),
   );
   for (var i = 0; i < inputA.length; i++) {
-    final output = inputA[i].rotate(inputB[i]);
+    final Vector3 output = inputA[i].rotate(inputB[i]);
     relativeTest(output, expectedOutput[i]);
   }
 }

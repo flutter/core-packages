@@ -20,7 +20,7 @@ double cross2(Vector2 x, Vector2 y) => x.cross(y);
 
 /// 2D cross product. double x vec2.
 void cross2A(double x, Vector2 y, Vector2 out) {
-  final tempy = x * y.x;
+  final double tempy = x * y.x;
   out
     ..x = -x * y.y
     ..y = tempy;
@@ -28,7 +28,7 @@ void cross2A(double x, Vector2 y, Vector2 out) {
 
 /// 2D cross product. vec2 x double.
 void cross2B(Vector2 x, double y, Vector2 out) {
-  final tempy = -y * x.x;
+  final double tempy = -y * x.x;
   out
     ..x = y * x.y
     ..y = tempy;
@@ -39,8 +39,9 @@ void cross2B(Vector2 x, double y, Vector2 out) {
 void buildPlaneVectors(final Vector3 planeNormal, Vector3 u, Vector3 v) {
   if (planeNormal.z.abs() > math.sqrt1_2) {
     // choose u in y-z plane
-    final a = planeNormal.y * planeNormal.y + planeNormal.z * planeNormal.z;
-    final k = 1.0 / math.sqrt(a);
+    final double a =
+        planeNormal.y * planeNormal.y + planeNormal.z * planeNormal.z;
+    final double k = 1.0 / math.sqrt(a);
     u
       ..x = 0.0
       ..y = -planeNormal.z * k
@@ -52,8 +53,9 @@ void buildPlaneVectors(final Vector3 planeNormal, Vector3 u, Vector3 v) {
       ..z = planeNormal[0] * (-planeNormal[2] * k);
   } else {
     // choose u in x-y plane
-    final a = planeNormal.x * planeNormal.x + planeNormal.y * planeNormal.y;
-    final k = 1.0 / math.sqrt(a);
+    final double a =
+        planeNormal.x * planeNormal.x + planeNormal.y * planeNormal.y;
+    final double k = 1.0 / math.sqrt(a);
     u
       ..x = -planeNormal[1] * k
       ..y = planeNormal[0] * k
@@ -68,5 +70,6 @@ void buildPlaneVectors(final Vector3 planeNormal, Vector3 u, Vector3 v) {
 
 /// Base class for vectors
 abstract class Vector {
+  /// The values in the vector.
   List<double> get storage;
 }

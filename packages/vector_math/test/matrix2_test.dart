@@ -15,26 +15,30 @@ void testMatrix2Adjoint() {
   final expectedOutput = <Matrix2>[];
 
   input.add(
-    parseMatrix<Matrix2>('''0.830828627896291   0.549723608291140
+    parseMatrix<Matrix2>('''
+0.830828627896291   0.549723608291140
                                     0.585264091152724   0.917193663829810'''),
   );
   expectedOutput.add(
-    parseMatrix<Matrix2>(''' 0.917193663829810  -0.549723608291140
+    parseMatrix<Matrix2>('''
+ 0.917193663829810  -0.549723608291140
                                    -0.585264091152724   0.830828627896291'''),
   );
   input.add(
-    parseMatrix<Matrix2>(''' 1     0
+    parseMatrix<Matrix2>('''
+ 1     0
                                      0     1'''),
   );
   expectedOutput.add(
-    parseMatrix<Matrix2>(''' 1     0
+    parseMatrix<Matrix2>('''
+ 1     0
                                               0     1'''),
   );
 
   assert(input.length == expectedOutput.length);
 
   for (var i = 0; i < input.length; i++) {
-    final output = input[i].clone();
+    final Matrix2 output = input[i].clone();
     output.scaleAdjoint(1.0);
     relativeTest(output, expectedOutput[i]);
   }
@@ -45,7 +49,8 @@ void testMatrix2Determinant() {
   final expectedOutput = <double>[];
 
   input.add(
-    parseMatrix<Matrix2>('''0.830828627896291   0.549723608291140
+    parseMatrix<Matrix2>('''
+0.830828627896291   0.549723608291140
                                     0.585264091152724   0.917193663829810'''),
   );
   expectedOutput.add(0.440297265243183);
@@ -53,7 +58,7 @@ void testMatrix2Determinant() {
   assert(input.length == expectedOutput.length);
 
   for (var i = 0; i < input.length; i++) {
-    final output = input[i].determinant();
+    final double output = input[i].determinant();
     //print('${input[i].cols}x${input[i].rows} = $output');
     relativeTest(output, expectedOutput[i]);
   }
@@ -80,7 +85,7 @@ void testMatrix2Transform() {
 void testMatrix2Inversion() {
   final m = Matrix2(4.0, 3.0, 3.0, 2.0);
   final result = Matrix2.zero();
-  final det = result.copyInverse(m);
+  final double det = result.copyInverse(m);
   expect(det, -1.0);
   expect(result.entry(0, 0), -2.0);
   expect(result.entry(1, 0), 3.0);
@@ -101,7 +106,7 @@ void testMatrix2Dot() {
 
 void testMatrix2Scale() {
   final m = Matrix2(1.0, 2.0, 3.0, 4.0);
-  final n = m.scaled(2.0);
+  final Matrix2 n = m.scaled(2.0);
 
   expect(n.storage[0], equals(2.0));
   expect(n.storage[1], equals(4.0));
@@ -110,15 +115,15 @@ void testMatrix2Scale() {
 }
 
 void testMatrix2Solving() {
-  final A = Matrix2(2.0, 2.0, 8.0, 20.0);
-  final AA = Matrix2.fromList([2.0, 2.0, 8.0, 20.0]);
-  expect(A, equals(AA));
+  final a = Matrix2(2.0, 2.0, 8.0, 20.0);
+  final aa = Matrix2.fromList([2.0, 2.0, 8.0, 20.0]);
+  expect(a, equals(aa));
   final b = Vector2(20.0, 64.0);
   final result = Vector2.zero();
 
-  Matrix2.solve(A, result, b);
+  Matrix2.solve(a, result, b);
 
-  final backwards = A.transform(Vector2.copy(result));
+  final Vector2 backwards = a.transform(Vector2.copy(result));
 
   expect(backwards.x, equals(b.x));
   expect(backwards.y, equals(b.y));

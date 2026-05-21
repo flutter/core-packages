@@ -6,19 +6,6 @@ part of '../../vector_math.dart';
 
 /// Defines a triangle by three points.
 class Triangle {
-  final Vector3 _point0;
-  final Vector3 _point1;
-  final Vector3 _point2;
-
-  /// The first point of the triangle.
-  Vector3 get point0 => _point0;
-
-  /// The second point of the triangle.
-  Vector3 get point1 => _point1;
-
-  /// The third point of the triangle.
-  Vector3 get point2 => _point2;
-
   /// Create a new, uninitialized triangle.
   Triangle()
     : _point0 = Vector3.zero(),
@@ -36,6 +23,18 @@ class Triangle {
     : _point0 = Vector3.copy(point0),
       _point1 = Vector3.copy(point1),
       _point2 = Vector3.copy(point2);
+  final Vector3 _point0;
+  final Vector3 _point1;
+  final Vector3 _point2;
+
+  /// The first point of the triangle.
+  Vector3 get point0 => _point0;
+
+  /// The second point of the triangle.
+  Vector3 get point1 => _point1;
+
+  /// The third point of the triangle.
+  Vector3 get point2 => _point2;
 
   /// Copy the triangle from [other] into this.
   void copyFrom(Triangle other) {
@@ -46,7 +45,7 @@ class Triangle {
 
   /// Copy the normal of this into [normal].
   void copyNormalInto(Vector3 normal) {
-    final v0 = point0.clone()..sub(point1);
+    final Vector3 v0 = point0.clone()..sub(point1);
     normal
       ..setFrom(point2)
       ..sub(point1)

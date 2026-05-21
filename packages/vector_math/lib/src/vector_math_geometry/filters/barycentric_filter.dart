@@ -2,6 +2,10 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+// TODO(stuartmorgan): Remove this and fix violations. See
+//  https://github.com/flutter/flutter/issues/186827
+// ignore_for_file: public_member_api_docs
+
 part of '../../../vector_math_geometry.dart';
 
 class BarycentricFilter extends GeometryFilter {
@@ -21,7 +25,7 @@ class BarycentricFilter extends GeometryFilter {
     final output = MeshGeometry(mesh.triangleVertexCount, newAttribs);
 
     Vector3List barycentricCoords;
-    final view = output.getViewForAttrib('BARYCENTRIC');
+    final VectorList<Vector>? view = output.getViewForAttrib('BARYCENTRIC');
     if (view is Vector3List) {
       barycentricCoords = view;
     } else {
@@ -30,7 +34,7 @@ class BarycentricFilter extends GeometryFilter {
 
     final srcAttribs = <VectorList<Vector>>[];
     final destAttribs = <VectorList<Vector>>[];
-    for (var attrib in mesh.attribs) {
+    for (final VertexAttrib attrib in mesh.attribs) {
       if (attrib.name == 'BARYCENTRIC') {
         continue;
       }

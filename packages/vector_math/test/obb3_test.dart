@@ -11,9 +11,10 @@ import 'package:vector_math/vector_math.dart';
 import 'test_utils.dart';
 
 void testCorners() {
-  final a = Obb3()
-    ..center.setValues(0.0, 0.0, 0.0)
-    ..halfExtents.setValues(5.0, 5.0, 5.0);
+  final a =
+      Obb3()
+        ..center.setValues(0.0, 0.0, 0.0)
+        ..halfExtents.setValues(5.0, 5.0, 5.0);
   final corner = Vector3.zero();
 
   a.copyCorner(0, corner);
@@ -42,9 +43,10 @@ void testCorners() {
 }
 
 void testTranslate() {
-  final a = Obb3()
-    ..center.setValues(0.0, 0.0, 0.0)
-    ..halfExtents.setValues(5.0, 5.0, 5.0);
+  final a =
+      Obb3()
+        ..center.setValues(0.0, 0.0, 0.0)
+        ..halfExtents.setValues(5.0, 5.0, 5.0);
   final corner = Vector3.zero();
 
   a.translate(Vector3(-1.0, 2.0, 3.0));
@@ -75,9 +77,10 @@ void testTranslate() {
 }
 
 void testRotate() {
-  final a = Obb3()
-    ..center.setValues(0.0, 0.0, 0.0)
-    ..halfExtents.setValues(5.0, 5.0, 5.0);
+  final a =
+      Obb3()
+        ..center.setValues(0.0, 0.0, 0.0)
+        ..halfExtents.setValues(5.0, 5.0, 5.0);
   final corner = Vector3.zero();
   final matrix = Matrix3.rotationY(radians(-45.0));
 
@@ -109,9 +112,10 @@ void testRotate() {
 }
 
 void testTransform() {
-  final a = Obb3()
-    ..center.setValues(0.0, 0.0, 0.0)
-    ..halfExtents.setValues(5.0, 5.0, 5.0);
+  final a =
+      Obb3()
+        ..center.setValues(0.0, 0.0, 0.0)
+        ..halfExtents.setValues(5.0, 5.0, 5.0);
   final corner = Vector3.zero();
   final matrix = Matrix4.diagonal3Values(3.0, 3.0, 3.0);
 
@@ -143,9 +147,10 @@ void testTransform() {
 }
 
 void testClosestPointTo() {
-  final a = Obb3()
-    ..center.setValues(0.0, 0.0, 0.0)
-    ..halfExtents.setValues(2.0, 2.0, 2.0);
+  final a =
+      Obb3()
+        ..center.setValues(0.0, 0.0, 0.0)
+        ..halfExtents.setValues(2.0, 2.0, 2.0);
   final b = Vector3(3.0, 3.0, 3.0);
   final c = Vector3(3.0, 3.0, -3.0);
   final closestPoint = Vector3.zero();
@@ -170,45 +175,55 @@ void testClosestPointTo() {
 }
 
 void testIntersectionObb3() {
-  final a = Obb3()
-    ..center.setValues(0.0, 0.0, 0.0)
-    ..halfExtents.setValues(2.0, 2.0, 2.0);
+  final a =
+      Obb3()
+        ..center.setValues(0.0, 0.0, 0.0)
+        ..halfExtents.setValues(2.0, 2.0, 2.0);
 
-  final b = Obb3()
-    ..center.setValues(3.0, 0.0, 0.0)
-    ..halfExtents.setValues(0.5, 0.5, 0.5);
+  final b =
+      Obb3()
+        ..center.setValues(3.0, 0.0, 0.0)
+        ..halfExtents.setValues(0.5, 0.5, 0.5);
 
-  final c = Obb3()
-    ..center.setValues(0.0, 3.0, 0.0)
-    ..halfExtents.setValues(0.5, 0.5, 0.5);
+  final c =
+      Obb3()
+        ..center.setValues(0.0, 3.0, 0.0)
+        ..halfExtents.setValues(0.5, 0.5, 0.5);
 
-  final d = Obb3()
-    ..center.setValues(0.0, 0.0, 3.0)
-    ..halfExtents.setValues(0.5, 0.5, 0.5);
+  final d =
+      Obb3()
+        ..center.setValues(0.0, 0.0, 3.0)
+        ..halfExtents.setValues(0.5, 0.5, 0.5);
 
-  final e = Obb3()
-    ..center.setValues(-3.0, 0.0, 0.0)
-    ..halfExtents.setValues(0.5, 0.5, 0.5);
+  final e =
+      Obb3()
+        ..center.setValues(-3.0, 0.0, 0.0)
+        ..halfExtents.setValues(0.5, 0.5, 0.5);
 
-  final f = Obb3()
-    ..center.setValues(0.0, -3.0, 0.0)
-    ..halfExtents.setValues(0.5, 0.5, 0.5);
+  final f =
+      Obb3()
+        ..center.setValues(0.0, -3.0, 0.0)
+        ..halfExtents.setValues(0.5, 0.5, 0.5);
 
-  final g = Obb3()
-    ..center.setValues(0.0, 0.0, -3.0)
-    ..halfExtents.setValues(0.5, 0.5, 0.5);
+  final g =
+      Obb3()
+        ..center.setValues(0.0, 0.0, -3.0)
+        ..halfExtents.setValues(0.5, 0.5, 0.5);
 
-  final u = Obb3()
-    ..center.setValues(1.0, 1.0, 1.0)
-    ..halfExtents.setValues(0.5, 0.5, 0.5);
+  final u =
+      Obb3()
+        ..center.setValues(1.0, 1.0, 1.0)
+        ..halfExtents.setValues(0.5, 0.5, 0.5);
 
-  final v = Obb3()
-    ..center.setValues(10.0, 10.0, -10.0)
-    ..halfExtents.setValues(2.0, 2.0, 2.0);
+  final v =
+      Obb3()
+        ..center.setValues(10.0, 10.0, -10.0)
+        ..halfExtents.setValues(2.0, 2.0, 2.0);
 
-  final w = Obb3()
-    ..center.setValues(10.0, 0.0, 0.0)
-    ..halfExtents.setValues(1.0, 1.0, 1.0);
+  final w =
+      Obb3()
+        ..center.setValues(10.0, 0.0, 0.0)
+        ..halfExtents.setValues(1.0, 1.0, 1.0);
 
   // a - b
   expect(a.intersectsWithObb3(b), isFalse);
@@ -302,13 +317,14 @@ void testIntersectionObb3() {
 
 void testIntersectionVector3() {
   //final parent = new Aabb3.minMax(_v(1.0,1.0,1.0), _v(8.0,8.0,8.0));
-  final parent = Obb3()
-    ..center.setValues(4.5, 4.5, 4.5)
-    ..halfExtents.setValues(3.5, 3.5, 3.5);
-  final child = $v3(7.0, 7.0, 7.0);
-  final cutting = $v3(1.0, 2.0, 1.0);
-  final outside1 = $v3(-10.0, 10.0, 10.0);
-  final outside2 = $v3(4.5, 4.5, 9.0);
+  final parent =
+      Obb3()
+        ..center.setValues(4.5, 4.5, 4.5)
+        ..halfExtents.setValues(3.5, 3.5, 3.5);
+  final Vector3 child = $v3(7.0, 7.0, 7.0);
+  final Vector3 cutting = $v3(1.0, 2.0, 1.0);
+  final Vector3 outside1 = $v3(-10.0, 10.0, 10.0);
+  final Vector3 outside2 = $v3(4.5, 4.5, 9.0);
 
   expect(parent.intersectsWithVector3(child), isTrue);
   expect(parent.intersectsWithVector3(cutting), isTrue);

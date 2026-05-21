@@ -20,16 +20,16 @@ mixin Setup on BenchmarkBase {
 
   @override
   void run() {
-    var sum_traces = 0.0;
+    var sumTraces = 0.0;
     for (var i = 0; i <= 1024; i++) {
-      final t = i / 1024.0;
-      final m1 = lerp(beginTransform, endTransform, t);
-      final m2 = lerp(endTransform, beginTransform, t);
-      sum_traces += m1.trace();
-      sum_traces += m2.trace();
+      final double t = i / 1024.0;
+      final Matrix4 m1 = lerp(beginTransform, endTransform, t);
+      final Matrix4 m2 = lerp(endTransform, beginTransform, t);
+      sumTraces += m1.trace();
+      sumTraces += m2.trace();
     }
-    if (sum_traces < 6320 || sum_traces > 6321) {
-      throw StateError('Bad result: $sum_traces');
+    if (sumTraces < 6320 || sumTraces > 6321) {
+      throw StateError('Bad result: $sumTraces');
     }
   }
 
@@ -49,10 +49,11 @@ class Matrix4TweenBenchmark1 extends BenchmarkBase with Setup {
     final endScale = Vector3.zero();
     begin.decompose(beginTranslation, beginRotation, beginScale);
     end.decompose(endTranslation, endRotation, endScale);
-    final lerpTranslation = beginTranslation * (1.0 - t) + endTranslation * t;
-    final lerpRotation =
+    final Vector3 lerpTranslation =
+        beginTranslation * (1.0 - t) + endTranslation * t;
+    final Quaternion lerpRotation =
         (beginRotation.scaled(1.0 - t) + endRotation.scaled(t)).normalized();
-    final lerpScale = beginScale * (1.0 - t) + endScale * t;
+    final Vector3 lerpScale = beginScale * (1.0 - t) + endScale * t;
     return Matrix4.compose(lerpTranslation, lerpRotation, lerpScale);
   }
 }
@@ -65,7 +66,7 @@ class Matrix4TweenBenchmark2 extends BenchmarkBase with Setup {
     begin.decompose(beginTranslation, beginRotation, beginScale);
     end.decompose(endTranslation, endRotation, endScale);
     Vector3.mix(beginTranslation, endTranslation, t, lerpTranslation);
-    final lerpRotation =
+    final Quaternion lerpRotation =
         (beginRotation.scaled(1.0 - t) + endRotation.scaled(t)).normalized();
     Vector3.mix(beginScale, endScale, t, lerpScale);
     return Matrix4.compose(lerpTranslation, lerpRotation, lerpScale);
@@ -90,7 +91,7 @@ class Matrix4TweenBenchmark3 extends BenchmarkBase with Setup {
     begin.decompose(beginTranslation, beginRotation, beginScale);
     end.decompose(endTranslation, endRotation, endScale);
     Vector3.mix(beginTranslation, endTranslation, t, lerpTranslation);
-    final lerpRotation =
+    final Quaternion lerpRotation =
         (beginRotation.scaled(1.0 - t) + endRotation.scaled(t)).normalized();
     Vector3.mix(beginScale, endScale, t, lerpScale);
     return Matrix4.compose(lerpTranslation, lerpRotation, lerpScale);
@@ -107,19 +108,19 @@ class Matrix4TweenBenchmark3 extends BenchmarkBase with Setup {
 }
 
 void main() {
-  final benchmarks = [
+  final List<Setup> benchmarks = [
     Matrix4TweenBenchmark1(),
     Matrix4TweenBenchmark2(),
     Matrix4TweenBenchmark3(),
   ];
   // Warmup all bencmarks.
-  for (var b in benchmarks) {
+  for (final b in benchmarks) {
     b.run();
   }
-  for (var b in benchmarks) {
+  for (final b in benchmarks) {
     b.exercise();
   }
-  for (var b in benchmarks) {
+  for (final b in benchmarks) {
     b.report();
   }
 }

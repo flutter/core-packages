@@ -2,6 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+// ignore_for_file: avoid_print
+
 import 'dart:async';
 import 'dart:io';
 
@@ -17,7 +19,7 @@ Future<void> generateVectorMath64() async {
   final directory = Directory('lib/src/vector_math_64/');
   final libraryFile = File('lib/vector_math_64.dart');
 
-  if (await directory.exists()) {
+  if (directory.existsSync()) {
     await directory.delete(recursive: true);
   }
 
@@ -28,7 +30,7 @@ Future<void> generateVectorMath64() async {
   await directory.create(recursive: true);
   await _processFile('lib/vector_math.dart');
 
-  await for (FileSystemEntity f in Directory(
+  await for (final FileSystemEntity f in Directory(
     'lib/src/vector_math/',
   ).list(recursive: true)) {
     if (f is File) {
@@ -40,10 +42,10 @@ Future<void> generateVectorMath64() async {
 Future<void> _processFile(String inputFileName) async {
   final inputFile = File(inputFileName);
 
-  final input = await inputFile.readAsString();
-  final output = _convertToVectorMath64(input);
+  final String input = await inputFile.readAsString();
+  final String output = _convertToVectorMath64(input);
 
-  final outputFileName = inputFileName.replaceAll(
+  final String outputFileName = inputFileName.replaceAll(
     'vector_math',
     'vector_math_64',
   );

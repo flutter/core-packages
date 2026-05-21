@@ -5,6 +5,8 @@ part of '../../vector_math_64.dart';
 
 /// Defines a result of an intersection test.
 class IntersectionResult {
+  /// Creates a new mutable result instance, with no initial values.
+  IntersectionResult();
   double? _depth;
 
   /// The penetration depth of the intersection.
@@ -12,6 +14,4 @@ class IntersectionResult {
 
   /// The [axis] of the intersection.
   final axis = Vector3.zero();
-
-  IntersectionResult();
 }

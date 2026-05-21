@@ -19,7 +19,9 @@ class ConstructorBenchmark extends BenchmarkBase {
     for (var i = 0; i < 100000; i++) {
       v = Vector2(100, 100);
     }
-    if (v == null) _unreachableAssertionError();
+    if (v == null) {
+      _unreachableAssertionError();
+    }
   }
 }
 
@@ -32,7 +34,9 @@ class ConstructorZeroBenchmark extends BenchmarkBase {
     for (var i = 0; i < 100000; i++) {
       v = Vector2.zero();
     }
-    if (v == null) _unreachableAssertionError();
+    if (v == null) {
+      _unreachableAssertionError();
+    }
   }
 }
 
@@ -45,7 +49,9 @@ class ConstructorArrayBenchmark extends BenchmarkBase {
     for (var i = 0.0; i < 100000; i++) {
       v = Vector2.array([i, i]);
     }
-    if (v == null) _unreachableAssertionError();
+    if (v == null) {
+      _unreachableAssertionError();
+    }
   }
 }
 
@@ -58,7 +64,9 @@ class ConstructorAllBenchmark extends BenchmarkBase {
     for (var i = 0.0; i < 100000; i++) {
       v = Vector2.all(i);
     }
-    if (v == null) _unreachableAssertionError();
+    if (v == null) {
+      _unreachableAssertionError();
+    }
   }
 }
 
@@ -72,7 +80,9 @@ class ConstructorCopyBenchmark extends BenchmarkBase {
     for (var i = 0.0; i < 100000; i++) {
       v = Vector2.copy(copyFrom);
     }
-    if (v == null) _unreachableAssertionError();
+    if (v == null) {
+      _unreachableAssertionError();
+    }
   }
 }
 
@@ -86,7 +96,9 @@ class ConstructorFromFloat32ListBenchmark extends BenchmarkBase {
     for (var i = 0.0; i < 100000; i++) {
       v = Vector2.fromFloat32List(list);
     }
-    if (v == null) _unreachableAssertionError();
+    if (v == null) {
+      _unreachableAssertionError();
+    }
   }
 }
 
@@ -96,11 +108,13 @@ class ConstructorFromBufferBenchmark extends BenchmarkBase {
   @override
   void run() {
     Vector2? v;
-    final buffer = Uint32List(2).buffer;
+    final ByteBuffer buffer = Uint32List(2).buffer;
     for (var i = 0.0; i < 100000; i++) {
       v = Vector2.fromBuffer(buffer, 0);
     }
-    if (v == null) _unreachableAssertionError();
+    if (v == null) {
+      _unreachableAssertionError();
+    }
   }
 }
 
@@ -114,7 +128,9 @@ class ConstructorRandomBenchmark extends BenchmarkBase {
     for (var i = 0.0; i < 100000; i++) {
       v = Vector2.random(random);
     }
-    if (v == null) _unreachableAssertionError();
+    if (v == null) {
+      _unreachableAssertionError();
+    }
   }
 }
 
@@ -128,7 +144,9 @@ class SetFromBenchmark extends BenchmarkBase {
     for (var i = 0; i < 100000; i++) {
       v = v..setFrom(source);
     }
-    if (v.x != 100 || v.y != 100) _unreachableAssertionError();
+    if (v.x != 100 || v.y != 100) {
+      _unreachableAssertionError();
+    }
   }
 }
 
@@ -143,7 +161,9 @@ class DotProductBenchmark extends BenchmarkBase {
     for (var i = 0; i < 100000; i++) {
       r += v1.dot(v2);
     }
-    if (r != 30000 * 100000) _unreachableAssertionError();
+    if (r != 30000 * 100000) {
+      _unreachableAssertionError();
+    }
   }
 }
 

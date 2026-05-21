@@ -7,23 +7,6 @@ part of '../../vector_math_lists.dart';
 /// Abstract base class for vector lists. See [Vector2List], [Vector3List], and
 /// [Vector4List] for implementations of this class.
 abstract class VectorList<T extends Vector> {
-  final int _vectorLength;
-  final int _offset;
-  final int _stride;
-  final int _length;
-  final Float32List _buffer;
-
-  /// The count of vectors in this list.
-  int get length => _length;
-
-  /// The internal storage buffer of this list.
-  Float32List get buffer => _buffer;
-
-  static int _listLength(int offset, int stride, int vectorLength, int length) {
-    final width = stride == 0 ? vectorLength : stride;
-    return offset + width * length;
-  }
-
   /// Create a new vector list with [length] elements that have a size of
   /// [vectorLength]. Optionally it is possible to specify an [offset] in the
   /// [buffer] and a [stride] between each vector.
@@ -82,6 +65,22 @@ abstract class VectorList<T extends Vector> {
       throw ArgumentError('Stride cannot be smaller than the vector size.');
     }
   }
+  final int _vectorLength;
+  final int _offset;
+  final int _stride;
+  final int _length;
+  final Float32List _buffer;
+
+  /// The count of vectors in this list.
+  int get length => _length;
+
+  /// The internal storage buffer of this list.
+  Float32List get buffer => _buffer;
+
+  static int _listLength(int offset, int stride, int vectorLength, int length) {
+    final width = stride == 0 ? vectorLength : stride;
+    return offset + width * length;
+  }
 
   int _vectorIndexToBufferIndex(int index) => _offset + _stride * index;
 
@@ -105,10 +104,10 @@ abstract class VectorList<T extends Vector> {
     if (count == 0) {
       count = math.min(length - offset, src.length - srcOffset);
     }
-    final minVectorLength = math.min(_vectorLength, src._vectorLength);
+    final int minVectorLength = math.min(_vectorLength, src._vectorLength);
     for (var i = 0; i < count; i++) {
-      var index = _vectorIndexToBufferIndex(i + offset);
-      var srcIndex = src._vectorIndexToBufferIndex(i + srcOffset);
+      int index = _vectorIndexToBufferIndex(i + offset);
+      int srcIndex = src._vectorIndexToBufferIndex(i + srcOffset);
       for (var j = 0; j < minVectorLength; j++) {
         _buffer[index++] = src._buffer[srcIndex++];
       }
@@ -117,7 +116,7 @@ abstract class VectorList<T extends Vector> {
 
   /// Retrieves the vector at [index].
   T operator [](int index) {
-    final r = newVector();
+    final T r = newVector();
     load(index, r);
     return r;
   }

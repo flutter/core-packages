@@ -2,6 +2,10 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+// TODO(stuartmorgan): Remove this and fix violations. See
+//  https://github.com/flutter/flutter/issues/186827
+// ignore_for_file: public_member_api_docs
+
 part of '../../../vector_math_geometry.dart';
 
 class CylinderGenerator extends GeometryGenerator {
@@ -38,7 +42,7 @@ class CylinderGenerator extends GeometryGenerator {
 
     // Sides
     var base1 = 0;
-    final base2 = _segments + 1;
+    final int base2 = _segments + 1;
     for (var x = 0; x < _segments; ++x) {
       indices[i++] = base1 + x;
       indices[i++] = base1 + x + 1;
@@ -72,7 +76,7 @@ class CylinderGenerator extends GeometryGenerator {
 
     // Top
     for (var x = 0; x <= _segments; ++x) {
-      final u = x / _segments;
+      final double u = x / _segments;
 
       positions[i++] = Vector3(
         _topRadius * math.cos(u * math.pi * 2.0),
@@ -83,7 +87,7 @@ class CylinderGenerator extends GeometryGenerator {
 
     // Bottom
     for (var x = 0; x <= _segments; ++x) {
-      final u = x / _segments;
+      final double u = x / _segments;
 
       positions[i++] = Vector3(
         _bottomRadius * math.cos(u * math.pi * 2.0),
@@ -94,7 +98,7 @@ class CylinderGenerator extends GeometryGenerator {
 
     // Top cap
     for (var x = 0; x < _segments; ++x) {
-      final u = x / _segments;
+      final double u = x / _segments;
 
       positions[i++] = Vector3(
         _topRadius * math.cos(u * math.pi * 2.0),
@@ -105,7 +109,7 @@ class CylinderGenerator extends GeometryGenerator {
 
     // Bottom cap
     for (var x = 0; x < _segments; ++x) {
-      final u = x / _segments;
+      final double u = x / _segments;
 
       positions[i++] = Vector3(
         _bottomRadius * math.cos(u * math.pi * 2.0),
@@ -125,19 +129,19 @@ class CylinderGenerator extends GeometryGenerator {
 
     // Cylinder top
     for (var x = 0; x <= _segments; ++x) {
-      final u = 1.0 - (x / _segments);
+      final double u = 1.0 - (x / _segments);
       texCoords[i++] = Vector2(u, 0.0);
     }
 
     // Cylinder bottom
     for (var x = 0; x <= _segments; ++x) {
-      final u = 1.0 - (x / _segments);
+      final double u = 1.0 - (x / _segments);
       texCoords[i++] = Vector2(u, 1.0);
     }
 
     // Top cap
     for (var x = 0; x < _segments; ++x) {
-      final r = (x / _segments) * math.pi * 2.0;
+      final double r = (x / _segments) * math.pi * 2.0;
       texCoords[i++] = Vector2(
         math.cos(r) * 0.5 + 0.5,
         math.sin(r) * 0.5 + 0.5,
@@ -146,7 +150,7 @@ class CylinderGenerator extends GeometryGenerator {
 
     // Bottom cap
     for (var x = 0; x < _segments; ++x) {
-      final r = (x / _segments) * math.pi * 2.0;
+      final double r = (x / _segments) * math.pi * 2.0;
       texCoords[i++] = Vector2(
         math.cos(r) * 0.5 + 0.5,
         math.sin(r) * 0.5 + 0.5,

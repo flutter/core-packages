@@ -10,9 +10,9 @@ import 'test_utils.dart';
 
 void testSphereContainsVector3() {
   final parent = Sphere.centerRadius($v3(1.0, 1.0, 1.0), 2.0);
-  final child = $v3(1.0, 1.0, 2.0);
-  final cutting = $v3(1.0, 3.0, 1.0);
-  final outside = $v3(-10.0, 10.0, 10.0);
+  final Vector3 child = $v3(1.0, 1.0, 2.0);
+  final Vector3 cutting = $v3(1.0, 3.0, 1.0);
+  final Vector3 outside = $v3(-10.0, 10.0, 10.0);
 
   expect(parent.containsVector3(child), isTrue);
   expect(parent.containsVector3(cutting), isFalse);
@@ -21,9 +21,9 @@ void testSphereContainsVector3() {
 
 void testSphereIntersectionVector3() {
   final parent = Sphere.centerRadius($v3(1.0, 1.0, 1.0), 2.0);
-  final child = $v3(1.0, 1.0, 2.0);
-  final cutting = $v3(1.0, 3.0, 1.0);
-  final outside = $v3(-10.0, 10.0, 10.0);
+  final Vector3 child = $v3(1.0, 1.0, 2.0);
+  final Vector3 cutting = $v3(1.0, 3.0, 1.0);
+  final Vector3 outside = $v3(-10.0, 10.0, 10.0);
 
   expect(parent.intersectsWithVector3(child), isTrue);
   expect(parent.intersectsWithVector3(cutting), isTrue);
