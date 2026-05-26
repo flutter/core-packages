@@ -2,6 +2,7 @@
 
 - Remove the deprecated `SimplexNoise` class.
 - Optimized the `identity` constructors on the `Matrix` classes.
+- Require Dart 3.10.0 or greater.
 
 ## 2.3.0
 
