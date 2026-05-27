@@ -26,6 +26,23 @@ jobs:
               with:
                   dart-sdk: main
 
-            - name: Validate repository
+            - name: Run 'validate' for general repo best practices
               run: |
                   dart pub global run flutter_plugin_tools validate
+
+            - name: Run 'format' to check for formatting violations
+              run: |
+                  dart pub global run flutter_plugin_tools format --fail-on-change --no-swift
+
+            - name: Run 'update-excerpts' to check for outdated README snippets
+              run: |
+                  dart pub global run flutter_plugin_tools update-excerpts
+
+            - name: Run 'license-check' to check for license issues
+              run: |
+                  dart pub global run flutter_plugin_tools license-check
+
+            # This is a relatively slow test, so keep it last.
+            - name: Run 'publish-check' to make sure everything is in a publishable state
+              run: |
+                  dart pub global run flutter_plugin_tools publish-check --allow-pre-release
