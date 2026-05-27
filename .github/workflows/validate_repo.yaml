@@ -21,7 +21,10 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
-            - name: Set up repository and tooling
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
+            - name: Set up environment and tooling
               id: setup
               uses: ./.github/actions/set-up-repo
               with:

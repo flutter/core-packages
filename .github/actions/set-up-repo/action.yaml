@@ -1,5 +1,5 @@
 name: 'Set Up Repository and Tooling'
-description: 'Checks out the repository, sets up Dart, and installs repo tooling.'
+description: 'Sets up Dart and installs repo tooling.'
 inputs:
   dart-sdk:
     description: 'The Dart SDK version to use.'
@@ -7,8 +7,6 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
 
     - name: Set up Dart (${{ inputs.dart-sdk }})
       uses: dart-lang/setup-dart@v1
