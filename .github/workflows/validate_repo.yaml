@@ -22,27 +22,33 @@ jobs:
 
         steps:
             - name: Set up repository and tooling
+              id: setup
               uses: ./.github/actions/set-up-repo
               with:
                   dart-sdk: main
 
             - name: Run 'validate' for general repo best practices
+              if: !cancelled() && steps.setup.outcome == 'success'
               run: |
                   dart pub global run flutter_plugin_tools validate
 
             - name: Run 'format' to check for formatting violations
+              if: !cancelled() && steps.setup.outcome == 'success'
               run: |
                   dart pub global run flutter_plugin_tools format --fail-on-change --no-swift
 
             - name: Run 'update-excerpts' to check for outdated README snippets
+              if: !cancelled() && steps.setup.outcome == 'success'
               run: |
                   dart pub global run flutter_plugin_tools update-excerpts
 
             - name: Run 'license-check' to check for license issues
+              if: !cancelled() && steps.setup.outcome == 'success'
               run: |
                   dart pub global run flutter_plugin_tools license-check
 
             # This is a relatively slow test, so keep it last.
             - name: Run 'publish-check' to make sure everything is in a publishable state
+              if: !cancelled() && steps.setup.outcome == 'success'
               run: |
                   dart pub global run flutter_plugin_tools publish-check --allow-pre-release
