@@ -2,11 +2,11 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
-# Workflow to analyze and test all packages against a matrix of Dart versions.
+# Workflow to run repo best practice validations.
 #
 # To run locally:
 #     gh act pull_request
-name: Multi-Version
+name: Validate Repository
 
 on:
     push:
@@ -16,13 +16,7 @@ on:
 
 jobs:
     analyze:
-        name: Analyze and Test - Dart ${{ matrix.dart-sdk }}
-        
-        # This creates a separate job for every version in the list
-        strategy:
-            matrix:
-                dart-sdk: [ 3.10.7, 3.11.5, main ]
-            fail-fast: false # Continues other versions even if one fails
+        name: validate
 
         runs-on: ubuntu-latest
 
@@ -30,20 +24,16 @@ jobs:
             - name: Checkout repository
               uses: actions/checkout@v4
 
-            - name: Set up Dart (${{ matrix.dart-sdk }})
+            - name: Set up Dart
               uses: dart-lang/setup-dart@v1
               with:
-                  sdk: ${{ matrix.dart-sdk }}
+                  sdk: main
 
             - name: Set up repo tooling
               run: |
                   # This should always use a pinned version to avoid out-of-band breakage.
                   dart pub global activate flutter_plugin_tools 0.14.1
 
-            - name: Run Dart unit tests
+            - name: Validate repository
               run: |
-                  dart pub global run flutter_plugin_tools test
-
-            - name: Run analyze
-              run: |
-                  dart pub global run flutter_plugin_tools analyze
+                  dart pub global run flutter_plugin_tools validate
