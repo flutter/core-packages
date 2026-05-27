@@ -20,8 +20,11 @@ jobs:
         
         # This creates a separate job for every version in the list
         strategy:
+            # See https://github.com/flutter/flutter/blob/master/docs/ecosystem/contributing/README.md#supported-flutter-versions
+            # TODO(stuartmorgan): Add a Dart version of --skip-if-not-supporting-flutter-version
+            #  and pass that for non-'main'
             matrix:
-                dart-sdk: [ 3.10.7, 3.11.5, main ]
+                dart-sdk: [ 3.11.5, 3.12.0, main ]
             fail-fast: false # Continues other versions even if one fails
 
         runs-on: ubuntu-latest
@@ -39,3 +42,7 @@ jobs:
             - name: Run analyze
               run: |
                   dart pub global run flutter_plugin_tools analyze
+
+            - name: Run downgraded analyze
+              run: |
+                  dart pub global run flutter_plugin_tools analyze --downgrade
