@@ -27,18 +27,10 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
-            - name: Checkout repository
-              uses: actions/checkout@v4
-
-            - name: Set up Dart (${{ matrix.dart-sdk }})
-              uses: dart-lang/setup-dart@v1
+            - name: Set up repository and tooling
+              uses: ./.github/actions/set-up-repo
               with:
-                  sdk: ${{ matrix.dart-sdk }}
-
-            - name: Set up repo tooling
-              run: |
-                  # This should always use a pinned version to avoid out-of-band breakage.
-                  dart pub global activate flutter_plugin_tools 0.14.1
+                  dart-sdk: ${{ matrix.dart-sdk }}
 
             - name: Run Dart unit tests
               run: |

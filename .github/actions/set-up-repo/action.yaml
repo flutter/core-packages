@@ -1,0 +1,22 @@
+name: 'Set Up Repository and Tooling'
+description: 'Checks out the repository, sets up Dart, and installs repo tooling.'
+inputs:
+  dart-sdk:
+    description: 'The Dart SDK version to use.'
+    required: true
+runs:
+  using: 'composite'
+  steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Dart (${{ inputs.dart-sdk }})
+      uses: dart-lang/setup-dart@v1
+      with:
+        sdk: ${{ inputs.dart-sdk }}
+
+    - name: Set up repo tooling
+      run: |
+        # This should always use a pinned version to avoid out-of-band breakage.
+        dart pub global activate flutter_plugin_tools 0.14.1
+      shell: bash
