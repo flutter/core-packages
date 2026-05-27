@@ -13,8 +13,14 @@ runs:
       with:
         sdk: ${{ inputs.dart-sdk }}
 
+    # Repo tooling expects a local branch called 'main' unless a base is given
+    # to every command, so configure that since the default local name will be
+    # 'master'.
+    - name: Set up main branch
+      run: git branch main origin/main
+      shell: bash
+
     - name: Set up repo tooling
-      run: |
-        # This should always use a pinned version to avoid out-of-band breakage.
-        dart pub global activate flutter_plugin_tools 0.14.1
+      # This should always use a pinned version to avoid out-of-band breakage.
+      run: dart pub global activate flutter_plugin_tools 0.14.1
       shell: bash
