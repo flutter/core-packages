@@ -163,12 +163,12 @@ void main() {
 
 To run the unit tests:
 
-```
+```sh
 ~/src/vector_math/> dart test
 ```
 
 To automatically generate the latest version of `vector_math_64`:
 
-```
+```sh
 ~/src/vector_math/> dart tool/generate_vector_math_64.dart
 ```

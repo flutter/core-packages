@@ -1,0 +1,9 @@
+'p: vactor_math':
+  - changed-files:
+    - any-glob-to-any-file:
+      - packages/vector_math/**/*
+
+'triage-framework':
+  - changed-files:
+    - any-glob-to-any-file:
+      - packages/vector_math/**/*
