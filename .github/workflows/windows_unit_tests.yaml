@@ -1,0 +1,35 @@
+# Copyright 2026 The Flutter Authors. All rights reserved.
+# Use of this source code is governed by a BSD-style license that can be
+# found in the LICENSE file.
+
+# Workflow to test all packages on Windows.
+#
+# To run locally:
+#     gh act pull_request
+name: Windows Unit Tests
+
+on:
+    push:
+        branches: [ main ]
+    pull_request:
+        branches: [ main ]
+
+jobs:
+    analyze:
+        name: Windows Test - Dart Stable
+        runs-on: windows-latest
+
+        steps:
+            - name: Check out repository
+              uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+              with:
+                  fetch-depth: 0
+
+            - name: Set up environment and tooling
+              uses: ./.github/actions/set-up-repo
+              with:
+                  dart-sdk: 3.12.0
+
+            - name: Run Dart unit tests
+              run: |
+                  dart pub global run flutter_plugin_tools test
