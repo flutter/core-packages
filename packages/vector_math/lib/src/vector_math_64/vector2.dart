@@ -367,14 +367,12 @@ class Vector2 implements Vector {
 
   /// Round entries in this towards zero.
   void roundToZero() {
-    _v2storage[1] =
-        _v2storage[1] < 0.0
-            ? _v2storage[1].ceilToDouble()
-            : _v2storage[1].floorToDouble();
-    _v2storage[0] =
-        _v2storage[0] < 0.0
-            ? _v2storage[0].ceilToDouble()
-            : _v2storage[0].floorToDouble();
+    _v2storage[1] = _v2storage[1] < 0.0
+        ? _v2storage[1].ceilToDouble()
+        : _v2storage[1].floorToDouble();
+    _v2storage[0] = _v2storage[0] < 0.0
+        ? _v2storage[0].ceilToDouble()
+        : _v2storage[0].floorToDouble();
   }
 
   /// Clone of this.

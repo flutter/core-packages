@@ -519,18 +519,15 @@ class Vector3 implements Vector {
 
   /// Round entries in this towards zero.
   void roundToZero() {
-    _v3storage[2] =
-        _v3storage[2] < 0.0
-            ? _v3storage[2].ceilToDouble()
-            : _v3storage[2].floorToDouble();
-    _v3storage[1] =
-        _v3storage[1] < 0.0
-            ? _v3storage[1].ceilToDouble()
-            : _v3storage[1].floorToDouble();
-    _v3storage[0] =
-        _v3storage[0] < 0.0
-            ? _v3storage[0].ceilToDouble()
-            : _v3storage[0].floorToDouble();
+    _v3storage[2] = _v3storage[2] < 0.0
+        ? _v3storage[2].ceilToDouble()
+        : _v3storage[2].floorToDouble();
+    _v3storage[1] = _v3storage[1] < 0.0
+        ? _v3storage[1].ceilToDouble()
+        : _v3storage[1].floorToDouble();
+    _v3storage[0] = _v3storage[0] < 0.0
+        ? _v3storage[0].ceilToDouble()
+        : _v3storage[0].floorToDouble();
   }
 
   /// Clone of this.
