@@ -22,5 +22,5 @@ runs:
 
     - name: Set up repo tooling
       # This should always use a pinned version to avoid out-of-band breakage.
-      run: dart pub global activate flutter_plugin_tools 0.14.1
+      run: dart pub global activate flutter_plugin_tools 0.14.2
       shell: bash
