@@ -132,10 +132,9 @@ class Quaternion {
       _qStorage[1] = (rotationMatrixStorage[6] - rotationMatrixStorage[2]) * s;
       _qStorage[2] = (rotationMatrixStorage[1] - rotationMatrixStorage[3]) * s;
     } else {
-      final i =
-          rotationMatrixStorage[0] < rotationMatrixStorage[4]
-              ? (rotationMatrixStorage[4] < rotationMatrixStorage[8] ? 2 : 1)
-              : (rotationMatrixStorage[0] < rotationMatrixStorage[8] ? 2 : 0);
+      final i = rotationMatrixStorage[0] < rotationMatrixStorage[4]
+          ? (rotationMatrixStorage[4] < rotationMatrixStorage[8] ? 2 : 1)
+          : (rotationMatrixStorage[0] < rotationMatrixStorage[8] ? 2 : 0);
       final int j = (i + 1) % 3;
       final int k = (i + 2) % 3;
       double s = math.sqrt(

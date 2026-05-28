@@ -211,8 +211,9 @@ class MeshGeometry {
     // When combining meshes they must all have a matching set of VertexAttribs
     final MeshGeometry firstMesh = meshes[0];
     int totalVerts = firstMesh.length;
-    int totalIndices =
-        firstMesh.indices != null ? firstMesh.indices!.length : 0;
+    int totalIndices = firstMesh.indices != null
+        ? firstMesh.indices!.length
+        : 0;
     for (var i = 1; i < meshes.length; ++i) {
       final MeshGeometry srcMesh = meshes[i];
       if (!firstMesh.attribsAreCompatible(srcMesh)) {
