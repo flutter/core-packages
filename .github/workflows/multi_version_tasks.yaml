@@ -1,0 +1,59 @@
+# Copyright 2026 The Flutter Authors. All rights reserved.
+# Use of this source code is governed by a BSD-style license that can be
+# found in the LICENSE file.
+
+# Workflow to analyze and test all packages against a matrix of Dart versions.
+#
+# To run locally:
+#     gh act pull_request
+name: Multi-Version
+
+on:
+    push:
+        branches: [ main ]
+    pull_request:
+        branches: [ main ]
+
+jobs:
+    analyze:
+        name: Analyze and Test - Dart ${{ matrix.dart-sdk }}
+        
+        # This creates a separate job for every version in the list
+        strategy:
+            # See https://github.com/flutter/flutter/blob/master/docs/ecosystem/contributing/README.md#supported-flutter-versions
+            # TODO(stuartmorgan): Add a Dart version of --skip-if-not-supporting-flutter-version
+            #  and pass that for non-'main'
+            matrix:
+                dart-sdk: [ 3.11.5, 3.12.0, main ]
+            fail-fast: false # Continues other versions even if one fails
+
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+              with:
+                  fetch-depth: 0
+
+            - name: Set up environment and tooling
+              id: setup
+              uses: ./.github/actions/set-up-repo
+              with:
+                  dart-sdk: ${{ matrix.dart-sdk }}
+
+            - name: Run Dart unit tests
+              if: ${{ !cancelled() && steps.setup.outcome == 'success' }}
+              run: |
+                  dart pub global run flutter_plugin_tools test
+
+            - name: Run analyze
+              id: analyze
+              if: ${{ !cancelled() && steps.setup.outcome == 'success' }}
+              run: |
+                  dart pub global run flutter_plugin_tools analyze
+
+            - name: Run downgraded analyze
+              # If regular analysis failed, no need to run downgraded analysis.
+              if: ${{ !cancelled() && steps.setup.outcome == 'success' && steps.analyze.outcome == 'success' }}
+              run: |
+                  dart pub global run flutter_plugin_tools analyze --downgrade

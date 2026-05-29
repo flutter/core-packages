@@ -1,0 +1,26 @@
+name: 'Set Up Repository and Tooling'
+description: 'Sets up Dart and installs repo tooling.'
+inputs:
+  dart-sdk:
+    description: 'The Dart SDK version to use.'
+    required: true
+runs:
+  using: 'composite'
+  steps:
+
+    - name: Set up Dart (${{ inputs.dart-sdk }})
+      uses: dart-lang/setup-dart@v1
+      with:
+        sdk: ${{ inputs.dart-sdk }}
+
+    # Repo tooling expects a local branch called 'main' unless a base is given
+    # to every command, so configure that since the default local name will be
+    # 'master'.
+    - name: Set up main branch
+      run: git branch main origin/main
+      shell: bash
+
+    - name: Set up repo tooling
+      # This should always use a pinned version to avoid out-of-band breakage.
+      run: dart pub global activate flutter_plugin_tools 0.14.2
+      shell: bash
