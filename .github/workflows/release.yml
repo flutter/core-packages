@@ -1,0 +1,61 @@
+name: release
+on:
+  push:
+    branches:
+      - main
+
+# Declare default permissions as read only.
+permissions: read-all
+
+jobs:
+  release:
+    if: github.repository_owner == 'flutter'
+    name: release
+    permissions:
+      # Release needs to push a tag back to the repo.
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+    # Checks out a copy of the repo.
+    - name: Check out code
+      uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      with:
+        fetch-depth: 0 # Fetch all history so the tool can get all the tags to determine version.
+    # Set up the latest stable release of Dart and tooling.
+    - name: Set up environment and tooling
+      id: setup
+      uses: ./.github/actions/set-up-repo
+      with:
+        dart-sdk: 3.12.0
+
+    # Give some time for checks to start becoming populated.
+    # Because of latency in Github Webhooks, any checks that don't use GitHub
+    # Actions may be delayed.
+    - name: Give webhooks a minute
+      run: sleep 60s
+      shell: bash
+
+    # In flutter/packages, there's a step here to wait for a specific LUCI
+    # test to check in. Since this repo currently doesn't use LUCI that's not
+    # here, but if any LUCI tests are added this should be updated to match
+    # flutter/packages to avoid races where the next steps run before LUCI has
+    # started.
+
+    # Release should only happen if/when all other checks have passed.
+    - name: Wait on all tests
+      uses: lewagon/wait-on-check-action@9312864dfbc9fd208e9c0417843430751c042800
+      with:
+        ref: ${{ github.sha }}
+        running-workflow-name: 'release'
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        wait-interval: 180 # seconds
+        allowed-conclusions: success,neutral
+        # verbose:true will produce too many logs that hang github actions web UI.
+        verbose: false
+
+    - name: run release
+      run: |
+        git config --global user.name ${{ secrets.USER_NAME }}
+        git config --global user.email ${{ secrets.USER_EMAIL }}
+        dart pub global run flutter_plugin_tools publish --all-changed --base-sha=HEAD~ --skip-confirmation --remote=origin
+      env: {PUB_CREDENTIALS: "${{ secrets.PUB_CREDENTIALS }}"}
