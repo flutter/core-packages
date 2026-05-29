@@ -15,9 +15,9 @@ runs:
 
     # Repo tooling expects a local branch called 'main' unless a base is given
     # to every command, so configure that since the default local name will be
-    # 'master'.
+    # 'master' unless 'main' is the current branch (post-submit).
     - name: Set up main branch
-      run: git branch main origin/main
+      run: git rev-parse --verify --quiet main || git branch main origin/main
       shell: bash
 
     - name: Set up repo tooling
