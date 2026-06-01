@@ -1,4 +1,4 @@
-'p: vactor_math':
+'p: vector_math':
   - changed-files:
     - any-glob-to-any-file:
       - packages/vector_math/**/*
