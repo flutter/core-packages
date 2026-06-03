@@ -31,11 +31,7 @@ void testLookAt() {
   final lookAtPosition = Vector3(0.0, 0.0, -1.0);
   final upDirection = Vector3(0.0, 1.0, 0.0);
 
-  final Matrix4 lookat = makeViewMatrix(
-    eyePosition,
-    lookAtPosition,
-    upDirection,
-  );
+  final Matrix4 lookat = makeViewMatrix(eyePosition, lookAtPosition, upDirection);
   assert(lookat.getColumn(0).w == 0.0);
   assert(lookat.getColumn(1).w == 0.0);
   assert(lookat.getColumn(2).w == 0.0);
@@ -60,10 +56,7 @@ void testFrustumMatrix() {
     frustum.getColumn(2),
     Vector4((r + l) / (r - l), (t + b) / (t - b), -(f + n) / (f - n), -1.0),
   );
-  relativeTest(
-    frustum.getColumn(3),
-    Vector4(0.0, 0.0, -2.0 * f * n / (f - n), 0.0),
-  );
+  relativeTest(frustum.getColumn(3), Vector4(0.0, 0.0, -2.0 * f * n / (f - n), 0.0));
 }
 
 void testPerspectiveMatrix() {
@@ -72,18 +65,10 @@ void testPerspectiveMatrix() {
   const zNear = 1.0;
   const zFar = 100.0;
 
-  final Matrix4 perspective = makePerspectiveMatrix(
-    fov,
-    aspectRatio,
-    zNear,
-    zFar,
-  );
+  final Matrix4 perspective = makePerspectiveMatrix(fov, aspectRatio, zNear, zFar);
   relativeTest(perspective.getColumn(0), Vector4(0.5, 0.0, 0.0, 0.0));
   relativeTest(perspective.getColumn(1), Vector4(0.0, 1.0, 0.0, 0.0));
-  relativeTest(
-    perspective.getColumn(2),
-    Vector4(0.0, 0.0, -101.0 / 99.0, -1.0),
-  );
+  relativeTest(perspective.getColumn(2), Vector4(0.0, 0.0, -101.0 / 99.0, -1.0));
   relativeTest(perspective.getColumn(3), Vector4(0.0, 0.0, -200.0 / 99.0, 0.0));
 }
 

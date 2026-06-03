@@ -7,15 +7,8 @@ part of '../../../vector_math_geometry.dart';
 /// Generate vertex normals based on a list of [positions] and [indices].
 /// [normals] is assumed to be zeroed out, and much match [positions] in length.
 /// [indices] is assumed to represent a triangle list.
-void generateNormals(
-  Vector3List normals,
-  Vector3List positions,
-  Uint16List indices,
-) {
-  final p0 = Vector3.zero(),
-      p1 = Vector3.zero(),
-      p2 = Vector3.zero(),
-      norm = Vector3.zero();
+void generateNormals(Vector3List normals, Vector3List positions, Uint16List indices) {
+  final p0 = Vector3.zero(), p1 = Vector3.zero(), p2 = Vector3.zero(), norm = Vector3.zero();
 
   // Loop through every polygon, find it's normal, and add that to the vertex
   // normals.
@@ -80,8 +73,7 @@ void generateTangents(
 
   final tan = Vector4.zero();
 
-  final tan0 = Vector3List(positions.length),
-      tan1 = Vector3List(positions.length);
+  final tan0 = Vector3List(positions.length), tan1 = Vector3List(positions.length);
 
   for (var i = 0; i < indices.length; i += 3) {
     final int i0 = indices[i], i1 = indices[i + 1], i2 = indices[i + 2];

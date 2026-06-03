@@ -49,10 +49,9 @@ class Matrix4TweenBenchmark1 extends BenchmarkBase with Setup {
     final endScale = Vector3.zero();
     begin.decompose(beginTranslation, beginRotation, beginScale);
     end.decompose(endTranslation, endRotation, endScale);
-    final Vector3 lerpTranslation =
-        beginTranslation * (1.0 - t) + endTranslation * t;
-    final Quaternion lerpRotation =
-        (beginRotation.scaled(1.0 - t) + endRotation.scaled(t)).normalized();
+    final Vector3 lerpTranslation = beginTranslation * (1.0 - t) + endTranslation * t;
+    final Quaternion lerpRotation = (beginRotation.scaled(1.0 - t) + endRotation.scaled(t))
+        .normalized();
     final Vector3 lerpScale = beginScale * (1.0 - t) + endScale * t;
     return Matrix4.compose(lerpTranslation, lerpRotation, lerpScale);
   }
@@ -66,8 +65,8 @@ class Matrix4TweenBenchmark2 extends BenchmarkBase with Setup {
     begin.decompose(beginTranslation, beginRotation, beginScale);
     end.decompose(endTranslation, endRotation, endScale);
     Vector3.mix(beginTranslation, endTranslation, t, lerpTranslation);
-    final Quaternion lerpRotation =
-        (beginRotation.scaled(1.0 - t) + endRotation.scaled(t)).normalized();
+    final Quaternion lerpRotation = (beginRotation.scaled(1.0 - t) + endRotation.scaled(t))
+        .normalized();
     Vector3.mix(beginScale, endScale, t, lerpScale);
     return Matrix4.compose(lerpTranslation, lerpRotation, lerpScale);
   }
@@ -91,8 +90,8 @@ class Matrix4TweenBenchmark3 extends BenchmarkBase with Setup {
     begin.decompose(beginTranslation, beginRotation, beginScale);
     end.decompose(endTranslation, endRotation, endScale);
     Vector3.mix(beginTranslation, endTranslation, t, lerpTranslation);
-    final Quaternion lerpRotation =
-        (beginRotation.scaled(1.0 - t) + endRotation.scaled(t)).normalized();
+    final Quaternion lerpRotation = (beginRotation.scaled(1.0 - t) + endRotation.scaled(t))
+        .normalized();
     Vector3.mix(beginScale, endScale, t, lerpScale);
     return Matrix4.compose(lerpTranslation, lerpRotation, lerpScale);
   }

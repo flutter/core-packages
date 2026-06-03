@@ -74,10 +74,7 @@ void testQuadEquals() {
   expect(quad, isNot(Quad.points(v1, v2, Vector3.zero(), v4)));
   expect(quad, isNot(Quad.points(v1, v2, v3, Vector3.zero())));
 
-  expect(
-    Quad.points(v1, v2, v3, v4).hashCode,
-    equals(Quad.points(v1, v2, v3, v4).hashCode),
-  );
+  expect(Quad.points(v1, v2, v3, v4).hashCode, equals(Quad.points(v1, v2, v3, v4).hashCode));
 }
 
 void main() {

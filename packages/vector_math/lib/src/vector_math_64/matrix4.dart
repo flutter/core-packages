@@ -94,12 +94,8 @@ class Matrix4 {
   }
 
   /// Constructs a new mat4 from columns.
-  factory Matrix4.columns(
-    Vector4 arg0,
-    Vector4 arg1,
-    Vector4 arg2,
-    Vector4 arg3,
-  ) => Matrix4.zero()..setColumns(arg0, arg1, arg2, arg3);
+  factory Matrix4.columns(Vector4 arg0, Vector4 arg1, Vector4 arg2, Vector4 arg3) =>
+      Matrix4.zero()..setColumns(arg0, arg1, arg2, arg3);
 
   /// Outer product of [u] and [v].
   factory Matrix4.outer(Vector4 u, Vector4 v) => Matrix4.zero()..setOuter(u, v);
@@ -125,10 +121,9 @@ class Matrix4 {
     ..setTranslation(translation);
 
   /// Translation matrix.
-  factory Matrix4.translationValues(double x, double y, double z) =>
-      Matrix4.zero()
-        ..setIdentity()
-        ..setTranslationRaw(x, y, z);
+  factory Matrix4.translationValues(double x, double y, double z) => Matrix4.zero()
+    ..setIdentity()
+    ..setTranslationRaw(x, y, z);
 
   /// Scale matrix.
   factory Matrix4.diagonal3(Vector3 scale) {
@@ -143,12 +138,11 @@ class Matrix4 {
   }
 
   /// Scale matrix.
-  factory Matrix4.diagonal3Values(double x, double y, double z) =>
-      Matrix4.zero()
-        .._m4storage[15] = 1.0
-        .._m4storage[10] = z
-        .._m4storage[5] = y
-        .._m4storage[0] = x;
+  factory Matrix4.diagonal3Values(double x, double y, double z) => Matrix4.zero()
+    .._m4storage[15] = 1.0
+    .._m4storage[10] = z
+    .._m4storage[5] = y
+    .._m4storage[0] = x;
 
   /// Skew matrix around X axis
   factory Matrix4.skewX(double alpha) {
@@ -181,13 +175,8 @@ class Matrix4 {
     : _m4storage = Float64List.view(buffer, offset, 16);
 
   /// Constructs Matrix4 from [translation], [rotation] and [scale].
-  factory Matrix4.compose(
-    Vector3 translation,
-    Quaternion rotation,
-    Vector3 scale,
-  ) =>
-      Matrix4.zero()
-        ..setFromTranslationRotationScale(translation, rotation, scale);
+  factory Matrix4.compose(Vector3 translation, Quaternion rotation, Vector3 scale) =>
+      Matrix4.zero()..setFromTranslationRotationScale(translation, rotation, scale);
   final Float64List _m4storage;
 
   /// The components of the matrix.
@@ -299,8 +288,7 @@ class Matrix4 {
     final double bZ = b.storage[2];
     final double bW = b.storage[3];
 
-    double det =
-        b00 * b11 - b01 * b10 + b02 * b09 + b03 * b08 - b04 * b07 + b05 * b06;
+    double det = b00 * b11 - b01 * b10 + b02 * b09 + b03 * b08 - b04 * b07 + b05 * b06;
 
     if (det != 0.0) {
       det = 1.0 / det;
@@ -493,11 +481,7 @@ class Matrix4 {
   }
 
   /// Sets the matrix from [translation], [rotation] and [scale].
-  void setFromTranslationRotationScale(
-    Vector3 translation,
-    Quaternion rotation,
-    Vector3 scale,
-  ) {
+  void setFromTranslationRotationScale(Vector3 translation, Quaternion rotation, Vector3 scale) {
     setFromTranslationRotation(translation, rotation);
     scaleByVector3(scale);
   }
@@ -736,31 +720,19 @@ class Matrix4 {
   /// Translate this matrix by x, y, z, w.
   void translateByDouble(double tx, double ty, double tz, double tw) {
     final double t1 =
-        _m4storage[0] * tx +
-        _m4storage[4] * ty +
-        _m4storage[8] * tz +
-        _m4storage[12] * tw;
+        _m4storage[0] * tx + _m4storage[4] * ty + _m4storage[8] * tz + _m4storage[12] * tw;
     _m4storage[12] = t1;
 
     final double t2 =
-        _m4storage[1] * tx +
-        _m4storage[5] * ty +
-        _m4storage[9] * tz +
-        _m4storage[13] * tw;
+        _m4storage[1] * tx + _m4storage[5] * ty + _m4storage[9] * tz + _m4storage[13] * tw;
     _m4storage[13] = t2;
 
     final double t3 =
-        _m4storage[2] * tx +
-        _m4storage[6] * ty +
-        _m4storage[10] * tz +
-        _m4storage[14] * tw;
+        _m4storage[2] * tx + _m4storage[6] * ty + _m4storage[10] * tz + _m4storage[14] * tw;
     _m4storage[14] = t3;
 
     final double t4 =
-        _m4storage[3] * tx +
-        _m4storage[7] * ty +
-        _m4storage[11] * tz +
-        _m4storage[15] * tw;
+        _m4storage[3] * tx + _m4storage[7] * ty + _m4storage[11] * tz + _m4storage[15] * tw;
     _m4storage[15] = t4;
   }
 
@@ -768,22 +740,19 @@ class Matrix4 {
   @pragma('wasm:prefer-inline')
   @pragma('vm:prefer-inline')
   @pragma('dart2js:prefer-inline')
-  void translateByVector2(Vector2 v2) =>
-      translateByDouble(v2.x, v2.y, 0.0, 1.0);
+  void translateByVector2(Vector2 v2) => translateByDouble(v2.x, v2.y, 0.0, 1.0);
 
   /// Translate this matrix by a [Vector3].
   @pragma('wasm:prefer-inline')
   @pragma('vm:prefer-inline')
   @pragma('dart2js:prefer-inline')
-  void translateByVector3(Vector3 v3) =>
-      translateByDouble(v3.x, v3.y, v3.z, 1.0);
+  void translateByVector3(Vector3 v3) => translateByDouble(v3.x, v3.y, v3.z, 1.0);
 
   /// Translate this matrix by a [Vector4].
   @pragma('wasm:prefer-inline')
   @pragma('vm:prefer-inline')
   @pragma('dart2js:prefer-inline')
-  void translateByVector4(Vector4 v4) =>
-      translateByDouble(v4.x, v4.y, v4.z, v4.w);
+  void translateByVector4(Vector4 v4) => translateByDouble(v4.x, v4.y, v4.z, v4.w);
 
   /// Multiply this by a translation from the left.
   ///
@@ -847,22 +816,19 @@ class Matrix4 {
   @pragma('wasm:prefer-inline')
   @pragma('vm:prefer-inline')
   @pragma('dart2js:prefer-inline')
-  void leftTranslateByVector2(Vector2 v2) =>
-      leftTranslateByDouble(v2.x, v2.y, 0.0, 1.0);
+  void leftTranslateByVector2(Vector2 v2) => leftTranslateByDouble(v2.x, v2.y, 0.0, 1.0);
 
   /// Multiply this by a translation from the left.
   @pragma('wasm:prefer-inline')
   @pragma('vm:prefer-inline')
   @pragma('dart2js:prefer-inline')
-  void leftTranslateByVector3(Vector3 v3) =>
-      leftTranslateByDouble(v3.x, v3.y, v3.z, 1.0);
+  void leftTranslateByVector3(Vector3 v3) => leftTranslateByDouble(v3.x, v3.y, v3.z, 1.0);
 
   /// Multiply this by a translation from the left.
   @pragma('wasm:prefer-inline')
   @pragma('vm:prefer-inline')
   @pragma('dart2js:prefer-inline')
-  void leftTranslateByVector4(Vector4 v4) =>
-      leftTranslateByDouble(v4.x, v4.y, v4.z, v4.w);
+  void leftTranslateByVector4(Vector4 v4) => leftTranslateByDouble(v4.x, v4.y, v4.z, v4.w);
 
   /// Rotate this [angle] radians around [axis]
   void rotate(Vector3 axis, double angle) {
@@ -883,30 +849,18 @@ class Matrix4 {
     final double m31 = z * x * C - y * s;
     final double m32 = z * y * C + x * s;
     final double m33 = z * z * C + c;
-    final double t1 =
-        _m4storage[0] * m11 + _m4storage[4] * m21 + _m4storage[8] * m31;
-    final double t2 =
-        _m4storage[1] * m11 + _m4storage[5] * m21 + _m4storage[9] * m31;
-    final double t3 =
-        _m4storage[2] * m11 + _m4storage[6] * m21 + _m4storage[10] * m31;
-    final double t4 =
-        _m4storage[3] * m11 + _m4storage[7] * m21 + _m4storage[11] * m31;
-    final double t5 =
-        _m4storage[0] * m12 + _m4storage[4] * m22 + _m4storage[8] * m32;
-    final double t6 =
-        _m4storage[1] * m12 + _m4storage[5] * m22 + _m4storage[9] * m32;
-    final double t7 =
-        _m4storage[2] * m12 + _m4storage[6] * m22 + _m4storage[10] * m32;
-    final double t8 =
-        _m4storage[3] * m12 + _m4storage[7] * m22 + _m4storage[11] * m32;
-    final double t9 =
-        _m4storage[0] * m13 + _m4storage[4] * m23 + _m4storage[8] * m33;
-    final double t10 =
-        _m4storage[1] * m13 + _m4storage[5] * m23 + _m4storage[9] * m33;
-    final double t11 =
-        _m4storage[2] * m13 + _m4storage[6] * m23 + _m4storage[10] * m33;
-    final double t12 =
-        _m4storage[3] * m13 + _m4storage[7] * m23 + _m4storage[11] * m33;
+    final double t1 = _m4storage[0] * m11 + _m4storage[4] * m21 + _m4storage[8] * m31;
+    final double t2 = _m4storage[1] * m11 + _m4storage[5] * m21 + _m4storage[9] * m31;
+    final double t3 = _m4storage[2] * m11 + _m4storage[6] * m21 + _m4storage[10] * m31;
+    final double t4 = _m4storage[3] * m11 + _m4storage[7] * m21 + _m4storage[11] * m31;
+    final double t5 = _m4storage[0] * m12 + _m4storage[4] * m22 + _m4storage[8] * m32;
+    final double t6 = _m4storage[1] * m12 + _m4storage[5] * m22 + _m4storage[9] * m32;
+    final double t7 = _m4storage[2] * m12 + _m4storage[6] * m22 + _m4storage[10] * m32;
+    final double t8 = _m4storage[3] * m12 + _m4storage[7] * m22 + _m4storage[11] * m32;
+    final double t9 = _m4storage[0] * m13 + _m4storage[4] * m23 + _m4storage[8] * m33;
+    final double t10 = _m4storage[1] * m13 + _m4storage[5] * m23 + _m4storage[9] * m33;
+    final double t11 = _m4storage[2] * m13 + _m4storage[6] * m23 + _m4storage[10] * m33;
+    final double t12 = _m4storage[3] * m13 + _m4storage[7] * m23 + _m4storage[11] * m33;
     _m4storage[0] = t1;
     _m4storage[1] = t2;
     _m4storage[2] = t3;
@@ -1156,34 +1110,20 @@ class Matrix4 {
 
   /// Returns the determinant of this matrix.
   double determinant() {
-    final double det2_01_01 =
-        _m4storage[0] * _m4storage[5] - _m4storage[1] * _m4storage[4];
-    final double det2_01_02 =
-        _m4storage[0] * _m4storage[6] - _m4storage[2] * _m4storage[4];
-    final double det2_01_03 =
-        _m4storage[0] * _m4storage[7] - _m4storage[3] * _m4storage[4];
-    final double det2_01_12 =
-        _m4storage[1] * _m4storage[6] - _m4storage[2] * _m4storage[5];
-    final double det2_01_13 =
-        _m4storage[1] * _m4storage[7] - _m4storage[3] * _m4storage[5];
-    final double det2_01_23 =
-        _m4storage[2] * _m4storage[7] - _m4storage[3] * _m4storage[6];
+    final double det2_01_01 = _m4storage[0] * _m4storage[5] - _m4storage[1] * _m4storage[4];
+    final double det2_01_02 = _m4storage[0] * _m4storage[6] - _m4storage[2] * _m4storage[4];
+    final double det2_01_03 = _m4storage[0] * _m4storage[7] - _m4storage[3] * _m4storage[4];
+    final double det2_01_12 = _m4storage[1] * _m4storage[6] - _m4storage[2] * _m4storage[5];
+    final double det2_01_13 = _m4storage[1] * _m4storage[7] - _m4storage[3] * _m4storage[5];
+    final double det2_01_23 = _m4storage[2] * _m4storage[7] - _m4storage[3] * _m4storage[6];
     final double det3_201_012 =
-        _m4storage[8] * det2_01_12 -
-        _m4storage[9] * det2_01_02 +
-        _m4storage[10] * det2_01_01;
+        _m4storage[8] * det2_01_12 - _m4storage[9] * det2_01_02 + _m4storage[10] * det2_01_01;
     final double det3_201_013 =
-        _m4storage[8] * det2_01_13 -
-        _m4storage[9] * det2_01_03 +
-        _m4storage[11] * det2_01_01;
+        _m4storage[8] * det2_01_13 - _m4storage[9] * det2_01_03 + _m4storage[11] * det2_01_01;
     final double det3_201_023 =
-        _m4storage[8] * det2_01_23 -
-        _m4storage[10] * det2_01_03 +
-        _m4storage[11] * det2_01_02;
+        _m4storage[8] * det2_01_23 - _m4storage[10] * det2_01_03 + _m4storage[11] * det2_01_02;
     final double det3_201_123 =
-        _m4storage[9] * det2_01_23 -
-        _m4storage[10] * det2_01_13 +
-        _m4storage[11] * det2_01_12;
+        _m4storage[9] * det2_01_23 - _m4storage[10] * det2_01_13 + _m4storage[11] * det2_01_12;
     return -det3_201_123 * _m4storage[12] +
         det3_201_023 * _m4storage[13] -
         det3_201_013 * _m4storage[14] +
@@ -1416,8 +1356,7 @@ class Matrix4 {
     final double b09 = a21 * a32 - a22 * a31;
     final double b10 = a21 * a33 - a23 * a31;
     final double b11 = a22 * a33 - a23 * a32;
-    final double det =
-        b00 * b11 - b01 * b10 + b02 * b09 + b03 * b08 - b04 * b07 + b05 * b06;
+    final double det = b00 * b11 - b01 * b10 + b02 * b09 + b03 * b08 - b04 * b07 + b05 * b06;
     if (det == 0.0) {
       setFrom(arg);
       return 0.0;
@@ -1457,33 +1396,15 @@ class Matrix4 {
     double kx;
     double ky;
     double kz;
-    ix =
-        invDet *
-        (_m4storage[5] * _m4storage[10] - _m4storage[6] * _m4storage[9]);
-    iy =
-        invDet *
-        (_m4storage[2] * _m4storage[9] - _m4storage[1] * _m4storage[10]);
-    iz =
-        invDet *
-        (_m4storage[1] * _m4storage[6] - _m4storage[2] * _m4storage[5]);
-    jx =
-        invDet *
-        (_m4storage[6] * _m4storage[8] - _m4storage[4] * _m4storage[10]);
-    jy =
-        invDet *
-        (_m4storage[0] * _m4storage[10] - _m4storage[2] * _m4storage[8]);
-    jz =
-        invDet *
-        (_m4storage[2] * _m4storage[4] - _m4storage[0] * _m4storage[6]);
-    kx =
-        invDet *
-        (_m4storage[4] * _m4storage[9] - _m4storage[5] * _m4storage[8]);
-    ky =
-        invDet *
-        (_m4storage[1] * _m4storage[8] - _m4storage[0] * _m4storage[9]);
-    kz =
-        invDet *
-        (_m4storage[0] * _m4storage[5] - _m4storage[1] * _m4storage[4]);
+    ix = invDet * (_m4storage[5] * _m4storage[10] - _m4storage[6] * _m4storage[9]);
+    iy = invDet * (_m4storage[2] * _m4storage[9] - _m4storage[1] * _m4storage[10]);
+    iz = invDet * (_m4storage[1] * _m4storage[6] - _m4storage[2] * _m4storage[5]);
+    jx = invDet * (_m4storage[6] * _m4storage[8] - _m4storage[4] * _m4storage[10]);
+    jy = invDet * (_m4storage[0] * _m4storage[10] - _m4storage[2] * _m4storage[8]);
+    jz = invDet * (_m4storage[2] * _m4storage[4] - _m4storage[0] * _m4storage[6]);
+    kx = invDet * (_m4storage[4] * _m4storage[9] - _m4storage[5] * _m4storage[8]);
+    ky = invDet * (_m4storage[1] * _m4storage[8] - _m4storage[0] * _m4storage[9]);
+    kz = invDet * (_m4storage[0] * _m4storage[5] - _m4storage[1] * _m4storage[4]);
     _m4storage[0] = ix;
     _m4storage[1] = iy;
     _m4storage[2] = iz;
@@ -1570,85 +1491,37 @@ class Matrix4 {
     final double c4 = _m4storage[11];
     final double d4 = _m4storage[15];
     _m4storage[0] =
-        (b2 * (c3 * d4 - c4 * d3) -
-            c2 * (b3 * d4 - b4 * d3) +
-            d2 * (b3 * c4 - b4 * c3)) *
-        scale;
+        (b2 * (c3 * d4 - c4 * d3) - c2 * (b3 * d4 - b4 * d3) + d2 * (b3 * c4 - b4 * c3)) * scale;
     _m4storage[1] =
-        -(a2 * (c3 * d4 - c4 * d3) -
-            c2 * (a3 * d4 - a4 * d3) +
-            d2 * (a3 * c4 - a4 * c3)) *
-        scale;
+        -(a2 * (c3 * d4 - c4 * d3) - c2 * (a3 * d4 - a4 * d3) + d2 * (a3 * c4 - a4 * c3)) * scale;
     _m4storage[2] =
-        (a2 * (b3 * d4 - b4 * d3) -
-            b2 * (a3 * d4 - a4 * d3) +
-            d2 * (a3 * b4 - a4 * b3)) *
-        scale;
+        (a2 * (b3 * d4 - b4 * d3) - b2 * (a3 * d4 - a4 * d3) + d2 * (a3 * b4 - a4 * b3)) * scale;
     _m4storage[3] =
-        -(a2 * (b3 * c4 - b4 * c3) -
-            b2 * (a3 * c4 - a4 * c3) +
-            c2 * (a3 * b4 - a4 * b3)) *
-        scale;
+        -(a2 * (b3 * c4 - b4 * c3) - b2 * (a3 * c4 - a4 * c3) + c2 * (a3 * b4 - a4 * b3)) * scale;
     _m4storage[4] =
-        -(b1 * (c3 * d4 - c4 * d3) -
-            c1 * (b3 * d4 - b4 * d3) +
-            d1 * (b3 * c4 - b4 * c3)) *
-        scale;
+        -(b1 * (c3 * d4 - c4 * d3) - c1 * (b3 * d4 - b4 * d3) + d1 * (b3 * c4 - b4 * c3)) * scale;
     _m4storage[5] =
-        (a1 * (c3 * d4 - c4 * d3) -
-            c1 * (a3 * d4 - a4 * d3) +
-            d1 * (a3 * c4 - a4 * c3)) *
-        scale;
+        (a1 * (c3 * d4 - c4 * d3) - c1 * (a3 * d4 - a4 * d3) + d1 * (a3 * c4 - a4 * c3)) * scale;
     _m4storage[6] =
-        -(a1 * (b3 * d4 - b4 * d3) -
-            b1 * (a3 * d4 - a4 * d3) +
-            d1 * (a3 * b4 - a4 * b3)) *
-        scale;
+        -(a1 * (b3 * d4 - b4 * d3) - b1 * (a3 * d4 - a4 * d3) + d1 * (a3 * b4 - a4 * b3)) * scale;
     _m4storage[7] =
-        (a1 * (b3 * c4 - b4 * c3) -
-            b1 * (a3 * c4 - a4 * c3) +
-            c1 * (a3 * b4 - a4 * b3)) *
-        scale;
+        (a1 * (b3 * c4 - b4 * c3) - b1 * (a3 * c4 - a4 * c3) + c1 * (a3 * b4 - a4 * b3)) * scale;
     _m4storage[8] =
-        (b1 * (c2 * d4 - c4 * d2) -
-            c1 * (b2 * d4 - b4 * d2) +
-            d1 * (b2 * c4 - b4 * c2)) *
-        scale;
+        (b1 * (c2 * d4 - c4 * d2) - c1 * (b2 * d4 - b4 * d2) + d1 * (b2 * c4 - b4 * c2)) * scale;
     _m4storage[9] =
-        -(a1 * (c2 * d4 - c4 * d2) -
-            c1 * (a2 * d4 - a4 * d2) +
-            d1 * (a2 * c4 - a4 * c2)) *
-        scale;
+        -(a1 * (c2 * d4 - c4 * d2) - c1 * (a2 * d4 - a4 * d2) + d1 * (a2 * c4 - a4 * c2)) * scale;
     _m4storage[10] =
-        (a1 * (b2 * d4 - b4 * d2) -
-            b1 * (a2 * d4 - a4 * d2) +
-            d1 * (a2 * b4 - a4 * b2)) *
-        scale;
+        (a1 * (b2 * d4 - b4 * d2) - b1 * (a2 * d4 - a4 * d2) + d1 * (a2 * b4 - a4 * b2)) * scale;
     _m4storage[11] =
-        -(a1 * (b2 * c4 - b4 * c2) -
-            b1 * (a2 * c4 - a4 * c2) +
-            c1 * (a2 * b4 - a4 * b2)) *
-        scale;
+        -(a1 * (b2 * c4 - b4 * c2) - b1 * (a2 * c4 - a4 * c2) + c1 * (a2 * b4 - a4 * b2)) * scale;
     _m4storage[12] =
-        -(b1 * (c2 * d3 - c3 * d2) -
-            c1 * (b2 * d3 - b3 * d2) +
-            d1 * (b2 * c3 - b3 * c2)) *
-        scale;
+        -(b1 * (c2 * d3 - c3 * d2) - c1 * (b2 * d3 - b3 * d2) + d1 * (b2 * c3 - b3 * c2)) * scale;
     _m4storage[13] =
-        (a1 * (c2 * d3 - c3 * d2) -
-            c1 * (a2 * d3 - a3 * d2) +
-            d1 * (a2 * c3 - a3 * c2)) *
-        scale;
+        (a1 * (c2 * d3 - c3 * d2) - c1 * (a2 * d3 - a3 * d2) + d1 * (a2 * c3 - a3 * c2)) * scale;
     _m4storage[14] =
-        -(a1 * (b2 * d3 - b3 * d2) -
-            b1 * (a2 * d3 - a3 * d2) +
-            d1 * (a2 * b3 - a3 * b2)) *
-        scale;
+        -(a1 * (b2 * d3 - b3 * d2) - b1 * (a2 * d3 - a3 * d2) + d1 * (a2 * b3 - a3 * b2)) * scale;
     _m4storage[15] =
-        (a1 * (b2 * c3 - b3 * c2) -
-            b1 * (a2 * c3 - a3 * c2) +
-            c1 * (a2 * b3 - a3 * b2)) *
-        scale;
+        (a1 * (b2 * c3 - b3 * c2) - b1 * (a2 * c3 - a3 * c2) + c1 * (a2 * b3 - a3 * b2)) * scale;
   }
 
   /// Rotates [arg] by the absolute rotation of this
@@ -2054,12 +1927,9 @@ class Matrix4 {
   /// Decomposes this into [translation], [rotation] and [scale] components.
   void decompose(Vector3 translation, Quaternion rotation, Vector3 scale) {
     final Vector3 v = _decomposeV ??= Vector3.zero();
-    double sx =
-        (v..setValues(_m4storage[0], _m4storage[1], _m4storage[2])).length;
-    final double sy =
-        (v..setValues(_m4storage[4], _m4storage[5], _m4storage[6])).length;
-    final double sz =
-        (v..setValues(_m4storage[8], _m4storage[9], _m4storage[10])).length;
+    double sx = (v..setValues(_m4storage[0], _m4storage[1], _m4storage[2])).length;
+    final double sy = (v..setValues(_m4storage[4], _m4storage[5], _m4storage[6])).length;
+    final double sz = (v..setValues(_m4storage[8], _m4storage[9], _m4storage[10])).length;
 
     if (determinant() < 0) {
       sx = -sx;

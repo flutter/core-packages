@@ -11,15 +11,7 @@ import 'package:vector_math/vector_math.dart';
 import 'test_utils.dart';
 
 void testAabb3ByteBufferInstanciation() {
-  final ByteBuffer buffer = Float32List.fromList([
-    1.0,
-    2.0,
-    3.0,
-    4.0,
-    5.0,
-    6.0,
-    7.0,
-  ]).buffer;
+  final ByteBuffer buffer = Float32List.fromList([1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0]).buffer;
   final aabb = Aabb3.fromBuffer(buffer, 0);
   final aabbOffest = Aabb3.fromBuffer(buffer, Float32List.bytesPerElement);
 
@@ -66,14 +58,8 @@ void testAabb3CopyCenterAndHalfExtents() {
 }
 
 void testAabb3setCenterAndHalfExtents() {
-  final a1 = Aabb3.centerAndHalfExtents(
-    $v3(0.0, 0.0, 0.0),
-    $v3(10.0, 20.0, 30.0),
-  );
-  final a2 = Aabb3.centerAndHalfExtents(
-    $v3(-10.0, -20.0, -30.0),
-    $v3(10.0, 20.0, 30.0),
-  );
+  final a1 = Aabb3.centerAndHalfExtents($v3(0.0, 0.0, 0.0), $v3(10.0, 20.0, 30.0));
+  final a2 = Aabb3.centerAndHalfExtents($v3(-10.0, -20.0, -30.0), $v3(10.0, 20.0, 30.0));
 
   relativeTest(a1.min, $v3(-10.0, -20.0, -30.0));
   relativeTest(a1.max, $v3(10.0, 20.0, 30.0));
@@ -91,10 +77,7 @@ void testAabb3setSphere() {
 }
 
 void testAabb3setRay() {
-  final r = Ray.originDirection(
-    $v3(1.0, 2.0, 3.0),
-    $v3(1.0, 5.0, -1.0)..normalize(),
-  );
+  final r = Ray.originDirection($v3(1.0, 2.0, 3.0), $v3(1.0, 5.0, -1.0)..normalize());
   final a = Aabb3.fromRay(r, 0.0, 10.0);
 
   expect(a.intersectsWithVector3(r.at(0.0)), isTrue);
@@ -102,11 +85,7 @@ void testAabb3setRay() {
 }
 
 void testAabb3setTriangle() {
-  final t = Triangle.points(
-    $v3(2.0, 0.0, 0.0),
-    $v3(0.0, 2.0, 0.0),
-    $v3(0.0, 0.0, 2.0),
-  );
+  final t = Triangle.points($v3(2.0, 0.0, 0.0), $v3(0.0, 2.0, 0.0), $v3(0.0, 0.0, 2.0));
   final a = Aabb3.fromTriangle(t);
 
   expect(a.intersectsWithVector3(t.point0), isTrue);
@@ -167,26 +146,10 @@ void testAabb3ContainsVector3() {
 
 void testAabb3ContainsTriangle() {
   final parent = Aabb3.minMax($v3(1.0, 1.0, 1.0), $v3(8.0, 8.0, 8.0));
-  final child = Triangle.points(
-    $v3(2.0, 2.0, 2.0),
-    $v3(3.0, 3.0, 3.0),
-    $v3(4.0, 4.0, 4.0),
-  );
-  final edge = Triangle.points(
-    $v3(1.0, 1.0, 1.0),
-    $v3(3.0, 3.0, 3.0),
-    $v3(4.0, 4.0, 4.0),
-  );
-  final cutting = Triangle.points(
-    $v3(2.0, 2.0, 2.0),
-    $v3(3.0, 3.0, 3.0),
-    $v3(14.0, 14.0, 14.0),
-  );
-  final outside = Triangle.points(
-    $v3(0.0, 0.0, 0.0),
-    $v3(-3.0, -3.0, -3.0),
-    $v3(-4.0, -4.0, -4.0),
-  );
+  final child = Triangle.points($v3(2.0, 2.0, 2.0), $v3(3.0, 3.0, 3.0), $v3(4.0, 4.0, 4.0));
+  final edge = Triangle.points($v3(1.0, 1.0, 1.0), $v3(3.0, 3.0, 3.0), $v3(4.0, 4.0, 4.0));
+  final cutting = Triangle.points($v3(2.0, 2.0, 2.0), $v3(3.0, 3.0, 3.0), $v3(14.0, 14.0, 14.0));
+  final outside = Triangle.points($v3(0.0, 0.0, 0.0), $v3(-3.0, -3.0, -3.0), $v3(-4.0, -4.0, -4.0));
 
   expect(parent.containsTriangle(child), isTrue);
   expect(parent.containsTriangle(edge), isFalse);
@@ -244,26 +207,10 @@ void testAabb3IntersectionSphere() {
 
 void testIntersectionTriangle() {
   final parent = Aabb3.minMax($v3(1.0, 1.0, 1.0), $v3(8.0, 8.0, 8.0));
-  final child = Triangle.points(
-    $v3(2.0, 2.0, 2.0),
-    $v3(3.0, 3.0, 3.0),
-    $v3(4.0, 4.0, 4.0),
-  );
-  final edge = Triangle.points(
-    $v3(1.0, 1.0, 1.0),
-    $v3(3.0, 3.0, 3.0),
-    $v3(4.0, 4.0, 4.0),
-  );
-  final cutting = Triangle.points(
-    $v3(2.0, 2.0, 2.0),
-    $v3(3.0, 3.0, 3.0),
-    $v3(14.0, 14.0, 14.0),
-  );
-  final outside = Triangle.points(
-    $v3(0.0, 0.0, 0.0),
-    $v3(-3.0, -3.0, -3.0),
-    $v3(-4.0, -4.0, -4.0),
-  );
+  final child = Triangle.points($v3(2.0, 2.0, 2.0), $v3(3.0, 3.0, 3.0), $v3(4.0, 4.0, 4.0));
+  final edge = Triangle.points($v3(1.0, 1.0, 1.0), $v3(3.0, 3.0, 3.0), $v3(4.0, 4.0, 4.0));
+  final cutting = Triangle.points($v3(2.0, 2.0, 2.0), $v3(3.0, 3.0, 3.0), $v3(14.0, 14.0, 14.0));
+  final outside = Triangle.points($v3(0.0, 0.0, 0.0), $v3(-3.0, -3.0, -3.0), $v3(-4.0, -4.0, -4.0));
 
   expect(parent.intersectsWithTriangle(child), isTrue);
   expect(parent.intersectsWithTriangle(edge), isTrue);

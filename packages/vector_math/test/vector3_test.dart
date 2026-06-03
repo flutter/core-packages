@@ -116,8 +116,7 @@ void testVector3DotProduct() {
 }
 
 void testVector3Postmultiplication() {
-  final inputMatrix =
-      (Matrix3.rotationX(.4)) * (Matrix3.rotationZ(.5)) as Matrix3;
+  final inputMatrix = (Matrix3.rotationX(.4)) * (Matrix3.rotationZ(.5)) as Matrix3;
   final inputVector = Vector3(1.0, 2.0, 3.0);
   final inputInv = Matrix3.copy(inputMatrix);
   inputInv.invert();
@@ -251,17 +250,11 @@ void testVector3SetLength() {
   relativeTest(v0.length, 0.0);
 
   v1.length = 2.0;
-  relativeTest(
-    v1,
-    Vector3(1.4552137851715088, -0.9701424837112427, 0.9701424837112427),
-  );
+  relativeTest(v1, Vector3(1.4552137851715088, -0.9701424837112427, 0.9701424837112427));
   relativeTest(v1.length, 2.0);
 
   v2.length = 0.5;
-  relativeTest(
-    v2,
-    Vector3(-0.1666666716337204, 0.3333333432674408, -0.3333333432674408),
-  );
+  relativeTest(v2, Vector3(-0.1666666716337204, 0.3333333432674408, -0.3333333432674408));
   relativeTest(v2.length, 0.5);
 
   v3.length = -1.0;
@@ -284,10 +277,7 @@ void testVector3Equals() {
   expect(v3 == Vector3(0.0, 2.0, 3.0), isFalse);
   expect(v3 == Vector3(1.0, 0.0, 3.0), isFalse);
   expect(v3 == Vector3(1.0, 2.0, 0.0), isFalse);
-  expect(
-    Vector3(1.0, 2.0, 3.0).hashCode,
-    equals(Vector3(1.0, 2.0, 3.0).hashCode),
-  );
+  expect(Vector3(1.0, 2.0, 3.0).hashCode, equals(Vector3(1.0, 2.0, 3.0).hashCode));
 }
 
 void testVector3Reflect() {
@@ -350,24 +340,7 @@ void testVector3Projection() {
   final v = Vector3(1.0, 1.0, 1.0);
   const double a = 2.0 / 3.0;
   const double b = 1.0 / 3.0;
-  final m = Matrix4(
-    a,
-    b,
-    -b,
-    0.0,
-    b,
-    a,
-    b,
-    0.0,
-    -b,
-    b,
-    a,
-    0.0,
-    0.0,
-    0.0,
-    0.0,
-    1.0,
-  );
+  final m = Matrix4(a, b, -b, 0.0, b, a, b, 0.0, -b, b, a, 0.0, 0.0, 0.0, 0.0, 1.0);
 
   v.applyProjection(m);
   relativeTest(v.x, a);
@@ -480,13 +453,9 @@ void testVector3RoundToZero() {
 
 void testVector3ApplyQuaternion() {
   final q = Quaternion(0.0, 0.9238795292366128, 0.0, 0.38268342717215614);
-  final v = Vector3(0.417267069084370, 0.049654430325742, 0.753423475845592)
-    ..applyQuaternion(q);
+  final v = Vector3(0.417267069084370, 0.049654430325742, 0.753423475845592)..applyQuaternion(q);
 
-  relativeTest(
-    v,
-    Vector3(0.23769846558570862, 0.04965442791581154, -0.8278031349182129),
-  );
+  relativeTest(v, Vector3(0.23769846558570862, 0.04965442791581154, -0.8278031349182129));
 }
 
 void main() {

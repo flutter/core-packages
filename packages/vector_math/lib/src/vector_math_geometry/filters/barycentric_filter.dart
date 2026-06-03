@@ -10,9 +10,7 @@ part of '../../../vector_math_geometry.dart';
 
 class BarycentricFilter extends GeometryFilter {
   @override
-  List<VertexAttrib> get generates => <VertexAttrib>[
-    VertexAttrib('BARYCENTRIC', 3, 'float'),
-  ];
+  List<VertexAttrib> get generates => <VertexAttrib>[VertexAttrib('BARYCENTRIC', 3, 'float')];
 
   @override
   MeshGeometry filter(MeshGeometry mesh) {

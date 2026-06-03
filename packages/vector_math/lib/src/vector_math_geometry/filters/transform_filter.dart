@@ -13,9 +13,7 @@ class TransformFilter extends InplaceGeometryFilter {
   Matrix4 transform;
 
   @override
-  List<VertexAttrib> get requires => <VertexAttrib>[
-    VertexAttrib('POSITION', 3, 'float'),
-  ];
+  List<VertexAttrib> get requires => <VertexAttrib>[VertexAttrib('POSITION', 3, 'float')];
 
   @override
   void filterInplace(MeshGeometry mesh) {

@@ -30,8 +30,7 @@ class Quaternion {
       Quaternion._()..setFromTwoVectors(a, b);
 
   /// Constructs a quaternion as a copy of [original].
-  factory Quaternion.copy(Quaternion original) =>
-      Quaternion._()..setFrom(original);
+  factory Quaternion.copy(Quaternion original) => Quaternion._()..setFrom(original);
 
   /// Constructs a quaternion with a random rotation. The random number
   /// generator [rn] is used to generate the random numbers for the rotation.
@@ -42,8 +41,7 @@ class Quaternion {
 
   /// Constructs a quaternion from time derivative of [q] with angular
   /// velocity [omega].
-  factory Quaternion.dq(Quaternion q, Vector3 omega) =>
-      Quaternion._()..setDQ(q, omega);
+  factory Quaternion.dq(Quaternion q, Vector3 omega) => Quaternion._()..setDQ(q, omega);
 
   /// Constructs a quaternion from [yaw], [pitch] and [roll].
   factory Quaternion.euler(double yaw, double pitch, double roll) =>
@@ -315,11 +313,7 @@ class Quaternion {
     }
 
     final double scale = 1.0 / math.sqrt(den);
-    return Vector3(
-      _qStorage[0] * scale,
-      _qStorage[1] * scale,
-      _qStorage[2] * scale,
-    );
+    return Vector3(_qStorage[0] * scale, _qStorage[1] * scale, _qStorage[2] * scale);
   }
 
   /// Length squared.

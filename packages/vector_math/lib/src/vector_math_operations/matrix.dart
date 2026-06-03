@@ -35,24 +35,17 @@ class Matrix44Operations {
     final double m10 = matrix[10 + offset];
     final double m11 = matrix[11 + offset];
 
-    final double det3_201_012 =
-        m8 * det2_01_12 - m9 * det2_01_02 + m10 * det2_01_01;
-    final double det3_201_013 =
-        m8 * det2_01_13 - m9 * det2_01_03 + m11 * det2_01_01;
-    final double det3_201_023 =
-        m8 * det2_01_23 - m10 * det2_01_03 + m11 * det2_01_02;
-    final double det3_201_123 =
-        m9 * det2_01_23 - m10 * det2_01_13 + m11 * det2_01_12;
+    final double det3_201_012 = m8 * det2_01_12 - m9 * det2_01_02 + m10 * det2_01_01;
+    final double det3_201_013 = m8 * det2_01_13 - m9 * det2_01_03 + m11 * det2_01_01;
+    final double det3_201_023 = m8 * det2_01_23 - m10 * det2_01_03 + m11 * det2_01_02;
+    final double det3_201_123 = m9 * det2_01_23 - m10 * det2_01_13 + m11 * det2_01_12;
 
     final double m12 = matrix[12 + offset];
     final double m13 = matrix[13 + offset];
     final double m14 = matrix[14 + offset];
     final double m15 = matrix[15 + offset];
 
-    return -det3_201_123 * m12 +
-        det3_201_023 * m13 -
-        det3_201_013 * m14 +
-        det3_201_012 * m15;
+    return -det3_201_123 * m12 + det3_201_023 * m13 - det3_201_013 * m14 + det3_201_012 * m15;
   }
 
   /// Compute the determinant of the upper 3x3 of the 4x4 [matrix] starting at
@@ -103,8 +96,7 @@ class Matrix44Operations {
     final double b09 = a21 * a32 - a22 * a31;
     final double b10 = a21 * a33 - a23 * a31;
     final double b11 = a22 * a33 - a23 * a32;
-    final double det =
-        b00 * b11 - b01 * b10 + b02 * b09 + b03 * b08 - b04 * b07 + b05 * b06;
+    final double det = b00 * b11 - b01 * b10 + b02 * b09 + b03 * b08 - b04 * b07 + b05 * b06;
 
     if (det == 0.0) {
       return det;
@@ -134,8 +126,7 @@ class Matrix44Operations {
 
   /// Compute the inverse of the upper 3x3 of the 4x4 [matrix] starting
   /// at [offset].
-  static double inverse33(Float32List matrix, int offset) =>
-      throw UnimplementedError();
+  static double inverse33(Float32List matrix, int offset) => throw UnimplementedError();
 
   /// [out] = [a] * [b]; Starting at [outOffset], [aOffset], and [bOffset].
   static void multiply(

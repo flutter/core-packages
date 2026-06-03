@@ -242,110 +242,71 @@ class Obb3 {
           _halfExtents[2] * _absR.entry(2, i);
       rb = other._halfExtents[i];
 
-      if ((_t[0] * _r.entry(0, i) +
-                  _t[1] * _r.entry(1, i) +
-                  _t[2] * _r.entry(2, i))
-              .abs() >
+      if ((_t[0] * _r.entry(0, i) + _t[1] * _r.entry(1, i) + _t[2] * _r.entry(2, i)).abs() >
           ra + rb) {
         return false;
       }
     }
 
     // Test axis L = A0 x B0
-    ra =
-        _halfExtents[1] * _absR.entry(2, 0) +
-        _halfExtents[2] * _absR.entry(1, 0);
-    rb =
-        other._halfExtents[1] * _absR.entry(0, 2) +
-        other._halfExtents[2] * _absR.entry(0, 1);
+    ra = _halfExtents[1] * _absR.entry(2, 0) + _halfExtents[2] * _absR.entry(1, 0);
+    rb = other._halfExtents[1] * _absR.entry(0, 2) + other._halfExtents[2] * _absR.entry(0, 1);
     if ((_t[2] * _r.entry(1, 0) - _t[1] * _r.entry(2, 0)).abs() > ra + rb) {
       return false;
     }
 
     // Test axis L = A0 x B1
-    ra =
-        _halfExtents[1] * _absR.entry(2, 1) +
-        _halfExtents[2] * _absR.entry(1, 1);
-    rb =
-        other._halfExtents[0] * _absR.entry(0, 2) +
-        other._halfExtents[2] * _absR.entry(0, 0);
+    ra = _halfExtents[1] * _absR.entry(2, 1) + _halfExtents[2] * _absR.entry(1, 1);
+    rb = other._halfExtents[0] * _absR.entry(0, 2) + other._halfExtents[2] * _absR.entry(0, 0);
     if ((_t[2] * _r.entry(1, 1) - _t[1] * _r.entry(2, 1)).abs() > ra + rb) {
       return false;
     }
 
     // Test axis L = A0 x B2
-    ra =
-        _halfExtents[1] * _absR.entry(2, 2) +
-        _halfExtents[2] * _absR.entry(1, 2);
-    rb =
-        other._halfExtents[0] * _absR.entry(0, 1) +
-        other._halfExtents[1] * _absR.entry(0, 0);
+    ra = _halfExtents[1] * _absR.entry(2, 2) + _halfExtents[2] * _absR.entry(1, 2);
+    rb = other._halfExtents[0] * _absR.entry(0, 1) + other._halfExtents[1] * _absR.entry(0, 0);
     if ((_t[2] * _r.entry(1, 2) - _t[1] * _r.entry(2, 2)).abs() > ra + rb) {
       return false;
     }
 
     // Test axis L = A1 x B0
-    ra =
-        _halfExtents[0] * _absR.entry(2, 0) +
-        _halfExtents[2] * _absR.entry(0, 0);
-    rb =
-        other._halfExtents[1] * _absR.entry(1, 2) +
-        other._halfExtents[2] * _absR.entry(1, 1);
+    ra = _halfExtents[0] * _absR.entry(2, 0) + _halfExtents[2] * _absR.entry(0, 0);
+    rb = other._halfExtents[1] * _absR.entry(1, 2) + other._halfExtents[2] * _absR.entry(1, 1);
     if ((_t[0] * _r.entry(2, 0) - _t[2] * _r.entry(0, 0)).abs() > ra + rb) {
       return false;
     }
 
     // Test axis L = A1 x B1
-    ra =
-        _halfExtents[0] * _absR.entry(2, 1) +
-        _halfExtents[2] * _absR.entry(0, 1);
-    rb =
-        other._halfExtents[0] * _absR.entry(1, 2) +
-        other._halfExtents[2] * _absR.entry(1, 0);
+    ra = _halfExtents[0] * _absR.entry(2, 1) + _halfExtents[2] * _absR.entry(0, 1);
+    rb = other._halfExtents[0] * _absR.entry(1, 2) + other._halfExtents[2] * _absR.entry(1, 0);
     if ((_t[0] * _r.entry(2, 1) - _t[2] * _r.entry(0, 1)).abs() > ra + rb) {
       return false;
     }
 
     // Test axis L = A1 x B2
-    ra =
-        _halfExtents[0] * _absR.entry(2, 2) +
-        _halfExtents[2] * _absR.entry(0, 2);
-    rb =
-        other._halfExtents[0] * _absR.entry(1, 1) +
-        other._halfExtents[1] * _absR.entry(1, 0);
+    ra = _halfExtents[0] * _absR.entry(2, 2) + _halfExtents[2] * _absR.entry(0, 2);
+    rb = other._halfExtents[0] * _absR.entry(1, 1) + other._halfExtents[1] * _absR.entry(1, 0);
     if ((_t[0] * _r.entry(2, 2) - _t[2] * _r.entry(0, 2)).abs() > ra + rb) {
       return false;
     }
 
     // Test axis L = A2 x B0
-    ra =
-        _halfExtents[0] * _absR.entry(1, 0) +
-        _halfExtents[1] * _absR.entry(0, 0);
-    rb =
-        other._halfExtents[1] * _absR.entry(2, 2) +
-        other._halfExtents[2] * _absR.entry(2, 1);
+    ra = _halfExtents[0] * _absR.entry(1, 0) + _halfExtents[1] * _absR.entry(0, 0);
+    rb = other._halfExtents[1] * _absR.entry(2, 2) + other._halfExtents[2] * _absR.entry(2, 1);
     if ((_t[1] * _r.entry(0, 0) - _t[0] * _r.entry(1, 0)).abs() > ra + rb) {
       return false;
     }
 
     // Test axis L = A2 x B1
-    ra =
-        _halfExtents[0] * _absR.entry(1, 1) +
-        _halfExtents[1] * _absR.entry(0, 1);
-    rb =
-        other._halfExtents[0] * _absR.entry(2, 2) +
-        other._halfExtents[2] * _absR.entry(2, 0);
+    ra = _halfExtents[0] * _absR.entry(1, 1) + _halfExtents[1] * _absR.entry(0, 1);
+    rb = other._halfExtents[0] * _absR.entry(2, 2) + other._halfExtents[2] * _absR.entry(2, 0);
     if ((_t[1] * _r.entry(0, 1) - _t[0] * _r.entry(1, 1)).abs() > ra + rb) {
       return false;
     }
 
     // Test axis L = A2 x B2
-    ra =
-        _halfExtents[0] * _absR.entry(1, 2) +
-        _halfExtents[1] * _absR.entry(0, 2);
-    rb =
-        other._halfExtents[0] * _absR.entry(2, 1) +
-        other._halfExtents[1] * _absR.entry(2, 0);
+    ra = _halfExtents[0] * _absR.entry(1, 2) + _halfExtents[1] * _absR.entry(0, 2);
+    rb = other._halfExtents[0] * _absR.entry(2, 1) + other._halfExtents[1] * _absR.entry(2, 0);
     if ((_t[1] * _r.entry(0, 2) - _t[0] * _r.entry(1, 2)).abs() > ra + rb) {
       return false;
     }

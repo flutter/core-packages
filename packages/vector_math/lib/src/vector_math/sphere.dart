@@ -10,13 +10,10 @@ class Sphere {
   Sphere() : _center = Vector3.zero(), radius = 0.0;
 
   /// Create a sphere as a copy of [other].
-  Sphere.copy(Sphere other)
-    : _center = Vector3.copy(other._center),
-      radius = other.radius;
+  Sphere.copy(Sphere other) : _center = Vector3.copy(other._center), radius = other.radius;
 
   /// Create a sphere from a [center] and a [radius].
-  Sphere.centerRadius(Vector3 center, this.radius)
-    : _center = Vector3.copy(center);
+  Sphere.centerRadius(Vector3 center, this.radius) : _center = Vector3.copy(center);
   final Vector3 _center;
 
   /// The [radius] of the sphere.
@@ -32,12 +29,10 @@ class Sphere {
   }
 
   /// Return if this contains [other].
-  bool containsVector3(Vector3 other) =>
-      other.distanceToSquared(center) < radius * radius;
+  bool containsVector3(Vector3 other) => other.distanceToSquared(center) < radius * radius;
 
   /// Return if this intersects with [other].
-  bool intersectsWithVector3(Vector3 other) =>
-      other.distanceToSquared(center) <= radius * radius;
+  bool intersectsWithVector3(Vector3 other) => other.distanceToSquared(center) <= radius * radius;
 
   /// Return if this intersects with [other].
   bool intersectsWithSphere(Sphere other) {

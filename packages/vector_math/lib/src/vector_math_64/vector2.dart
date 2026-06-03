@@ -151,8 +151,7 @@ class Vector2 implements Vector {
   double get length => math.sqrt(length2);
 
   /// The squared length of the vector.
-  double get length2 =>
-      _v2storage[1] * _v2storage[1] + _v2storage[0] * _v2storage[0];
+  double get length2 => _v2storage[1] * _v2storage[1] + _v2storage[0] * _v2storage[0];
 
   /// Normalize this.
   double normalize() {
@@ -261,8 +260,7 @@ class Vector2 implements Vector {
   Vector2 reflected(Vector2 normal) => clone()..reflect(normal);
 
   /// Relative error between this and [correct]
-  double relativeError(Vector2 correct) =>
-      absoluteError(correct) / correct.length;
+  double relativeError(Vector2 correct) => absoluteError(correct) / correct.length;
 
   /// Absolute error between this and [correct]
   double absoluteError(Vector2 correct) {
@@ -432,38 +430,22 @@ class Vector2 implements Vector {
   Vector3 get yxy => Vector3(_v2storage[1], _v2storage[0], _v2storage[1]);
   Vector3 get yyx => Vector3(_v2storage[1], _v2storage[1], _v2storage[0]);
   Vector3 get yyy => Vector3(_v2storage[1], _v2storage[1], _v2storage[1]);
-  Vector4 get xxxx =>
-      Vector4(_v2storage[0], _v2storage[0], _v2storage[0], _v2storage[0]);
-  Vector4 get xxxy =>
-      Vector4(_v2storage[0], _v2storage[0], _v2storage[0], _v2storage[1]);
-  Vector4 get xxyx =>
-      Vector4(_v2storage[0], _v2storage[0], _v2storage[1], _v2storage[0]);
-  Vector4 get xxyy =>
-      Vector4(_v2storage[0], _v2storage[0], _v2storage[1], _v2storage[1]);
-  Vector4 get xyxx =>
-      Vector4(_v2storage[0], _v2storage[1], _v2storage[0], _v2storage[0]);
-  Vector4 get xyxy =>
-      Vector4(_v2storage[0], _v2storage[1], _v2storage[0], _v2storage[1]);
-  Vector4 get xyyx =>
-      Vector4(_v2storage[0], _v2storage[1], _v2storage[1], _v2storage[0]);
-  Vector4 get xyyy =>
-      Vector4(_v2storage[0], _v2storage[1], _v2storage[1], _v2storage[1]);
-  Vector4 get yxxx =>
-      Vector4(_v2storage[1], _v2storage[0], _v2storage[0], _v2storage[0]);
-  Vector4 get yxxy =>
-      Vector4(_v2storage[1], _v2storage[0], _v2storage[0], _v2storage[1]);
-  Vector4 get yxyx =>
-      Vector4(_v2storage[1], _v2storage[0], _v2storage[1], _v2storage[0]);
-  Vector4 get yxyy =>
-      Vector4(_v2storage[1], _v2storage[0], _v2storage[1], _v2storage[1]);
-  Vector4 get yyxx =>
-      Vector4(_v2storage[1], _v2storage[1], _v2storage[0], _v2storage[0]);
-  Vector4 get yyxy =>
-      Vector4(_v2storage[1], _v2storage[1], _v2storage[0], _v2storage[1]);
-  Vector4 get yyyx =>
-      Vector4(_v2storage[1], _v2storage[1], _v2storage[1], _v2storage[0]);
-  Vector4 get yyyy =>
-      Vector4(_v2storage[1], _v2storage[1], _v2storage[1], _v2storage[1]);
+  Vector4 get xxxx => Vector4(_v2storage[0], _v2storage[0], _v2storage[0], _v2storage[0]);
+  Vector4 get xxxy => Vector4(_v2storage[0], _v2storage[0], _v2storage[0], _v2storage[1]);
+  Vector4 get xxyx => Vector4(_v2storage[0], _v2storage[0], _v2storage[1], _v2storage[0]);
+  Vector4 get xxyy => Vector4(_v2storage[0], _v2storage[0], _v2storage[1], _v2storage[1]);
+  Vector4 get xyxx => Vector4(_v2storage[0], _v2storage[1], _v2storage[0], _v2storage[0]);
+  Vector4 get xyxy => Vector4(_v2storage[0], _v2storage[1], _v2storage[0], _v2storage[1]);
+  Vector4 get xyyx => Vector4(_v2storage[0], _v2storage[1], _v2storage[1], _v2storage[0]);
+  Vector4 get xyyy => Vector4(_v2storage[0], _v2storage[1], _v2storage[1], _v2storage[1]);
+  Vector4 get yxxx => Vector4(_v2storage[1], _v2storage[0], _v2storage[0], _v2storage[0]);
+  Vector4 get yxxy => Vector4(_v2storage[1], _v2storage[0], _v2storage[0], _v2storage[1]);
+  Vector4 get yxyx => Vector4(_v2storage[1], _v2storage[0], _v2storage[1], _v2storage[0]);
+  Vector4 get yxyy => Vector4(_v2storage[1], _v2storage[0], _v2storage[1], _v2storage[1]);
+  Vector4 get yyxx => Vector4(_v2storage[1], _v2storage[1], _v2storage[0], _v2storage[0]);
+  Vector4 get yyxy => Vector4(_v2storage[1], _v2storage[1], _v2storage[0], _v2storage[1]);
+  Vector4 get yyyx => Vector4(_v2storage[1], _v2storage[1], _v2storage[1], _v2storage[0]);
+  Vector4 get yyyy => Vector4(_v2storage[1], _v2storage[1], _v2storage[1], _v2storage[1]);
   double get r => x;
   double get g => y;
   double get s => x;

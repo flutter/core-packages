@@ -39,8 +39,7 @@ void cross2B(Vector2 x, double y, Vector2 out) {
 void buildPlaneVectors(final Vector3 planeNormal, Vector3 u, Vector3 v) {
   if (planeNormal.z.abs() > math.sqrt1_2) {
     // choose u in y-z plane
-    final double a =
-        planeNormal.y * planeNormal.y + planeNormal.z * planeNormal.z;
+    final double a = planeNormal.y * planeNormal.y + planeNormal.z * planeNormal.z;
     final double k = 1.0 / math.sqrt(a);
     u
       ..x = 0.0
@@ -53,8 +52,7 @@ void buildPlaneVectors(final Vector3 planeNormal, Vector3 u, Vector3 v) {
       ..z = planeNormal[0] * (-planeNormal[2] * k);
   } else {
     // choose u in x-y plane
-    final double a =
-        planeNormal.x * planeNormal.x + planeNormal.y * planeNormal.y;
+    final double a = planeNormal.x * planeNormal.x + planeNormal.y * planeNormal.y;
     final double k = 1.0 / math.sqrt(a);
     u
       ..x = -planeNormal[1] * k

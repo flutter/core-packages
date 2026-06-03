@@ -36,9 +36,7 @@ class ScalarListView {
   ScalarListView.view(Float32List buffer, [int offset = 0, int stride = 0])
     : _offset = offset,
       _stride = stride == 0 ? 1 : stride,
-      _length =
-          (buffer.length - math.max(0, offset - stride)) ~/
-          (stride == 0 ? 1 : stride),
+      _length = (buffer.length - math.max(0, offset - stride)) ~/ (stride == 0 ? 1 : stride),
       _buffer = buffer;
   final int _offset;
   final int _stride;

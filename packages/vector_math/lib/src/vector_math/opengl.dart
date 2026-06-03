@@ -40,11 +40,7 @@ part of '../../vector_math.dart';
 ///         gl.uniformMatrix4fv(u_MV, false, _MV.storage);
 ///       }
 ///     }
-void setRotationMatrix(
-  Matrix4 rotationMatrix,
-  Vector3 forwardDirection,
-  Vector3 upDirection,
-) {
+void setRotationMatrix(Matrix4 rotationMatrix, Vector3 forwardDirection, Vector3 upDirection) {
   setModelMatrix(rotationMatrix, forwardDirection, upDirection, 0.0, 0.0, 0.0);
 }
 
@@ -136,11 +132,7 @@ void setViewMatrix(
 /// [cameraPosition] specifies the position of the camera.
 /// [cameraFocusPosition] specifies the position the camera is focused on.
 /// [upDirection] specifies the direction of the up vector (usually, +Y).
-Matrix4 makeViewMatrix(
-  Vector3 cameraPosition,
-  Vector3 cameraFocusPosition,
-  Vector3 upDirection,
-) {
+Matrix4 makeViewMatrix(Vector3 cameraPosition, Vector3 cameraFocusPosition, Vector3 upDirection) {
   final r = Matrix4.zero();
   setViewMatrix(r, cameraPosition, cameraFocusPosition, upDirection);
   return r;
@@ -186,12 +178,7 @@ void setPerspectiveMatrix(
 /// (always positive).
 /// [zFar] specifies the distance from the viewer to the far plane
 /// (always positive).
-Matrix4 makePerspectiveMatrix(
-  double fovYRadians,
-  double aspectRatio,
-  double zNear,
-  double zFar,
-) {
+Matrix4 makePerspectiveMatrix(double fovYRadians, double aspectRatio, double zNear, double zFar) {
   final r = Matrix4.zero();
   setPerspectiveMatrix(r, fovYRadians, aspectRatio, zNear, zFar);
   return r;
@@ -230,11 +217,7 @@ void setInfiniteMatrix(
 /// in the x direction. The aspect ratio of x (width) to y (height).
 /// [zNear] specifies the distance from the viewer to the near plane
 /// (always positive).
-Matrix4 makeInfiniteMatrix(
-  double fovYRadians,
-  double aspectRatio,
-  double zNear,
-) {
+Matrix4 makeInfiniteMatrix(double fovYRadians, double aspectRatio, double zNear) {
   final r = Matrix4.zero();
   setInfiniteMatrix(r, fovYRadians, aspectRatio, zNear);
   return r;
@@ -351,24 +334,12 @@ Matrix4 makeOrthographicMatrix(
 /// Returns a transformation matrix that transforms points onto
 /// the plane specified with [planeNormal] and [planePoint].
 Matrix4 makePlaneProjection(Vector3 planeNormal, Vector3 planePoint) {
-  final v = Vector4(
-    planeNormal.storage[0],
-    planeNormal.storage[1],
-    planeNormal.storage[2],
-    0.0,
-  );
+  final v = Vector4(planeNormal.storage[0], planeNormal.storage[1], planeNormal.storage[2], 0.0);
   final outer = Matrix4.outer(v, v);
   var r = Matrix4.zero();
   r = r - outer;
-  final Vector3 scaledNormal = planeNormal.scaled(
-    dot3(planePoint, planeNormal),
-  );
-  final T = Vector4(
-    scaledNormal.storage[0],
-    scaledNormal.storage[1],
-    scaledNormal.storage[2],
-    1.0,
-  );
+  final Vector3 scaledNormal = planeNormal.scaled(dot3(planePoint, planeNormal));
+  final T = Vector4(scaledNormal.storage[0], scaledNormal.storage[1], scaledNormal.storage[2], 1.0);
   r.setColumn(3, T);
   return r;
 }
@@ -376,23 +347,13 @@ Matrix4 makePlaneProjection(Vector3 planeNormal, Vector3 planePoint) {
 /// Returns a transformation matrix that transforms points by reflecting
 /// them through the plane specified with [planeNormal] and [planePoint].
 Matrix4 makePlaneReflection(Vector3 planeNormal, Vector3 planePoint) {
-  final v = Vector4(
-    planeNormal.storage[0],
-    planeNormal.storage[1],
-    planeNormal.storage[2],
-    0.0,
-  );
+  final v = Vector4(planeNormal.storage[0], planeNormal.storage[1], planeNormal.storage[2], 0.0);
   final outer = Matrix4.outer(v, v)..scaleByDouble(2.0, 2.0, 2.0, 1.0);
   var r = Matrix4.zero();
   r = r - outer;
   final double scale = 2.0 * planePoint.dot(planeNormal);
   final Vector3 scaledNormal = planeNormal.scaled(scale);
-  final T = Vector4(
-    scaledNormal.storage[0],
-    scaledNormal.storage[1],
-    scaledNormal.storage[2],
-    1.0,
-  );
+  final T = Vector4(scaledNormal.storage[0], scaledNormal.storage[1], scaledNormal.storage[2], 1.0);
   r.setColumn(3, T);
   return r;
 }
@@ -432,12 +393,7 @@ bool unproject(
   pickZ = (2.0 * pickZ) - 1.0;
 
   // Check if pick point is inside unit cube
-  if (pickX < -1.0 ||
-      pickY < -1.0 ||
-      pickX > 1.0 ||
-      pickY > 1.0 ||
-      pickZ < -1.0 ||
-      pickZ > 1.0) {
+  if (pickX < -1.0 || pickY < -1.0 || pickX > 1.0 || pickY > 1.0 || pickZ < -1.0 || pickZ > 1.0) {
     return false;
   }
 

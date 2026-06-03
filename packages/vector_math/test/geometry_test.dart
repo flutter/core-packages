@@ -123,16 +123,8 @@ void testCombineIndices() {
   // Combining two meshes should generate indices that are not out of range.
   final sphereGenerator = SphereGenerator();
 
-  final MeshGeometry sphere0 = sphereGenerator.createSphere(
-    10.0,
-    latSegments: 8,
-    lonSegments: 8,
-  );
-  final MeshGeometry sphere1 = sphereGenerator.createSphere(
-    10.0,
-    latSegments: 8,
-    lonSegments: 8,
-  );
+  final MeshGeometry sphere0 = sphereGenerator.createSphere(10.0, latSegments: 8, lonSegments: 8);
+  final MeshGeometry sphere1 = sphereGenerator.createSphere(10.0, latSegments: 8, lonSegments: 8);
 
   final combined = MeshGeometry.combine([sphere0, sphere1]);
   expect(combined.indices, everyElement(lessThan(combined.length)));

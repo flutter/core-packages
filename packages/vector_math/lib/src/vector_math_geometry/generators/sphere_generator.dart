@@ -73,11 +73,7 @@ class SphereGenerator extends GeometryGenerator {
   }
 
   @override
-  void generateVertexTexCoords(
-    Vector2List texCoords,
-    Vector3List positions,
-    Uint16List indices,
-  ) {
+  void generateVertexTexCoords(Vector2List texCoords, Vector3List positions, Uint16List indices) {
     var i = 0;
     for (var y = 0; y <= _latSegments; ++y) {
       final double v = y / _latSegments;
@@ -90,11 +86,7 @@ class SphereGenerator extends GeometryGenerator {
   }
 
   @override
-  void generateVertexNormals(
-    Vector3List normals,
-    Vector3List positions,
-    Uint16List indices,
-  ) {
+  void generateVertexNormals(Vector3List normals, Vector3List positions, Uint16List indices) {
     var i = 0;
     for (var y = 0; y <= _latSegments; ++y) {
       final double v = y / _latSegments;

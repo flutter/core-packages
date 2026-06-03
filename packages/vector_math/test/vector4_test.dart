@@ -148,24 +148,14 @@ void testVector4SetLength() {
   v1.length = 2.0;
   relativeTest(
     v1,
-    Vector4(
-      1.4142135381698608,
-      -0.9428090453147888,
-      0.9428090453147888,
-      0.4714045226573944,
-    ),
+    Vector4(1.4142135381698608, -0.9428090453147888, 0.9428090453147888, 0.4714045226573944),
   );
   relativeTest(v1.length, 2.0);
 
   v2.length = 0.5;
   relativeTest(
     v2,
-    Vector4(
-      -0.1178511306643486,
-      0.2357022613286972,
-      -0.2357022613286972,
-      -0.3535533845424652,
-    ),
+    Vector4(-0.1178511306643486, 0.2357022613286972, -0.2357022613286972, -0.3535533845424652),
   );
   relativeTest(v2.length, 0.5);
 
@@ -190,10 +180,7 @@ void testVector4Equals() {
   expect(v4 == Vector4(1.0, 0.0, 3.0, 4.0), isFalse);
   expect(v4 == Vector4(1.0, 2.0, 0.0, 4.0), isFalse);
   expect(v4 == Vector4(1.0, 2.0, 3.0, 0.0), isFalse);
-  expect(
-    Vector4(1.0, 2.0, 3.0, 4.0).hashCode,
-    equals(Vector4(1.0, 2.0, 3.0, 4.0).hashCode),
-  );
+  expect(Vector4(1.0, 2.0, 3.0, 4.0).hashCode, equals(Vector4(1.0, 2.0, 3.0, 4.0).hashCode));
 }
 
 void testVector4DistanceTo() {

@@ -247,14 +247,8 @@ void testMatrix3Transform() {
   final input = Vector3(1.0, 0.0, 0.0);
 
   relativeTest(rotX.transformed(input), input);
-  relativeTest(
-    rotY.transformed(input),
-    Vector3(1.0 / math.sqrt(2.0), 0.0, -1.0 / math.sqrt(2.0)),
-  );
-  relativeTest(
-    rotZ.transformed(input),
-    Vector3(1.0 / math.sqrt(2.0), 1.0 / math.sqrt(2.0), 0.0),
-  );
+  relativeTest(rotY.transformed(input), Vector3(1.0 / math.sqrt(2.0), 0.0, -1.0 / math.sqrt(2.0)));
+  relativeTest(rotZ.transformed(input), Vector3(1.0 / math.sqrt(2.0), 1.0 / math.sqrt(2.0), 0.0));
 }
 
 void testMatrix3RotationX() {
@@ -281,25 +275,12 @@ void testMatrix3RotationZ() {
 void testMatrix3Transform2() {
   final rotZ = Matrix3.rotationZ(math.pi / 4);
   final trans = Matrix3(1.0, 0.0, 3.0, 0.0, 1.0, 2.0, 3.0, 2.0, 1.0);
-  final transB = Matrix3.fromList([
-    1.0,
-    0.0,
-    3.0,
-    0.0,
-    1.0,
-    2.0,
-    3.0,
-    2.0,
-    1.0,
-  ]);
+  final transB = Matrix3.fromList([1.0, 0.0, 3.0, 0.0, 1.0, 2.0, 3.0, 2.0, 1.0]);
   expect(trans, equals(transB));
 
   final input = Vector2(1.0, 0.0);
 
-  relativeTest(
-    rotZ.transform2(input.clone()),
-    Vector2(math.sqrt(0.5), math.sqrt(0.5)),
-  );
+  relativeTest(rotZ.transform2(input.clone()), Vector2(math.sqrt(0.5), math.sqrt(0.5)));
 
   relativeTest(trans.transform2(input.clone()), Vector2(4.0, 2.0));
 }
@@ -313,15 +294,9 @@ void testMatrix3AbsoluteRotate2() {
 
   final input = Vector2(1.0, 0.0);
 
-  relativeTest(
-    rotZ.absoluteRotate2(input.clone()),
-    Vector2(math.sqrt(0.5), math.sqrt(0.5)),
-  );
+  relativeTest(rotZ.absoluteRotate2(input.clone()), Vector2(math.sqrt(0.5), math.sqrt(0.5)));
 
-  relativeTest(
-    rotZcw.absoluteRotate2(input.clone()),
-    Vector2(math.sqrt(0.5), math.sqrt(0.5)),
-  );
+  relativeTest(rotZcw.absoluteRotate2(input.clone()), Vector2(math.sqrt(0.5), math.sqrt(0.5)));
 }
 
 void testMatrix3ConstructorCopy() {
