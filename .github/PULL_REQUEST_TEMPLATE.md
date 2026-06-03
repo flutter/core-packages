@@ -9,7 +9,7 @@
 - [ ] I read the [Tree Hygiene] page, which explains my responsibilities.
 - [ ] I read and followed the [Flutter style guide] and ran [the auto-formatter].
 - [ ] I signed the [CLA].
-- [ ] The title of the PR starts with the name of the package surrounded by square brackets, e.g. `[shared_preferences]`
+- [ ] The title of the PR starts with the name of the package surrounded by square brackets, e.g. `[vector_math]`
 - [ ] I [linked to at least one issue that this PR fixes] in the description above.
 - [ ] I followed [the version and CHANGELOG instructions], using [semantic versioning] and the [repository CHANGELOG style], or I have commented below to indicate which documented exception this PR falls under[^1].
 - [ ] I updated/added any relevant documentation (doc comments with `///`).
