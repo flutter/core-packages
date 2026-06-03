@@ -62,11 +62,7 @@ class RingGenerator extends GeometryGenerator {
   }
 
   @override
-  void generateVertexTexCoords(
-    Vector2List texCoords,
-    Vector3List positions,
-    Uint16List indices,
-  ) {
+  void generateVertexTexCoords(Vector2List texCoords, Vector3List positions, Uint16List indices) {
     if (_stripTextureCoordinates) {
       final v = Vector2.zero();
       var index = 0;

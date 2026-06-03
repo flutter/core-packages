@@ -78,11 +78,7 @@ class Colors {
   /// the alpha channel, set [alpha] to true, it is false by default. If [short]
   /// is true, the resulting hex string might also be a short version, like #ff0
   /// (default false).
-  static String toHexString(
-    Vector4 input, {
-    bool alpha = false,
-    bool short = false,
-  }) {
+  static String toHexString(Vector4 input, {bool alpha = false, bool short = false}) {
     final int r = (input.r * 0xFF).floor() & 0xFF;
     final int g = (input.g * 0xFF).floor() & 0xFF;
     final int b = (input.b * 0xFF).floor() & 0xFF;
@@ -97,9 +93,7 @@ class Colors {
 
     if (isShort) {
       final String rgb =
-          (r & 0xF).toRadixString(16) +
-          (g & 0xF).toRadixString(16) +
-          (b & 0xF).toRadixString(16);
+          (r & 0xF).toRadixString(16) + (g & 0xF).toRadixString(16) + (b & 0xF).toRadixString(16);
 
       return alpha ? (a & 0xF).toRadixString(16) + rgb : rgb;
     } else {
@@ -114,26 +108,16 @@ class Colors {
 
   /// Blend the [foreground] color over [background] color and store the color
   /// in [result].
-  static void alphaBlend(
-    Vector4 foreground,
-    Vector4 background,
-    Vector4 result,
-  ) {
+  static void alphaBlend(Vector4 foreground, Vector4 background, Vector4 result) {
     final double a = foreground.a + (1.0 - foreground.a) * background.a;
     final double factor = 1.0 / a;
 
     final double r =
-        factor *
-        (foreground.a * foreground.r +
-            (1.0 - foreground.a) * background.a * background.r);
+        factor * (foreground.a * foreground.r + (1.0 - foreground.a) * background.a * background.r);
     final double g =
-        factor *
-        (foreground.a * foreground.g +
-            (1.0 - foreground.a) * background.a * background.g);
+        factor * (foreground.a * foreground.g + (1.0 - foreground.a) * background.a * background.g);
     final double b =
-        factor *
-        (foreground.a * foreground.b +
-            (1.0 - foreground.a) * background.a * background.b);
+        factor * (foreground.a * foreground.b + (1.0 - foreground.a) * background.a * background.b);
 
     result.setValues(r, g, b, a);
   }
@@ -152,11 +136,7 @@ class Colors {
   /// Convert [linearColor] from linear space into gamma color space and store
   /// the result in [gammaColor]. It is possible to specify a optional [gamma],
   /// the default value is 2.2.
-  static void linearToGamma(
-    Vector4 linearColor,
-    Vector4 gammaColor, [
-    double gamma = 2.2,
-  ]) {
+  static void linearToGamma(Vector4 linearColor, Vector4 gammaColor, [double gamma = 2.2]) {
     final double exponent = 1.0 / gamma;
 
     gammaColor
@@ -169,11 +149,7 @@ class Colors {
   /// Convert [gammaColor] from gamma space into linear color space and store
   /// the result in [linearColor]. It is possible to specify a optional [gamma],
   /// the default value is 2.2.
-  static void gammaToLinear(
-    Vector4 gammaColor,
-    Vector4 linearColor, [
-    double gamma = 2.2,
-  ]) {
+  static void gammaToLinear(Vector4 gammaColor, Vector4 linearColor, [double gamma = 2.2]) {
     linearColor
       ..r = math.pow(gammaColor.r, gamma).toDouble()
       ..g = math.pow(gammaColor.g, gamma).toDouble()
@@ -193,9 +169,7 @@ class Colors {
 
     if (max != min) {
       if (max == rgbColor.r) {
-        h =
-            (rgbColor.g - rgbColor.b) / d +
-            (rgbColor.g < rgbColor.b ? 6.0 : 0.0);
+        h = (rgbColor.g - rgbColor.b) / d + (rgbColor.g < rgbColor.b ? 6.0 : 0.0);
       } else if (max == rgbColor.g) {
         h = (rgbColor.b - rgbColor.r) / d + 2.0;
       } else {
@@ -248,9 +222,7 @@ class Colors {
       s = l > 0.5 ? d / (2.0 - max - min) : d / (max + min);
 
       if (max == rgbColor.r) {
-        h =
-            (rgbColor.g - rgbColor.b) / d +
-            (rgbColor.g < rgbColor.b ? 6.0 : 0.0);
+        h = (rgbColor.g - rgbColor.b) / d + (rgbColor.g < rgbColor.b ? 6.0 : 0.0);
       } else if (max == rgbColor.g) {
         h = (rgbColor.b - rgbColor.r) / d + 2.0;
       } else {
@@ -313,44 +285,37 @@ class Colors {
       Vector4(250.0 / 255.0, 235.0 / 255.0, 215.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'aqua'.
-  static Vector4 get aqua =>
-      Vector4(0.0 / 255.0, 255.0 / 255.0, 255.0 / 255.0, 255.0 / 255.0);
+  static Vector4 get aqua => Vector4(0.0 / 255.0, 255.0 / 255.0, 255.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'aquamarine'.
   static Vector4 get aquamarine =>
       Vector4(127.0 / 255.0, 255.0 / 255.0, 212.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'azure'.
-  static Vector4 get azure =>
-      Vector4(240.0 / 255.0, 255.0 / 255.0, 255.0 / 255.0, 255.0 / 255.0);
+  static Vector4 get azure => Vector4(240.0 / 255.0, 255.0 / 255.0, 255.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'beige'.
-  static Vector4 get beige =>
-      Vector4(245.0 / 255.0, 245.0 / 255.0, 220.0 / 255.0, 255.0 / 255.0);
+  static Vector4 get beige => Vector4(245.0 / 255.0, 245.0 / 255.0, 220.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'bisque'.
-  static Vector4 get bisque =>
-      Vector4(255.0 / 255.0, 228.0 / 255.0, 196.0 / 255.0, 255.0 / 255.0);
+  static Vector4 get bisque => Vector4(255.0 / 255.0, 228.0 / 255.0, 196.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'black'.
-  static Vector4 get black =>
-      Vector4(0.0 / 255.0, 0.0 / 255.0, 0.0 / 255.0, 255.0 / 255.0);
+  static Vector4 get black => Vector4(0.0 / 255.0, 0.0 / 255.0, 0.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'blanchedalmond'.
   static Vector4 get blanchedAlmond =>
       Vector4(255.0 / 255.0, 235.0 / 255.0, 205.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'blue'.
-  static Vector4 get blue =>
-      Vector4(0.0 / 255.0, 0.0 / 255.0, 255.0 / 255.0, 255.0 / 255.0);
+  static Vector4 get blue => Vector4(0.0 / 255.0, 0.0 / 255.0, 255.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'blueviolet'.
   static Vector4 get blueViolet =>
       Vector4(138.0 / 255.0, 43.0 / 255.0, 226.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'brown'.
-  static Vector4 get brown =>
-      Vector4(165.0 / 255.0, 42.0 / 255.0, 42.0 / 255.0, 255.0 / 255.0);
+  static Vector4 get brown => Vector4(165.0 / 255.0, 42.0 / 255.0, 42.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'burlywood'.
   static Vector4 get burlyWood =>
@@ -369,8 +334,7 @@ class Colors {
       Vector4(210.0 / 255.0, 105.0 / 255.0, 30.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'coral'.
-  static Vector4 get coral =>
-      Vector4(255.0 / 255.0, 127.0 / 255.0, 80.0 / 255.0, 255.0 / 255.0);
+  static Vector4 get coral => Vector4(255.0 / 255.0, 127.0 / 255.0, 80.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'cornflowerblue'.
   static Vector4 get cornflowerBlue =>
@@ -381,20 +345,16 @@ class Colors {
       Vector4(255.0 / 255.0, 248.0 / 255.0, 220.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'crimson'.
-  static Vector4 get crimson =>
-      Vector4(220.0 / 255.0, 20.0 / 255.0, 60.0 / 255.0, 255.0 / 255.0);
+  static Vector4 get crimson => Vector4(220.0 / 255.0, 20.0 / 255.0, 60.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'cyan'.
-  static Vector4 get cyan =>
-      Vector4(0.0 / 255.0, 255.0 / 255.0, 255.0 / 255.0, 255.0 / 255.0);
+  static Vector4 get cyan => Vector4(0.0 / 255.0, 255.0 / 255.0, 255.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'darkblue'.
-  static Vector4 get darkBlue =>
-      Vector4(0.0 / 255.0, 0.0 / 255.0, 139.0 / 255.0, 255.0 / 255.0);
+  static Vector4 get darkBlue => Vector4(0.0 / 255.0, 0.0 / 255.0, 139.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'darkcyan'.
-  static Vector4 get darkCyan =>
-      Vector4(0.0 / 255.0, 139.0 / 255.0, 139.0 / 255.0, 255.0 / 255.0);
+  static Vector4 get darkCyan => Vector4(0.0 / 255.0, 139.0 / 255.0, 139.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'darkgoldenrod'.
   static Vector4 get darkGoldenrod =>
@@ -405,8 +365,7 @@ class Colors {
       Vector4(169.0 / 255.0, 169.0 / 255.0, 169.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'darkgreen'.
-  static Vector4 get darkGreen =>
-      Vector4(0.0 / 255.0, 100.0 / 255.0, 0.0 / 255.0, 255.0 / 255.0);
+  static Vector4 get darkGreen => Vector4(0.0 / 255.0, 100.0 / 255.0, 0.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'darkkhaki'.
   static Vector4 get darkKhaki =>
@@ -429,8 +388,7 @@ class Colors {
       Vector4(153.0 / 255.0, 50.0 / 255.0, 204.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'darkred'.
-  static Vector4 get darkRed =>
-      Vector4(139.0 / 255.0, 0.0 / 255.0, 0.0 / 255.0, 255.0 / 255.0);
+  static Vector4 get darkRed => Vector4(139.0 / 255.0, 0.0 / 255.0, 0.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'darksalmon'.
   static Vector4 get darkSalmon =>
@@ -457,24 +415,21 @@ class Colors {
       Vector4(148.0 / 255.0, 0.0 / 255.0, 211.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'deeppink'.
-  static Vector4 get deepPink =>
-      Vector4(255.0 / 255.0, 20.0 / 255.0, 147.0 / 255.0, 255.0 / 255.0);
+  static Vector4 get deepPink => Vector4(255.0 / 255.0, 20.0 / 255.0, 147.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'deepskyblue'.
   static Vector4 get deepSkyBlue =>
       Vector4(0.0 / 255.0, 191.0 / 255.0, 255.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'dimgray'.
-  static Vector4 get dimGray =>
-      Vector4(105.0 / 255.0, 105.0 / 255.0, 105.0 / 255.0, 255.0 / 255.0);
+  static Vector4 get dimGray => Vector4(105.0 / 255.0, 105.0 / 255.0, 105.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'dodgerblue'.
   static Vector4 get dodgerBlue =>
       Vector4(30.0 / 255.0, 144.0 / 255.0, 255.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'firebrick'.
-  static Vector4 get firebrick =>
-      Vector4(178.0 / 255.0, 34.0 / 255.0, 34.0 / 255.0, 255.0 / 255.0);
+  static Vector4 get firebrick => Vector4(178.0 / 255.0, 34.0 / 255.0, 34.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'floralwhite'.
   static Vector4 get floralWhite =>
@@ -485,8 +440,7 @@ class Colors {
       Vector4(34.0 / 255.0, 139.0 / 255.0, 34.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'fuchsia'.
-  static Vector4 get fuchsia =>
-      Vector4(255.0 / 255.0, 0.0 / 255.0, 255.0 / 255.0, 255.0 / 255.0);
+  static Vector4 get fuchsia => Vector4(255.0 / 255.0, 0.0 / 255.0, 255.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'gainsboro'.
   static Vector4 get gainsboro =>
@@ -497,20 +451,17 @@ class Colors {
       Vector4(248.0 / 255.0, 248.0 / 255.0, 255.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'gold'.
-  static Vector4 get gold =>
-      Vector4(255.0 / 255.0, 215.0 / 255.0, 0.0 / 255.0, 255.0 / 255.0);
+  static Vector4 get gold => Vector4(255.0 / 255.0, 215.0 / 255.0, 0.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'goldenrod'.
   static Vector4 get goldenrod =>
       Vector4(218.0 / 255.0, 165.0 / 255.0, 32.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'gray'.
-  static Vector4 get gray =>
-      Vector4(128.0 / 255.0, 128.0 / 255.0, 128.0 / 255.0, 255.0 / 255.0);
+  static Vector4 get gray => Vector4(128.0 / 255.0, 128.0 / 255.0, 128.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'green'.
-  static Vector4 get green =>
-      Vector4(0.0 / 255.0, 128.0 / 255.0, 0.0 / 255.0, 255.0 / 255.0);
+  static Vector4 get green => Vector4(0.0 / 255.0, 128.0 / 255.0, 0.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'greenyellow'.
   static Vector4 get greenYellow =>
@@ -521,24 +472,19 @@ class Colors {
       Vector4(240.0 / 255.0, 255.0 / 255.0, 240.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'hotpink'.
-  static Vector4 get hotPink =>
-      Vector4(255.0 / 255.0, 105.0 / 255.0, 180.0 / 255.0, 255.0 / 255.0);
+  static Vector4 get hotPink => Vector4(255.0 / 255.0, 105.0 / 255.0, 180.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'indianred'.
-  static Vector4 get indianRed =>
-      Vector4(205.0 / 255.0, 92.0 / 255.0, 92.0 / 255.0, 255.0 / 255.0);
+  static Vector4 get indianRed => Vector4(205.0 / 255.0, 92.0 / 255.0, 92.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'indigo'.
-  static Vector4 get indigo =>
-      Vector4(75.0 / 255.0, 0.0 / 255.0, 130.0 / 255.0, 255.0 / 255.0);
+  static Vector4 get indigo => Vector4(75.0 / 255.0, 0.0 / 255.0, 130.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'ivory'.
-  static Vector4 get ivory =>
-      Vector4(255.0 / 255.0, 255.0 / 255.0, 240.0 / 255.0, 255.0 / 255.0);
+  static Vector4 get ivory => Vector4(255.0 / 255.0, 255.0 / 255.0, 240.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'khaki'.
-  static Vector4 get khaki =>
-      Vector4(240.0 / 255.0, 230.0 / 255.0, 140.0 / 255.0, 255.0 / 255.0);
+  static Vector4 get khaki => Vector4(240.0 / 255.0, 230.0 / 255.0, 140.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'lavender'.
   static Vector4 get lavender =>
@@ -549,8 +495,7 @@ class Colors {
       Vector4(255.0 / 255.0, 240.0 / 255.0, 245.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'lawngreen'.
-  static Vector4 get lawnGreen =>
-      Vector4(124.0 / 255.0, 252.0 / 255.0, 0.0 / 255.0, 255.0 / 255.0);
+  static Vector4 get lawnGreen => Vector4(124.0 / 255.0, 252.0 / 255.0, 0.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'lemonchiffon'.
   static Vector4 get lemonChiffon =>
@@ -609,32 +554,26 @@ class Colors {
       Vector4(255.0 / 255.0, 255.0 / 255.0, 224.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'lime'.
-  static Vector4 get lime =>
-      Vector4(0.0 / 255.0, 255.0 / 255.0, 0.0 / 255.0, 255.0 / 255.0);
+  static Vector4 get lime => Vector4(0.0 / 255.0, 255.0 / 255.0, 0.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'limegreen'.
-  static Vector4 get limeGreen =>
-      Vector4(50.0 / 255.0, 205.0 / 255.0, 50.0 / 255.0, 255.0 / 255.0);
+  static Vector4 get limeGreen => Vector4(50.0 / 255.0, 205.0 / 255.0, 50.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'linen'.
-  static Vector4 get linen =>
-      Vector4(250.0 / 255.0, 240.0 / 255.0, 230.0 / 255.0, 255.0 / 255.0);
+  static Vector4 get linen => Vector4(250.0 / 255.0, 240.0 / 255.0, 230.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'magenta'.
-  static Vector4 get magenta =>
-      Vector4(255.0 / 255.0, 0.0 / 255.0, 255.0 / 255.0, 255.0 / 255.0);
+  static Vector4 get magenta => Vector4(255.0 / 255.0, 0.0 / 255.0, 255.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'maroon'.
-  static Vector4 get maroon =>
-      Vector4(128.0 / 255.0, 0.0 / 255.0, 0.0 / 255.0, 255.0 / 255.0);
+  static Vector4 get maroon => Vector4(128.0 / 255.0, 0.0 / 255.0, 0.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'mediumaquamarine'.
   static Vector4 get mediumAquamarine =>
       Vector4(102.0 / 255.0, 205.0 / 255.0, 170.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'mediumblue'.
-  static Vector4 get mediumBlue =>
-      Vector4(0.0 / 255.0, 0.0 / 255.0, 205.0 / 255.0, 255.0 / 255.0);
+  static Vector4 get mediumBlue => Vector4(0.0 / 255.0, 0.0 / 255.0, 205.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'mediumorchid'.
   static Vector4 get mediumOrchid =>
@@ -685,32 +624,26 @@ class Colors {
       Vector4(255.0 / 255.0, 222.0 / 255.0, 173.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'navy'.
-  static Vector4 get navy =>
-      Vector4(0.0 / 255.0, 0.0 / 255.0, 128.0 / 255.0, 255.0 / 255.0);
+  static Vector4 get navy => Vector4(0.0 / 255.0, 0.0 / 255.0, 128.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'oldlace'.
-  static Vector4 get oldLace =>
-      Vector4(253.0 / 255.0, 245.0 / 255.0, 230.0 / 255.0, 255.0 / 255.0);
+  static Vector4 get oldLace => Vector4(253.0 / 255.0, 245.0 / 255.0, 230.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'olive'.
-  static Vector4 get olive =>
-      Vector4(128.0 / 255.0, 128.0 / 255.0, 0.0 / 255.0, 255.0 / 255.0);
+  static Vector4 get olive => Vector4(128.0 / 255.0, 128.0 / 255.0, 0.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'olivedrab'.
   static Vector4 get oliveDrab =>
       Vector4(107.0 / 255.0, 142.0 / 255.0, 35.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'orange'.
-  static Vector4 get orange =>
-      Vector4(255.0 / 255.0, 165.0 / 255.0, 0.0 / 255.0, 255.0 / 255.0);
+  static Vector4 get orange => Vector4(255.0 / 255.0, 165.0 / 255.0, 0.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'orangered'.
-  static Vector4 get orangeRed =>
-      Vector4(255.0 / 255.0, 69.0 / 255.0, 0.0 / 255.0, 255.0 / 255.0);
+  static Vector4 get orangeRed => Vector4(255.0 / 255.0, 69.0 / 255.0, 0.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'orchid'.
-  static Vector4 get orchid =>
-      Vector4(218.0 / 255.0, 112.0 / 255.0, 214.0 / 255.0, 255.0 / 255.0);
+  static Vector4 get orchid => Vector4(218.0 / 255.0, 112.0 / 255.0, 214.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'palegoldenrod'.
   static Vector4 get paleGoldenrod =>
@@ -737,28 +670,23 @@ class Colors {
       Vector4(255.0 / 255.0, 218.0 / 255.0, 185.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'peru'.
-  static Vector4 get peru =>
-      Vector4(205.0 / 255.0, 133.0 / 255.0, 63.0 / 255.0, 255.0 / 255.0);
+  static Vector4 get peru => Vector4(205.0 / 255.0, 133.0 / 255.0, 63.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'pink'.
-  static Vector4 get pink =>
-      Vector4(255.0 / 255.0, 192.0 / 255.0, 203.0 / 255.0, 255.0 / 255.0);
+  static Vector4 get pink => Vector4(255.0 / 255.0, 192.0 / 255.0, 203.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'plum'.
-  static Vector4 get plum =>
-      Vector4(221.0 / 255.0, 160.0 / 255.0, 221.0 / 255.0, 255.0 / 255.0);
+  static Vector4 get plum => Vector4(221.0 / 255.0, 160.0 / 255.0, 221.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'powderblue'.
   static Vector4 get powderBlue =>
       Vector4(176.0 / 255.0, 224.0 / 255.0, 230.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'purple'.
-  static Vector4 get purple =>
-      Vector4(128.0 / 255.0, 0.0 / 255.0, 128.0 / 255.0, 255.0 / 255.0);
+  static Vector4 get purple => Vector4(128.0 / 255.0, 0.0 / 255.0, 128.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'red'.
-  static Vector4 get red =>
-      Vector4(255.0 / 255.0, 0.0 / 255.0, 0.0 / 255.0, 255.0 / 255.0);
+  static Vector4 get red => Vector4(255.0 / 255.0, 0.0 / 255.0, 0.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'rosybrown'.
   static Vector4 get rosyBrown =>
@@ -773,32 +701,27 @@ class Colors {
       Vector4(139.0 / 255.0, 69.0 / 255.0, 19.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'salmon'.
-  static Vector4 get salmon =>
-      Vector4(250.0 / 255.0, 128.0 / 255.0, 114.0 / 255.0, 255.0 / 255.0);
+  static Vector4 get salmon => Vector4(250.0 / 255.0, 128.0 / 255.0, 114.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'sandybrown'.
   static Vector4 get sandyBrown =>
       Vector4(244.0 / 255.0, 164.0 / 255.0, 96.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'seagreen'.
-  static Vector4 get seaGreen =>
-      Vector4(46.0 / 255.0, 139.0 / 255.0, 87.0 / 255.0, 255.0 / 255.0);
+  static Vector4 get seaGreen => Vector4(46.0 / 255.0, 139.0 / 255.0, 87.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'seashell'.
   static Vector4 get seaShell =>
       Vector4(255.0 / 255.0, 245.0 / 255.0, 238.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'sienna'.
-  static Vector4 get sienna =>
-      Vector4(160.0 / 255.0, 82.0 / 255.0, 45.0 / 255.0, 255.0 / 255.0);
+  static Vector4 get sienna => Vector4(160.0 / 255.0, 82.0 / 255.0, 45.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'silver'.
-  static Vector4 get silver =>
-      Vector4(192.0 / 255.0, 192.0 / 255.0, 192.0 / 255.0, 255.0 / 255.0);
+  static Vector4 get silver => Vector4(192.0 / 255.0, 192.0 / 255.0, 192.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'skyblue'.
-  static Vector4 get skyBlue =>
-      Vector4(135.0 / 255.0, 206.0 / 255.0, 235.0 / 255.0, 255.0 / 255.0);
+  static Vector4 get skyBlue => Vector4(135.0 / 255.0, 206.0 / 255.0, 235.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'slateblue'.
   static Vector4 get slateBlue =>
@@ -809,8 +732,7 @@ class Colors {
       Vector4(112.0 / 255.0, 128.0 / 255.0, 144.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'snow'.
-  static Vector4 get snow =>
-      Vector4(255.0 / 255.0, 250.0 / 255.0, 250.0 / 255.0, 255.0 / 255.0);
+  static Vector4 get snow => Vector4(255.0 / 255.0, 250.0 / 255.0, 250.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'springgreen'.
   static Vector4 get springGreen =>
@@ -821,44 +743,36 @@ class Colors {
       Vector4(70.0 / 255.0, 130.0 / 255.0, 180.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'tan'.
-  static Vector4 get tan =>
-      Vector4(210.0 / 255.0, 180.0 / 255.0, 140.0 / 255.0, 255.0 / 255.0);
+  static Vector4 get tan => Vector4(210.0 / 255.0, 180.0 / 255.0, 140.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'teal'.
-  static Vector4 get teal =>
-      Vector4(0.0 / 255.0, 128.0 / 255.0, 128.0 / 255.0, 255.0 / 255.0);
+  static Vector4 get teal => Vector4(0.0 / 255.0, 128.0 / 255.0, 128.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'thistle'.
-  static Vector4 get thistle =>
-      Vector4(216.0 / 255.0, 191.0 / 255.0, 216.0 / 255.0, 255.0 / 255.0);
+  static Vector4 get thistle => Vector4(216.0 / 255.0, 191.0 / 255.0, 216.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'tomato'.
-  static Vector4 get tomato =>
-      Vector4(255.0 / 255.0, 99.0 / 255.0, 71.0 / 255.0, 255.0 / 255.0);
+  static Vector4 get tomato => Vector4(255.0 / 255.0, 99.0 / 255.0, 71.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'turquoise'.
   static Vector4 get turquoise =>
       Vector4(64.0 / 255.0, 224.0 / 255.0, 208.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'violet'.
-  static Vector4 get violet =>
-      Vector4(238.0 / 255.0, 130.0 / 255.0, 238.0 / 255.0, 255.0 / 255.0);
+  static Vector4 get violet => Vector4(238.0 / 255.0, 130.0 / 255.0, 238.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'wheat'.
-  static Vector4 get wheat =>
-      Vector4(245.0 / 255.0, 222.0 / 255.0, 179.0 / 255.0, 255.0 / 255.0);
+  static Vector4 get wheat => Vector4(245.0 / 255.0, 222.0 / 255.0, 179.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'white'.
-  static Vector4 get white =>
-      Vector4(255.0 / 255.0, 255.0 / 255.0, 255.0 / 255.0, 255.0 / 255.0);
+  static Vector4 get white => Vector4(255.0 / 255.0, 255.0 / 255.0, 255.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'whitesmoke'.
   static Vector4 get whiteSmoke =>
       Vector4(245.0 / 255.0, 245.0 / 255.0, 245.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'yellow'.
-  static Vector4 get yellow =>
-      Vector4(255.0 / 255.0, 255.0 / 255.0, 0.0 / 255.0, 255.0 / 255.0);
+  static Vector4 get yellow => Vector4(255.0 / 255.0, 255.0 / 255.0, 0.0 / 255.0, 255.0 / 255.0);
 
   /// RGBA values for the named CSS color 'yellowgreen'.
   static Vector4 get yellowGreen =>

@@ -9,11 +9,7 @@
 part of '../../../vector_math_geometry.dart';
 
 class GeometryGeneratorFlags {
-  GeometryGeneratorFlags({
-    this.texCoords = true,
-    this.normals = true,
-    this.tangents = true,
-  });
+  GeometryGeneratorFlags({this.texCoords = true, this.normals = true, this.tangents = true});
   final bool texCoords;
   final bool normals;
   final bool tangents;
@@ -23,10 +19,7 @@ abstract class GeometryGenerator {
   int get vertexCount;
   int get indexCount;
 
-  MeshGeometry createGeometry({
-    GeometryGeneratorFlags? flags,
-    List<GeometryFilter>? filters,
-  }) {
+  MeshGeometry createGeometry({GeometryGeneratorFlags? flags, List<GeometryFilter>? filters}) {
     flags ??= GeometryGeneratorFlags();
 
     VertexAttrib positionAttrib;
@@ -59,8 +52,7 @@ abstract class GeometryGenerator {
       attribs.add(tangentAttrib);
     }
 
-    var mesh = MeshGeometry(vertexCount, attribs)
-      ..indices = Uint16List(indexCount);
+    var mesh = MeshGeometry(vertexCount, attribs)..indices = Uint16List(indexCount);
     generateIndices(mesh.indices!);
 
     VectorList<Vector>? view = mesh.getViewForAttrib('POSITION');
@@ -116,11 +108,7 @@ abstract class GeometryGenerator {
 
   void generateVertexPositions(Vector3List positions, Uint16List indices);
 
-  void generateVertexTexCoords(
-    Vector2List texCoords,
-    Vector3List positions,
-    Uint16List indices,
-  ) {
+  void generateVertexTexCoords(Vector2List texCoords, Vector3List positions, Uint16List indices) {
     for (var i = 0; i < positions.length; ++i) {
       final Vector3 p = positions[i];
 
@@ -130,11 +118,7 @@ abstract class GeometryGenerator {
     }
   }
 
-  void generateVertexNormals(
-    Vector3List normals,
-    Vector3List positions,
-    Uint16List indices,
-  ) {
+  void generateVertexNormals(Vector3List normals, Vector3List positions, Uint16List indices) {
     generateNormals(normals, positions, indices);
   }
 

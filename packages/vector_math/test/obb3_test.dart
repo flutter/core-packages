@@ -328,41 +328,13 @@ void testIntersectionTriangle() {
   final parent = Obb3();
   parent.center.setValues(4.5, 4.5, 4.5);
   parent.halfExtents.setValues(3.5, 3.5, 3.5);
-  final child = Triangle.points(
-    $v3(2.0, 2.0, 2.0),
-    $v3(3.0, 3.0, 3.0),
-    $v3(4.0, 4.0, 4.0),
-  );
-  final edge = Triangle.points(
-    $v3(1.0, 1.0, 1.0),
-    $v3(3.0, 3.0, 3.0),
-    $v3(4.0, 4.0, 4.0),
-  );
-  final cutting = Triangle.points(
-    $v3(2.0, 2.0, 2.0),
-    $v3(3.0, 3.0, 3.0),
-    $v3(14.0, 14.0, 14.0),
-  );
-  final outside = Triangle.points(
-    $v3(0.0, 0.0, 0.0),
-    $v3(-3.0, -3.0, -3.0),
-    $v3(-4.0, -4.0, -4.0),
-  );
-  final parallel0 = Triangle.points(
-    $v3(1.0, 0.0, 1.0),
-    $v3(1.0, 10.0, 1.0),
-    $v3(1.0, 0.0, 10.0),
-  );
-  final parallel1 = Triangle.points(
-    $v3(1.0, 4.5, 0.0),
-    $v3(1.0, -1.0, 9.0),
-    $v3(1.0, 10.0, 9.0),
-  );
-  final parallel2 = Triangle.points(
-    $v3(1.0, 10.0, 9.0),
-    $v3(1.0, -1.0, 9.0),
-    $v3(1.0, 4.5, 0.0),
-  );
+  final child = Triangle.points($v3(2.0, 2.0, 2.0), $v3(3.0, 3.0, 3.0), $v3(4.0, 4.0, 4.0));
+  final edge = Triangle.points($v3(1.0, 1.0, 1.0), $v3(3.0, 3.0, 3.0), $v3(4.0, 4.0, 4.0));
+  final cutting = Triangle.points($v3(2.0, 2.0, 2.0), $v3(3.0, 3.0, 3.0), $v3(14.0, 14.0, 14.0));
+  final outside = Triangle.points($v3(0.0, 0.0, 0.0), $v3(-3.0, -3.0, -3.0), $v3(-4.0, -4.0, -4.0));
+  final parallel0 = Triangle.points($v3(1.0, 0.0, 1.0), $v3(1.0, 10.0, 1.0), $v3(1.0, 0.0, 10.0));
+  final parallel1 = Triangle.points($v3(1.0, 4.5, 0.0), $v3(1.0, -1.0, 9.0), $v3(1.0, 10.0, 9.0));
+  final parallel2 = Triangle.points($v3(1.0, 10.0, 9.0), $v3(1.0, -1.0, 9.0), $v3(1.0, 4.5, 0.0));
 
   expect(parent.intersectsWithTriangle(child), isTrue);
   expect(parent.intersectsWithTriangle(edge), isTrue);

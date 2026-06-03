@@ -63,26 +63,10 @@ void testRayIntersectionSphere() {
 
 void testRayIntersectionTriangle() {
   final parent = Ray.originDirection($v3(1.0, 1.0, 1.0), $v3(0.0, 1.0, 0.0));
-  final hitting = Triangle.points(
-    $v3(2.0, 2.0, 0.0),
-    $v3(0.0, 4.0, -1.0),
-    $v3(0.0, 4.0, 3.0),
-  );
-  final cutting = Triangle.points(
-    $v3(0.0, 1.5, 1.0),
-    $v3(2.0, 1.5, 1.0),
-    $v3(1.0, 1.5, 3.0),
-  );
-  final outside = Triangle.points(
-    $v3(2.0, 2.0, 0.0),
-    $v3(2.0, 6.0, 0.0),
-    $v3(2.0, 2.0, 3.0),
-  );
-  final behind = Triangle.points(
-    $v3(0.0, 0.0, 0.0),
-    $v3(0.0, 3.0, 0.0),
-    $v3(0.0, 3.0, 4.0),
-  );
+  final hitting = Triangle.points($v3(2.0, 2.0, 0.0), $v3(0.0, 4.0, -1.0), $v3(0.0, 4.0, 3.0));
+  final cutting = Triangle.points($v3(0.0, 1.5, 1.0), $v3(2.0, 1.5, 1.0), $v3(1.0, 1.5, 3.0));
+  final outside = Triangle.points($v3(2.0, 2.0, 0.0), $v3(2.0, 6.0, 0.0), $v3(2.0, 2.0, 3.0));
+  final behind = Triangle.points($v3(0.0, 0.0, 0.0), $v3(0.0, 3.0, 0.0), $v3(0.0, 3.0, 4.0));
 
   absoluteTest(parent.intersectsWithTriangle(hitting), 2.0);
   absoluteTest(parent.intersectsWithTriangle(cutting), 0.5);

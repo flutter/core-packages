@@ -11,14 +11,10 @@ class Aabb2 {
   Aabb2() : _min = Vector2.zero(), _max = Vector2.zero();
 
   /// Create a new AABB as a copy of [other].
-  Aabb2.copy(Aabb2 other)
-    : _min = Vector2.copy(other._min),
-      _max = Vector2.copy(other._max);
+  Aabb2.copy(Aabb2 other) : _min = Vector2.copy(other._min), _max = Vector2.copy(other._max);
 
   /// Create a new AABB with a [min] and [max].
-  Aabb2.minMax(Vector2 min, Vector2 max)
-    : _min = Vector2.copy(min),
-      _max = Vector2.copy(max);
+  Aabb2.minMax(Vector2 min, Vector2 max) : _min = Vector2.copy(min), _max = Vector2.copy(max);
 
   /// Create a new AABB with a [center] and [halfExtents].
   factory Aabb2.centerAndHalfExtents(Vector2 center, Vector2 halfExtents) =>
@@ -29,10 +25,7 @@ class Aabb2 {
   /// [Float64List.bytesPerElement].
   Aabb2.fromBuffer(ByteBuffer buffer, int offset)
     : _min = Vector2.fromBuffer(buffer, offset),
-      _max = Vector2.fromBuffer(
-        buffer,
-        offset + Float64List.bytesPerElement * 2,
-      );
+      _max = Vector2.fromBuffer(buffer, offset + Float64List.bytesPerElement * 2);
   final Vector2 _min;
   final Vector2 _max;
 
@@ -77,8 +70,7 @@ class Aabb2 {
 
   static final _center = Vector2.zero();
   static final _halfExtents = Vector2.zero();
-  void _updateCenterAndHalfExtents() =>
-      copyCenterAndHalfExtents(_center, _halfExtents);
+  void _updateCenterAndHalfExtents() => copyCenterAndHalfExtents(_center, _halfExtents);
 
   /// Transform this by the transform [t].
   void transform(Matrix3 t) {
@@ -144,10 +136,7 @@ class Aabb2 {
 
   /// Return if this contains [other].
   bool containsVector2(Vector2 other) =>
-      (_min.x < other.x) &&
-      (_min.y < other.y) &&
-      (_max.x > other.x) &&
-      (_max.y > other.y);
+      (_min.x < other.x) && (_min.y < other.y) && (_max.x > other.x) && (_max.y > other.y);
 
   /// Return if this intersects with [other].
   bool intersectsWithAabb2(Aabb2 other) {
@@ -162,8 +151,5 @@ class Aabb2 {
 
   /// Return if this intersects with [other].
   bool intersectsWithVector2(Vector2 other) =>
-      (_min.x <= other.x) &&
-      (_min.y <= other.y) &&
-      (_max.x >= other.x) &&
-      (_max.y >= other.y);
+      (_min.x <= other.x) && (_min.y <= other.y) && (_max.x >= other.x) && (_max.y >= other.y);
 }

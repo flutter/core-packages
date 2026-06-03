@@ -7,10 +7,7 @@ part of '../../vector_math.dart';
 /// Defines a triangle by three points.
 class Triangle {
   /// Create a new, uninitialized triangle.
-  Triangle()
-    : _point0 = Vector3.zero(),
-      _point1 = Vector3.zero(),
-      _point2 = Vector3.zero();
+  Triangle() : _point0 = Vector3.zero(), _point1 = Vector3.zero(), _point2 = Vector3.zero();
 
   /// Create a triangle as a copy of [other].
   Triangle.copy(Triangle other)

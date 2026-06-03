@@ -8,8 +8,7 @@ part of '../../vector_math_lists.dart';
 class Vector2List extends VectorList<Vector2> {
   /// Create a new vector list with [length] elements. Optionally it is possible
   /// to specify an [offset] in the [buffer] and a [stride] between each vector.
-  Vector2List(int length, [int offset = 0, int stride = 0])
-    : super(length, 2, offset, stride);
+  Vector2List(int length, [int offset = 0, int stride = 0]) : super(length, 2, offset, stride);
 
   /// Create a new vector list from a list of vectors. Optionally it is possible
   /// to specify an [offset] in the [buffer] and a [stride] between each vector.

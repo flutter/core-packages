@@ -52,11 +52,7 @@ class CircleGenerator extends GeometryGenerator {
   }
 
   @override
-  void generateVertexTexCoords(
-    Vector2List texCoords,
-    Vector3List positions,
-    Uint16List indices,
-  ) {
+  void generateVertexTexCoords(Vector2List texCoords, Vector3List positions, Uint16List indices) {
     final v = Vector2(0.5, 0.5);
     texCoords[0] = v;
     var index = 1;

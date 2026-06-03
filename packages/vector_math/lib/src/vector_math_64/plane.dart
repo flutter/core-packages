@@ -11,15 +11,11 @@ part of '../../vector_math_64.dart';
 class Plane {
   Plane() : _normal = Vector3.zero(), constant = 0.0;
 
-  Plane.copy(Plane other)
-    : _normal = Vector3.copy(other._normal),
-      constant = other.constant;
+  Plane.copy(Plane other) : _normal = Vector3.copy(other._normal), constant = other.constant;
 
-  Plane.components(double x, double y, double z, this.constant)
-    : _normal = Vector3(x, y, z);
+  Plane.components(double x, double y, double z, this.constant) : _normal = Vector3(x, y, z);
 
-  Plane.normalconstant(Vector3 normal_, this.constant)
-    : _normal = Vector3.copy(normal_);
+  Plane.normalconstant(Vector3 normal_, this.constant) : _normal = Vector3.copy(normal_);
   final Vector3 _normal;
   double constant;
 

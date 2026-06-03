@@ -13,18 +13,13 @@ class ColorFilter extends GeometryFilter {
   Vector4 color;
 
   @override
-  List<VertexAttrib> get generates => <VertexAttrib>[
-    VertexAttrib('COLOR', 4, 'float'),
-  ];
+  List<VertexAttrib> get generates => <VertexAttrib>[VertexAttrib('COLOR', 4, 'float')];
 
   @override
   MeshGeometry filter(MeshGeometry mesh) {
     MeshGeometry output;
     if (mesh.getAttrib('COLOR') == null) {
-      final attributes = <VertexAttrib>[
-        ...mesh.attribs,
-        VertexAttrib('COLOR', 4, 'float'),
-      ];
+      final attributes = <VertexAttrib>[...mesh.attribs, VertexAttrib('COLOR', 4, 'float')];
       output = MeshGeometry.resetAttribs(mesh, attributes);
     } else {
       output = MeshGeometry.copy(mesh);

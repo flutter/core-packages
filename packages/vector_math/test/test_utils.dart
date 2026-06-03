@@ -85,11 +85,7 @@ T parseMatrix<T>(String input) {
 
 T parseVector<T extends Vector>(String v) {
   v = v.trim();
-  final Pattern pattern = RegExp(
-    r'[\s]+',
-    multiLine: true,
-    caseSensitive: false,
-  );
+  final Pattern pattern = RegExp(r'[\s]+', multiLine: true, caseSensitive: false);
   final List<String> rows = v.split(pattern);
   final values = <double>[];
   for (var i = 0; i < rows.length; i++) {

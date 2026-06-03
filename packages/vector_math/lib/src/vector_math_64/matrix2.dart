@@ -27,15 +27,13 @@ class Matrix2 {
   factory Matrix2.copy(Matrix2 other) => Matrix2.zero()..setFrom(other);
 
   /// Matrix with values from column arguments.
-  factory Matrix2.columns(Vector2 arg0, Vector2 arg1) =>
-      Matrix2.zero()..setColumns(arg0, arg1);
+  factory Matrix2.columns(Vector2 arg0, Vector2 arg1) => Matrix2.zero()..setColumns(arg0, arg1);
 
   /// Outer product of [u] and [v].
   factory Matrix2.outer(Vector2 u, Vector2 v) => Matrix2.zero()..setOuter(u, v);
 
   /// Rotation of [radians].
-  factory Matrix2.rotation(double radians) =>
-      Matrix2.zero()..setRotation(radians);
+  factory Matrix2.rotation(double radians) => Matrix2.zero()..setRotation(radians);
   final Float64List _m2storage;
 
   /// The components of the matrix.
@@ -282,8 +280,7 @@ class Matrix2 {
   }
 
   /// Returns the determinant of this matrix.
-  double determinant() =>
-      (_m2storage[0] * _m2storage[3]) - (_m2storage[1] * _m2storage[2]);
+  double determinant() => (_m2storage[0] * _m2storage[3]) - (_m2storage[1] * _m2storage[2]);
 
   /// Returns the dot product of row [i] and [v].
   double dotRow(int i, Vector2 v) {
@@ -294,8 +291,7 @@ class Matrix2 {
   /// Returns the dot product of column [j] and [v].
   double dotColumn(int j, Vector2 v) {
     final Float64List vStorage = v._v2storage;
-    return _m2storage[j * 2] * vStorage[0] +
-        _m2storage[(j * 2) + 1] * vStorage[1];
+    return _m2storage[j * 2] * vStorage[0] + _m2storage[(j * 2) + 1] * vStorage[1];
   }
 
   /// Trace of the matrix.
@@ -477,10 +473,8 @@ class Matrix2 {
   /// this.
   Vector2 transform(Vector2 arg) {
     final Float64List argStorage = arg._v2storage;
-    final double x =
-        (_m2storage[0] * argStorage[0]) + (_m2storage[2] * argStorage[1]);
-    final double y =
-        (_m2storage[1] * argStorage[0]) + (_m2storage[3] * argStorage[1]);
+    final double x = (_m2storage[0] * argStorage[0]) + (_m2storage[2] * argStorage[1]);
+    final double y = (_m2storage[1] * argStorage[0]) + (_m2storage[3] * argStorage[1]);
     argStorage[0] = x;
     argStorage[1] = y;
     return arg;

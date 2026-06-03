@@ -120,11 +120,7 @@ class CylinderGenerator extends GeometryGenerator {
   }
 
   @override
-  void generateVertexTexCoords(
-    Vector2List texCoords,
-    Vector3List positions,
-    Uint16List indices,
-  ) {
+  void generateVertexTexCoords(Vector2List texCoords, Vector3List positions, Uint16List indices) {
     var i = 0;
 
     // Cylinder top
@@ -142,19 +138,13 @@ class CylinderGenerator extends GeometryGenerator {
     // Top cap
     for (var x = 0; x < _segments; ++x) {
       final double r = (x / _segments) * math.pi * 2.0;
-      texCoords[i++] = Vector2(
-        math.cos(r) * 0.5 + 0.5,
-        math.sin(r) * 0.5 + 0.5,
-      );
+      texCoords[i++] = Vector2(math.cos(r) * 0.5 + 0.5, math.sin(r) * 0.5 + 0.5);
     }
 
     // Bottom cap
     for (var x = 0; x < _segments; ++x) {
       final double r = (x / _segments) * math.pi * 2.0;
-      texCoords[i++] = Vector2(
-        math.cos(r) * 0.5 + 0.5,
-        math.sin(r) * 0.5 + 0.5,
-      );
+      texCoords[i++] = Vector2(math.cos(r) * 0.5 + 0.5, math.sin(r) * 0.5 + 0.5);
     }
   }
 }

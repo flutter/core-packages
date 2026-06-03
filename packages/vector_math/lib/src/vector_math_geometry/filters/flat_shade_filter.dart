@@ -10,14 +10,10 @@ part of '../../../vector_math_geometry.dart';
 
 class FlatShadeFilter extends GeometryFilter {
   @override
-  List<VertexAttrib> get requires => <VertexAttrib>[
-    VertexAttrib('POSITION', 3, 'float'),
-  ];
+  List<VertexAttrib> get requires => <VertexAttrib>[VertexAttrib('POSITION', 3, 'float')];
 
   @override
-  List<VertexAttrib> get generates => <VertexAttrib>[
-    VertexAttrib('NORMAL', 3, 'float'),
-  ];
+  List<VertexAttrib> get generates => <VertexAttrib>[VertexAttrib('NORMAL', 3, 'float')];
 
   @override
   MeshGeometry filter(MeshGeometry mesh) {
@@ -32,14 +28,10 @@ class FlatShadeFilter extends GeometryFilter {
     final p0 = Vector3.zero(), p1 = Vector3.zero(), p2 = Vector3.zero();
 
     final VectorList<Vector>? srcPosition = mesh.getViewForAttrib('POSITION');
-    final VectorList<Vector>? destPosition = output.getViewForAttrib(
-      'POSITION',
-    );
+    final VectorList<Vector>? destPosition = output.getViewForAttrib('POSITION');
     final VectorList<Vector>? normals = output.getViewForAttrib('NORMAL');
 
-    if (srcPosition is! Vector3List ||
-        destPosition is! Vector3List ||
-        normals is! Vector3List) {
+    if (srcPosition is! Vector3List || destPosition is! Vector3List || normals is! Vector3List) {
       throw UnimplementedError();
     }
 
