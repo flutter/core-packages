@@ -1,8 +1,14 @@
-## 2.4.0-wip
+## 2.4.0
 
-- Remove the deprecated `SimplexNoise` class.
-- Optimized the `identity` constructors on the `Matrix` classes.
-- Require Dart 3.10.0 or greater.
+- Removes the deprecated `SimplexNoise` class.
+- Optimizes the `identity` constructors on the `Matrix` classes.
+- Updates metadata to reflect the move from
+  [google/vector_math.dart](https://github.com/google/vector_math.dart)
+  to [flutter/core-packages](https://github.com/flutter/core-packages),
+  which is the new source of truth for this package.
+- Updates source and metadata to follow Flutter team package conventions and
+  analysis options.
+- Updates minimum supported SDK version to Dart 3.10.
 
 ## 2.3.0
 
