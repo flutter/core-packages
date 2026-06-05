@@ -6,7 +6,7 @@
 This repo is a companion to the [flutter/flutter](https://github.com/flutter/flutter)
 and [flutter/packages]() repositiories. It contains the source code for Flutter's
 first-party packages (i.e., packages developed by the core Flutter team) that cannot
-depend on Flutter, generall because they are used by the flutter/flutter repository.
+depend on Flutter, generally because they are used by the flutter/flutter repository.
 Check the [`packages`](./packages) directory to see all packages.
 
 These packages are also available on [pub](https://pub.dev/flutter/packages).
