@@ -1,3 +1,8 @@
+'p: flutter_hook_config':
+  - changed-files:
+    - any-glob-to-any-file:
+      - packages/flutter_hook_config/**/*
+
 'p: vector_math':
   - changed-files:
     - any-glob-to-any-file:
@@ -7,3 +12,4 @@
   - changed-files:
     - any-glob-to-any-file:
       - packages/vector_math/**/*
+      - packages/flutter_hook_config/**/*
