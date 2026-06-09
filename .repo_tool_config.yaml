@@ -27,5 +27,6 @@ allowed_dependencies:
     - build_test
     - build_web_compilers
     - hooks
+    - meta
     - path
     - test
