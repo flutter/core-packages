@@ -76,7 +76,7 @@ extension HookConfigFlutterConfig on HookConfig {
   /// Whether this hook is being invoked as part of a Flutter build.
   ///
   /// When `false`, the hook is being invoked by a plain `dart` build, or by a
-  /// Flutter SDK that predates the `flutter_hook_config` extension, and
+  /// Flutter SDK that predates the `flutter_hook_extensions` extension, and
   /// [flutter] must not be accessed. Hooks that need Flutter-supplied
   /// configuration should fall back to their own discovery logic in that case.
   bool get buildForFlutter => _flutterExtensionJson != null;
@@ -91,7 +91,7 @@ extension HookConfigFlutterConfig on HookConfig {
       throw StateError(
         'No Flutter-specific hook configuration is available. The hook is not '
         'being invoked by a Flutter SDK, or the Flutter SDK predates '
-        'flutter_hook_config support. Check `config.buildForFlutter` first.',
+        'flutter_hook_extensions support. Check `config.buildForFlutter` first.',
       );
     }
     return FlutterConfig._(extensionJson);

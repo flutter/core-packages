@@ -4,7 +4,7 @@
 
 import 'dart:io';
 
-import 'package:flutter_hook_config/flutter_hook_config.dart';
+import 'package:flutter_hook_extensions/flutter_hook_extensions.dart';
 import 'package:hooks/hooks.dart';
 import 'package:test/test.dart';
 
@@ -12,7 +12,7 @@ void main() {
   // Absolute, OS-correct URIs so the file-path encoding round-trips on every
   // platform CI runs on.
   final Uri engineArtifactsDir = Directory.systemTemp.uri.resolve(
-    'flutter_hook_config_test/engine/',
+    'flutter_hook_extensions_test/engine/',
   );
   final Uri impellerc = engineArtifactsDir.resolve('impellerc');
   final Uri libtessellator = engineArtifactsDir.resolve('libtessellator');

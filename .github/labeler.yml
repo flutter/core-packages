@@ -1,7 +1,8 @@
-'p: flutter_hook_config':
+'p: flutter_hook_extensions':
   - changed-files:
     - any-glob-to-any-file:
-      - packages/flutter_hook_config/**/*
+      - packages/flutter_hook_extensions/**/*
+
 'p: flutter_template_images':
   - changed-files:
     - any-glob-to-any-file:
@@ -31,4 +32,4 @@
   - changed-files:
     - any-glob-to-any-file:
       - packages/vector_math/**/*
-      - packages/flutter_hook_config/**/*
+      - packages/flutter_hook_extensions/**/*

@@ -9,7 +9,7 @@
 /// checking [HookConfigFlutterConfig.buildForFlutter] first:
 ///
 /// ```dart
-/// import 'package:flutter_hook_config/flutter_hook_config.dart';
+/// import 'package:flutter_hook_extensions/flutter_hook_extensions.dart';
 /// import 'package:hooks/hooks.dart';
 ///
 /// void main(List<String> args) async {

@@ -1,4 +1,4 @@
-# flutter_hook_config
+# flutter_hook_extensions
 
 A [`package:hooks`](https://pub.dev/packages/hooks) protocol extension that lets
 the Flutter SDK pass Flutter-specific configuration to build and link hooks in a
@@ -17,14 +17,14 @@ instead of the ones in the SDK cache.
 
 ## For hook authors
 
-Add `flutter_hook_config` to your hook's dependencies and read the config from
-the `BuildInput` / `LinkInput` via `input.config.flutter`. Always check
+Add `flutter_hook_extensions` to your hook's dependencies and read the config
+from the `BuildInput` / `LinkInput` via `input.config.flutter`. Always check
 `input.config.buildForFlutter` first: a hook may also be invoked by a plain
 `dart` build, or by a Flutter SDK that predates this extension, in which case no
 Flutter-specific config is available and you should fall back to your own tool
 discovery.
 
-See the [library documentation](https://pub.dev/documentation/flutter_hook_config/latest/)
+See the [library documentation](https://pub.dev/documentation/flutter_hook_extensions/latest/)
 for a usage example.
 
 ## For the Flutter SDK
