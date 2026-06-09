@@ -1,3 +1,23 @@
+'p: flutter_template_images':
+  - changed-files:
+    - any-glob-to-any-file:
+      - packages/flutter_template_images/**/*
+
+'p: multicast_dns':
+  - changed-files:
+    - any-glob-to-any-file:
+      - packages/multicast_dns/**/*
+
+'p: mustache_template':
+  - changed-files:
+    - any-glob-to-any-file:
+      - third_party/packages/mustache_template/**/*
+
+'p: standard_message_codec':
+  - changed-files:
+    - any-glob-to-any-file:
+      - packages/standard_message_codec/**/*
+
 'p: vector_math':
   - changed-files:
     - any-glob-to-any-file:
