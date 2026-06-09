@@ -1,5 +1,6 @@
-## NEXT
+## 2.0.5
 
+* Updates metadata for move to https://github.com/flutter/core-packages.
 * Updates minimum supported SDK version to Flutter 3.38/Dart 3.10.
 
 ## 2.0.4
