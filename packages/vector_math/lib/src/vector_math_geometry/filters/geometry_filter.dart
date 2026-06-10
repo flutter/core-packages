@@ -6,20 +6,21 @@ part of '../../../vector_math_geometry.dart';
 
 /// A filter that produces a transformed copy of a [MeshGeometry].
 abstract class GeometryFilter {
-  /// Whether this filter mutates an input mesh before returning it.
+  /// Whether this filter supports in-place modification of a mesh.
   bool get inplace => false;
 
   /// Vertex attributes that must be present on the input mesh.
-  List<VertexAttrib> get requires => <VertexAttrib>[];
+  List<VertexAttrib> get requires => const <VertexAttrib>[];
 
   /// Vertex attributes that this filter guarantees on the output mesh.
-  List<VertexAttrib> get generates => <VertexAttrib>[];
+  List<VertexAttrib> get generates => const <VertexAttrib>[];
 
   /// Returns a copy of the mesh with any filter transforms applied.
   MeshGeometry filter(MeshGeometry mesh);
 }
 
-/// A [GeometryFilter] that applies its transformation directly to a mesh copy.
+/// A [GeometryFilter] that can apply its transformation directly to a mesh
+/// in-place.
 abstract class InplaceGeometryFilter extends GeometryFilter {
   @override
   bool get inplace => true;
