@@ -2,12 +2,9 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-// TODO(stuartmorgan): Remove this and fix violations. See
-//  https://github.com/flutter/flutter/issues/186827
-// ignore_for_file: public_member_api_docs
-
 part of '../../../vector_math_geometry.dart';
 
+/// Expands a mesh to triangle vertices and generates flat-shaded normals.
 class FlatShadeFilter extends GeometryFilter {
   @override
   List<VertexAttrib> get requires => <VertexAttrib>[VertexAttrib('POSITION', 3, 'float')];

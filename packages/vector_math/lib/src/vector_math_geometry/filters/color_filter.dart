@@ -2,14 +2,14 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-// TODO(stuartmorgan): Remove this and fix violations. See
-//  https://github.com/flutter/flutter/issues/186827
-// ignore_for_file: public_member_api_docs
-
 part of '../../../vector_math_geometry.dart';
 
+/// Assigns a single color to every vertex in a mesh.
 class ColorFilter extends GeometryFilter {
+  /// Creates a filter that writes [color] into the mesh `COLOR` attribute.
   ColorFilter(this.color);
+
+  /// The color written to each output vertex.
   Vector4 color;
 
   @override
