@@ -51,10 +51,8 @@ void renderPartials() {
 
 void renderLambdaRenderString() {
   // #docregion lambda-render-string
-  final templafinal lambda = te = Template('{{# foo }}{{bar}}{{/ foo }}');
-  // lambda-render-string
+  final template = Template('{{# foo }}{{bar}}{{/ foo }}');
   final lambda = (LambdaContext ctx) => '<b>${ctx.renderString().toUpperCase()}</b>';
-  final output = template.renderString({'foo': lambda, 'bar': 'pub'}); // <b>PUB</b>
   final output = template.renderString({'foo': lambda, 'bar': 'pub'}); // <b>PUB</b>
   // #enddocregion lambda-render-string
   print(output);
@@ -63,9 +61,7 @@ void renderLambdaRenderString() {
 void renderLambdaRenderSource() {
   // #docregion lambda-render-source
   final template = Template('{{# foo }}{{bar}}{{/ foo }}');
-  // lambda-render-source
   final lambda = (LambdaContext ctx) => ctx.renderSource(ctx.source + ' {{cmd}}');
-  final output = template.renderString({'foo': lambda, 'bar': 'pub', 'cmd': 'build'}); // pub build
   final output = template.renderString({'foo': lambda, 'bar': 'pub', 'cmd': 'build'}); // pub build
   // #enddocregion lambda-render-source
   print(output);
