@@ -2,6 +2,7 @@
 
 * Updates metadata for move to https://github.com/flutter/core-packages.
 * Updates minimum supported SDK version to Flutter 3.38/Dart 3.10.
+* Adds example app demonstrating basic templates, nested paths, partials, and lambdas.
 
 ## 2.0.4
 

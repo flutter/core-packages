@@ -1,0 +1,11 @@
+name: mustache_template_examples
+description: Example code for mustache_template usage
+version: 0.0.1
+publish_to: none
+
+environment:
+  sdk: ^3.10.0
+
+dependencies:
+  mustache_template:
+    path: ../
