@@ -24,7 +24,9 @@ void main() {
 
   test('renders nested paths', () {
     final template = Template('{{ author.name }}');
-    final output = template.renderString({'author': {'name': 'Greg Lowe'}});
+    final output = template.renderString({
+      'author': {'name': 'Greg Lowe'},
+    });
     expect(output, equals('Greg Lowe'));
   });
 
@@ -36,26 +38,22 @@ void main() {
       }
       return null;
     };
-    final template =
-    Template('{{> partial-name }}', partialResolver: resolver);
+    final template = Template('{{> partial-name }}', partialResolver: resolver);
     final output = template.renderString({'foo': 'bar'});
     expect(output, equals('bar'));
   });
 
   test('renders lambda using renderString', () {
     final template = Template('{{# foo }}{{bar}}{{/ foo }}');
-    final lambda =
-        (LambdaContext ctx) => '<b>${ctx.renderString().toUpperCase()}</b>';
+    final lambda = (LambdaContext ctx) => '<b>${ctx.renderString().toUpperCase()}</b>';
     final output = template.renderString({'foo': lambda, 'bar': 'pub'});
     expect(output, equals('<b>PUB</b>'));
   });
 
   test('renders lambda using renderSource', () {
     final template = Template('{{# foo }}{{bar}}{{/ foo }}');
-    final lambda =
-        (LambdaContext ctx) => ctx.renderSource(ctx.source + ' {{cmd}}');
-    final output =
-    template.renderString({'foo': lambda, 'bar': 'pub', 'cmd': 'build'});
+    final lambda = (LambdaContext ctx) => ctx.renderSource(ctx.source + ' {{cmd}}');
+    final output = template.renderString({'foo': lambda, 'bar': 'pub', 'cmd': 'build'});
     expect(output, equals('pub build'));
   });
 }
