@@ -27,7 +27,9 @@ void renderBasicTemplate() {
 void renderNestedPaths() {
   // #docregion nested
   final template = Template('{{ author.name }}');
-  final output = template.renderString({'author': {'name': 'Greg Lowe'}});
+  final output = template.renderString({
+    'author': {'name': 'Greg Lowe'},
+  });
   // #enddocregion nested
   print(output);
 }
@@ -50,10 +52,8 @@ void renderPartials() {
 void renderLambdaRenderString() {
   // #docregion lambda-render-string
   final template = Template('{{# foo }}{{bar}}{{/ foo }}');
-  final lambda =
-      (LambdaContext ctx) => '<b>${ctx.renderString().toUpperCase()}</b>';
-  final output =
-  template.renderString({'foo': lambda, 'bar': 'pub'}); // <b>PUB</b>
+  final lambda = (LambdaContext ctx) => '<b>${ctx.renderString().toUpperCase()}</b>';
+  final output = template.renderString({'foo': lambda, 'bar': 'pub'}); // <b>PUB</b>
   // #enddocregion lambda-render-string
   print(output);
 }
@@ -61,10 +61,8 @@ void renderLambdaRenderString() {
 void renderLambdaRenderSource() {
   // #docregion lambda-render-source
   final template = Template('{{# foo }}{{bar}}{{/ foo }}');
-  final lambda =
-      (LambdaContext ctx) => ctx.renderSource(ctx.source + ' {{cmd}}');
-  final output = template
-      .renderString({'foo': lambda, 'bar': 'pub', 'cmd': 'build'}); // pub build
+  final lambda = (LambdaContext ctx) => ctx.renderSource(ctx.source + ' {{cmd}}');
+  final output = template.renderString({'foo': lambda, 'bar': 'pub', 'cmd': 'build'}); // pub build
   // #enddocregion lambda-render-source
   print(output);
 }
