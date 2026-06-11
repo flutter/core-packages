@@ -27,8 +27,14 @@
     - any-glob-to-any-file:
       - packages/vector_math/**/*
 
+'p: listen':
+  - changed-files:
+    - any-glob-to-any-file:
+      - packages/listen/**/*
+
 'triage-framework':
   - changed-files:
     - any-glob-to-any-file:
       - packages/vector_math/**/*
       - packages/flutter_hook_config/**/*
+      - packages/listen/**/*

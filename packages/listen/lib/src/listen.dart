@@ -1,61 +1,44 @@
-// Copyright 2014 The Flutter Authors. All rights reserved.
+// Copyright 2013 The Flutter Authors
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-/// @docImport 'package:flutter/animation.dart';
-/// @docImport 'package:flutter/widgets.dart';
-library;
-
-import 'dart:ui' show VoidCallback;
+// TODO(chunhtai): remove this once https://github.com/dart-lang/sdk/pull/63646 is landed.
+// ignore_for_file: doc_directive_unknown
 
 import 'package:meta/meta.dart';
 
-import 'assertions.dart';
-import 'debug.dart';
-import 'diagnostics.dart';
-import 'memory_allocations.dart';
+/// Signature of callbacks that have no arguments and return no data.
+typedef VoidCallback = void Function();
 
-export 'dart:ui' show VoidCallback;
+/// Signature of callbacks that are called when an error is thrown by a listener.
+typedef ErrorCallback = void Function(String message, StackTrace? stackTrace);
+
+/// Signature of callbacks that are called when an object is created.
+///
+/// The `className` is the name of the class, and `object` is the object that was created.
+typedef ObjectCreatedCallback = void Function(String className, Object object);
+
+/// Signature of callbacks that are called when an object is disposed.
+///
+/// The `object` is the object that was disposed.
+typedef ObjectDisposedCallback = void Function(Object object);
 
 /// An object that maintains a list of listeners.
 ///
 /// The listeners are typically used to notify clients that the object has been
 /// updated.
 ///
-/// There are two variants of this interface:
-///
-///  * [ValueListenable], an interface that augments the [Listenable] interface
-///    with the concept of a _current value_.
-///
-///  * [Animation], an interface that augments the [ValueListenable] interface
-///    to add the concept of direction (forward or reverse).
-///
-/// Many classes in the Flutter API use or implement these interfaces. The
-/// following subclasses are especially relevant:
-///
-///  * [ChangeNotifier], which can be subclassed or mixed in to create objects
-///    that implement the [Listenable] interface.
-///
-///  * [ValueNotifier], which implements the [ValueListenable] interface with
-///    a mutable value that triggers the notifications when modified.
-///
 /// The terms "notify clients", "send notifications", "trigger notifications",
 /// and "fire notifications" are used interchangeably.
 ///
 /// See also:
 ///
-///  * [AnimatedBuilder], a widget that uses a builder callback to rebuild
-///    whenever a given [Listenable] triggers its notifications. This widget is
-///    commonly used with [Animation] subclasses, hence its name, but is by no
-///    means limited to animations, as it can be used with any [Listenable]. It
-///    is a subclass of [AnimatedWidget], which can be used to create widgets
-///    that are driven from a [Listenable].
-///  * [ValueListenableBuilder], a widget that uses a builder callback to
-///    rebuild whenever a [ValueListenable] object triggers its notifications,
-///    providing the builder with the value of the object.
-///  * [InheritedNotifier], an abstract superclass for widgets that use a
-///    [Listenable]'s notifications to trigger rebuilds in descendant widgets
-///    that declare a dependency on them, using the [InheritedWidget] mechanism.
+///  * [ValueListenable], an interface that augments the [Listenable] interface
+///    with the concept of a _current value_.
+///  * [ChangeNotifier], which can be subclassed or mixed in to create objects
+///    that implement the [Listenable] interface.
+///  * [ValueNotifier], which implements the [ValueListenable] interface with
+///    a mutable value that triggers the notifications when modified.
 ///  * [Listenable.merge], which creates a [Listenable] that triggers
 ///    notifications whenever any of a list of other [Listenable]s trigger their
 ///    notifications.
@@ -71,7 +54,30 @@ abstract class Listenable {
   /// Doing so will lead to memory leaks or exceptions.
   ///
   /// The iterable may contain nulls; they are ignored.
+  ///
+  /// {@example example/lib/listenable_merge.dart}
   factory Listenable.merge(Iterable<Listenable?> listenables) = _MergingListenable;
+
+  /// Error callback that is called when an error is thrown by a listener.
+  ///
+  /// By default, errors are thrown as [StateError].
+  static ErrorCallback onError = (String message, StackTrace? stackTrace) {
+    throw StateError(message);
+  };
+
+  /// Called when a new object is created.
+  ///
+  /// This can be useful for tracking memory leaks.
+  ///
+  /// Only called in debug mode.
+  static ObjectCreatedCallback debugMaybeDispatchCreated = (String _, Object _) {};
+
+  /// Called when an object is disposed.
+  ///
+  /// This can be useful for tracking memory leaks.
+  ///
+  /// Only called in debug mode.
+  static ObjectDisposedCallback debugMaybeDispatchDisposed = (Object _) {};
 
   /// Register a closure to be called when the object notifies its listeners.
   void addListener(VoidCallback listener);
@@ -83,14 +89,8 @@ abstract class Listenable {
 
 /// An interface for subclasses of [Listenable] that expose a [value].
 ///
-/// This interface is implemented by [ValueNotifier<T>] and [Animation<T>], and
-/// allows other APIs to accept either of those implementations interchangeably.
-///
-/// See also:
-///
-///  * [ValueListenableBuilder], a widget that uses a builder callback to
-///    rebuild whenever a [ValueListenable] object triggers its notifications,
-///    providing the builder with the value of the object.
+/// This interface is implemented by [ValueNotifier<T>] and allows other APIs
+/// to accept either of those implementations interchangeably.
 abstract class ValueListenable<T> extends Listenable {
   /// This constructor enables subclasses to provide const constructors so that
   /// they can be used in const expressions.
@@ -112,26 +112,17 @@ abstract class ValueListenable<T> extends Listenable {
 /// ## Using ChangeNotifier subclasses for data models
 ///
 /// A data structure can extend or mix in [ChangeNotifier] to implement the
-/// [Listenable] interface and thus become usable with widgets that listen for
-/// changes to [Listenable]s, such as [ListenableBuilder].
+/// [Listenable] interface.
 ///
-/// {@tool dartpad}
-/// The following example implements a simple counter that utilizes a
-/// [ListenableBuilder] to limit rebuilds to only the [Text] widget containing
-/// the count. The current count is stored in a [ChangeNotifier] subclass, which
-/// rebuilds the [ListenableBuilder]'s contents when its value is changed.
+/// The following example implements a simple counter whose current count is
+/// stored in a [ChangeNotifier] subclass, notifying clients when the value changes:
 ///
-/// ** See code in examples/api/lib/widgets/transitions/listenable_builder.2.dart **
-/// {@end-tool}
+/// {@example example/lib/counter.dart}
 ///
-/// {@tool dartpad}
-/// In this case, the [ChangeNotifier] subclass encapsulates a list, and notifies
-/// the clients any time an item is added to the list. This example only supports
-/// adding items; as an exercise, consider adding buttons to remove items from
-/// the list as well.
+/// In this case, the [ChangeNotifier] subclass encapsulates a list, notifying
+/// clients whenever an item is added or removed:
 ///
-/// ** See code in examples/api/lib/widgets/transitions/listenable_builder.3.dart **
-/// {@end-tool}
+/// {@example example/lib/list_notifier.dart}
 ///
 /// See also:
 ///
@@ -152,8 +143,8 @@ mixin class ChangeNotifier implements Listenable {
   int _reentrantlyRemovedListeners = 0;
   bool _debugDisposed = false;
 
-  /// If true, the event [ObjectCreated] for this instance was dispatched to
-  /// [FlutterMemoryAllocations].
+  /// If true, the creation of this instance was dispatched to
+  /// [Listenable.debugMaybeDispatchCreated].
   ///
   /// As [ChangeNotifier] is used as mixin, it does not have constructor,
   /// so we use [addListener] to dispatch the event.
@@ -162,7 +153,6 @@ mixin class ChangeNotifier implements Listenable {
   /// Used by subclasses to assert that the [ChangeNotifier] has not yet been
   /// disposed.
   ///
-  /// {@tool snippet}
   /// The [debugAssertNotDisposed] function should only be called inside of an
   /// assert, as in this example.
   ///
@@ -174,17 +164,17 @@ mixin class ChangeNotifier implements Listenable {
   ///   }
   /// }
   /// ```
-  /// {@end-tool}
   // This is static and not an instance method because too many people try to
   // implement ChangeNotifier instead of extending it (and so it is too breaking
   // to add a method, especially for debug).
   static bool debugAssertNotDisposed(ChangeNotifier notifier) {
     assert(() {
       if (notifier._debugDisposed) {
-        throw FlutterError(
+        Listenable.onError(
           'A ${notifier.runtimeType} was used after being disposed.\n'
           'Once you have called dispose() on a ${notifier.runtimeType}, it '
           'can no longer be used.',
+          StackTrace.current,
         );
       }
       return true;
@@ -212,10 +202,7 @@ mixin class ChangeNotifier implements Listenable {
   @protected
   bool get hasListeners => _count > 0;
 
-  /// Dispatches event of the [object] creation to [FlutterMemoryAllocations.instance].
-  ///
-  /// If the event was already dispatched or [kFlutterMemoryAllocationsEnabled]
-  /// is false, the method is noop.
+  /// Dispatches the event of the [object] creation to [Listenable.debugMaybeDispatchCreated].
   ///
   /// Tools like leak_tracker use the event of object creation to help
   /// developers identify the owner of the object, for troubleshooting purposes,
@@ -228,14 +215,11 @@ mixin class ChangeNotifier implements Listenable {
   /// To make debugging easier, invoke [ChangeNotifier.maybeDispatchObjectCreation]
   /// in constructor of the class. It will help
   /// to identify the owner.
-  ///
-  /// Make sure to invoke it with condition `if (kFlutterMemoryAllocationsEnabled) ...`
-  /// so that the method is tree-shaken away when the flag is false.
   @protected
   static void maybeDispatchObjectCreation(ChangeNotifier object) {
     assert(() {
       if (!object._debugCreationDispatched) {
-        debugMaybeDispatchCreated('foundation', 'ChangeNotifier', object);
+        Listenable.debugMaybeDispatchCreated('ChangeNotifier', object);
         object._debugCreationDispatched = true;
       }
       return true;
@@ -250,7 +234,6 @@ mixin class ChangeNotifier implements Listenable {
   ///
   /// This method must not be called after [dispose] has been called.
   ///
-  /// {@template flutter.foundation.ChangeNotifier.addListener}
   /// If a listener is added twice, and is removed once during an iteration
   /// (e.g. in response to a notification), it will still be called again. If,
   /// on the other hand, it is removed as many times as it was registered, then
@@ -262,7 +245,6 @@ mixin class ChangeNotifier implements Listenable {
   /// This surprising behavior can be unexpectedly observed when registering a
   /// listener on two separate objects which are both forwarding all
   /// registrations to a common upstream object.
-  /// {@endtemplate}
   ///
   /// See also:
   ///
@@ -272,9 +254,10 @@ mixin class ChangeNotifier implements Listenable {
   void addListener(VoidCallback listener) {
     assert(ChangeNotifier.debugAssertNotDisposed(this));
 
-    if (kFlutterMemoryAllocationsEnabled) {
-      maybeDispatchObjectCreation(this);
-    }
+    assert(() {
+      ChangeNotifier.maybeDispatchObjectCreation(this);
+      return true;
+    }());
 
     if (_count == _listeners.length) {
       if (_count == 0) {
@@ -329,7 +312,14 @@ mixin class ChangeNotifier implements Listenable {
   ///
   /// This method returns immediately if [dispose] has been called.
   ///
-  /// {@macro flutter.foundation.ChangeNotifier.addListener}
+  /// If a listener is added twice, and is removed once during an iteration
+  /// (e.g. in response to a notification), it will still be called again. If,
+  /// on the other hand, it is removed as many times as it was registered, then
+  /// it will not be called.
+  ///
+  /// This surprising behavior can be unexpectedly observed when registering a
+  /// listener on two separate objects which are both forwarding all
+  /// registrations to a common upstream object.
   ///
   /// See also:
   ///
@@ -384,7 +374,7 @@ mixin class ChangeNotifier implements Listenable {
     assert(() {
       _debugDisposed = true;
       if (_debugCreationDispatched) {
-        assert(debugMaybeDispatchDisposed(this));
+        Listenable.debugMaybeDispatchDisposed(this);
       }
       return true;
     }());
@@ -400,7 +390,7 @@ mixin class ChangeNotifier implements Listenable {
   /// not be visited after they are removed.
   ///
   /// Exceptions thrown by listeners will be caught and reported using
-  /// [FlutterError.reportError].
+  /// [Listenable.onError].
   ///
   /// This method must not be called after [dispose] has been called.
   ///
@@ -434,21 +424,7 @@ mixin class ChangeNotifier implements Listenable {
       try {
         _listeners[i]?.call();
       } catch (exception, stack) {
-        FlutterError.reportError(
-          FlutterErrorDetails(
-            exception: exception,
-            stack: stack,
-            library: 'foundation library',
-            context: ErrorDescription('while dispatching notifications for $runtimeType'),
-            informationCollector: () => <DiagnosticsNode>[
-              DiagnosticsProperty<ChangeNotifier>(
-                'The $runtimeType sending notification was',
-                this,
-                style: DiagnosticsTreeStyle.errorProperty,
-              ),
-            ],
-          ),
-        );
+        Listenable.onError(exception.toString(), stack);
       }
     }
 
@@ -539,12 +515,15 @@ class _MergingListenable extends Listenable {
 ///
 /// For mutable data types, consider extending [ChangeNotifier] directly and
 /// calling [notifyListeners] manually when changes occur.
+///
+/// {@example example/lib/value_notifier.dart}
 class ValueNotifier<T> extends ChangeNotifier implements ValueListenable<T> {
   /// Creates a [ChangeNotifier] that wraps this value.
   ValueNotifier(this._value) {
-    if (kFlutterMemoryAllocationsEnabled) {
+    assert(() {
       ChangeNotifier.maybeDispatchObjectCreation(this);
-    }
+      return true;
+    }());
   }
 
   /// The current value stored in this notifier.
@@ -564,5 +543,23 @@ class ValueNotifier<T> extends ChangeNotifier implements ValueListenable<T> {
   }
 
   @override
-  String toString() => '${describeIdentity(this)}($value)';
+  String toString() => '${_describeIdentity(this)}($value)';
+}
+
+/// Returns a 5 character long hexadecimal string generated from
+/// [Object.hashCode]'s 20 least-significant bits.
+String _shortHash(Object? object) {
+  return object.hashCode.toUnsigned(20).toRadixString(16).padLeft(5, '0');
+}
+
+/// Returns the runtime type of the given `object`..
+String _describeIdentity(Object? object) =>
+    '${_objectRuntimeType(object, '<optimized out>')}#${_shortHash(object)}';
+
+String _objectRuntimeType(Object? object, String optimizedValue) {
+  assert(() {
+    optimizedValue = object.runtimeType.toString();
+    return true;
+  }());
+  return optimizedValue;
 }
