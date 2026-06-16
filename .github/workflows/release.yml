@@ -43,7 +43,7 @@ jobs:
 
     # Release should only happen if/when all other checks have passed.
     - name: Wait on all tests
-      uses: lewagon/wait-on-check-action@9312864dfbc9fd208e9c0417843430751c042800
+      uses: lewagon/wait-on-check-action@96d9100b431964d10e0136aff8b9ccb92470505e
       with:
         ref: ${{ github.sha }}
         running-workflow-name: 'release'
