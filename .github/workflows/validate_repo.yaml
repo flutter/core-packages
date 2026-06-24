@@ -45,6 +45,8 @@ jobs:
           else
             dart pub global run flutter_plugin_tools validate --check-for-missing-changes --pr-labels="$(gh api --jq '.labels.[].name' /repos/flutter/core-packages/pulls/${{ github.event.number }} | paste -sd ',' -)"
           fi
+        env:
+          GH_TOKEN: ${{ github.token }}
 
       - name: Run 'format' to check for formatting violations
         if: ${{ !cancelled() && steps.setup.outcome == 'success' }}
