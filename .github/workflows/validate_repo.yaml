@@ -32,10 +32,21 @@ jobs:
         with:
           dart-sdk: main
 
+      # For pre-submit, check for missing or breaking changes that don't have a
+      # corresponding override label.
+      # For post-submit, ignore platform interface breaking version changes and
+      # missing version/CHANGELOG detection since PR-level overrides aren't available
+      # in post-submit.
       - name: Run 'validate' for general repo best practices
         if: ${{ !cancelled() && steps.setup.outcome == 'success' }}
         run: |
-          dart pub global run flutter_plugin_tools validate
+          if [ "${{ github.event_name }}" == "push" ]; then
+            dart pub global run flutter_plugin_tools validate --ignore-platform-interface-breaks
+          else
+            dart pub global run flutter_plugin_tools validate --check-for-missing-changes --pr-labels="$(gh api --jq '.labels.[].name' /repos/flutter/core-packages/pulls/${{ github.event.number }} | paste -sd ',' -)"
+          fi
+        env:
+          GH_TOKEN: ${{ github.token }}
 
       - name: Run 'format' to check for formatting violations
         if: ${{ !cancelled() && steps.setup.outcome == 'success' }}
