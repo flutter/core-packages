@@ -1,0 +1,14 @@
+name: listen_example
+description: Examples for the listen package.
+publish_to: none
+version: 0.0.1
+
+environment:
+  sdk: ^3.10.0
+
+dependencies:
+  listen:
+    path: ../
+
+dev_dependencies:
+  test: ^1.25.9
