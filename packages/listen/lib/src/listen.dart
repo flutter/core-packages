@@ -55,7 +55,7 @@ abstract class Listenable {
   ///
   /// The iterable may contain nulls; they are ignored.
   ///
-  /// {@example example/lib/listenable_merge.dart}
+  /// {@example /example/lib/listenable_merge.dart}
   factory Listenable.merge(Iterable<Listenable?> listenables) = _MergingListenable;
 
   /// Error callback that is called when an error is thrown by a listener.
@@ -117,12 +117,12 @@ abstract class ValueListenable<T> extends Listenable {
 /// The following example implements a simple counter whose current count is
 /// stored in a [ChangeNotifier] subclass, notifying clients when the value changes:
 ///
-/// {@example example/lib/counter.dart}
+/// {@example /example/lib/counter.dart}
 ///
 /// In this case, the [ChangeNotifier] subclass encapsulates a list, notifying
 /// clients whenever an item is added or removed:
 ///
-/// {@example example/lib/list_notifier.dart}
+/// {@example /example/lib/list_notifier.dart}
 ///
 /// See also:
 ///
@@ -516,7 +516,7 @@ class _MergingListenable extends Listenable {
 /// For mutable data types, consider extending [ChangeNotifier] directly and
 /// calling [notifyListeners] manually when changes occur.
 ///
-/// {@example example/lib/value_notifier.dart}
+/// {@example /example/lib/value_notifier.dart}
 class ValueNotifier<T> extends ChangeNotifier implements ValueListenable<T> {
   /// Creates a [ChangeNotifier] that wraps this value.
   ValueNotifier(this._value) {
