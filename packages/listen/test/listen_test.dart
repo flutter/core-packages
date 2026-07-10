@@ -54,18 +54,21 @@ class Counter with ChangeNotifier {
 
 void main() {
   final ErrorCallback originalOnError = Listenable.onError;
-  String? lastErrorMessage;
+  Object? lastError;
+  ErrorContext? lastContext;
 
   setUp(() {
-    lastErrorMessage = null;
-    Listenable.onError = (String message, StackTrace? stackTrace) {
-      lastErrorMessage = message;
+    lastError = null;
+    lastContext = null;
+    Listenable.onError = (Object error, StackTrace? stackTrace, {ErrorContext? context}) {
+      lastError = error;
+      lastContext = context;
     };
   });
   tearDown(() {
     Listenable.onError = originalOnError;
-    if (lastErrorMessage != null) {
-      throw StateError('Unexpected error in test: $lastErrorMessage');
+    if (lastError != null) {
+      throw StateError('Unexpected error in test: $lastError');
     }
   });
 
@@ -81,11 +84,13 @@ void main() {
 
     test.notify();
 
-    expect(lastErrorMessage, contains('dispose()'));
+    expect(lastError, isA<AssertionError>());
+    expect(lastContext, ErrorContext.listener);
+    expect(lastError.toString(), contains('dispose()'));
     // Make sure it crashes during dispose call.
     expect(callbackDidFinish, isFalse);
     test.dispose();
-    lastErrorMessage = null;
+    lastError = null;
   });
 
   test('ChangeNotifier', () {
@@ -110,9 +115,9 @@ void main() {
     final test = TestNotifier();
 
     final ErrorCallback original = Listenable.onError;
-    final List<String> errorMessages = [];
-    Listenable.onError = (String message, StackTrace? stackTrace) {
-      errorMessages.add(message);
+    final List<Object> errors = [];
+    Listenable.onError = (Object error, StackTrace? stackTrace, {ErrorContext? context}) {
+      errors.add(error);
     };
     addTearDown(() {
       Listenable.onError = original;
@@ -167,7 +172,7 @@ void main() {
     test.addListener(badListener);
     test.notify();
     expect(log, <String>['listener', 'listener2', 'listener1', 'badListener']);
-    expect(errorMessages.removeAt(0), contains('Invalid argument'));
+    expect(errors.removeAt(0), isA<ArgumentError>());
     log.clear();
 
     test.addListener(listener1);
@@ -177,9 +182,77 @@ void main() {
     test.addListener(listener2);
     test.notify();
     expect(log, <String>['badListener', 'listener1', 'listener2']);
-    expect(errorMessages.removeAt(0), contains('Invalid argument'));
+    expect(errors.removeAt(0), isA<ArgumentError>());
     log.clear();
     test.dispose();
+  });
+
+  test('Listenable.onError preserves runtime exception types', () {
+    final List<Object> errors = [];
+    final ErrorCallback original = Listenable.onError;
+    Listenable.onError = (Object error, StackTrace? stackTrace, {ErrorContext? context}) {
+      errors.add(error);
+    };
+    addTearDown(() {
+      Listenable.onError = original;
+    });
+
+    final notifier = TestNotifier();
+    notifier.addListener(() {
+      throw const FormatException('custom exception');
+    });
+    notifier.notify();
+
+    expect(errors.single, isA<FormatException>());
+    expect((errors.single as FormatException).message, 'custom exception');
+  });
+
+  test('Listenable.onError default implementation rethrows and preserves StackTrace', () {
+    final stack = StackTrace.fromString('test_stack_trace_marker');
+    try {
+      originalOnError(const FormatException('bad format'), stack);
+      fail('Expected originalOnError to throw');
+    } catch (e, s) {
+      expect(e, isA<FormatException>());
+      expect(s.toString(), 'test_stack_trace_marker');
+    }
+  });
+
+  test('Listenable.onError reports correct ErrorContext across all failure types', () {
+    final List<ErrorContext?> contexts = [];
+    final ErrorCallback original = Listenable.onError;
+    Listenable.onError = (Object error, StackTrace? stackTrace, {ErrorContext? context}) {
+      contexts.add(context);
+    };
+    addTearDown(() {
+      Listenable.onError = original;
+    });
+
+    final notifier = TestNotifier();
+    notifier.addListener(() {
+      throw Exception('listener exception');
+    });
+    notifier.notify();
+    expect(contexts.single, ErrorContext.listener);
+    contexts.clear();
+
+    notifier.dispose();
+
+    notifier.dispose();
+    expect(contexts.single, ErrorContext.assertion);
+    contexts.clear();
+
+    notifier.notify();
+    expect(contexts.single, ErrorContext.assertion);
+    contexts.clear();
+
+    notifier.addListener(() {});
+    expect(contexts.single, ErrorContext.assertion);
+    contexts.clear();
+
+    ChangeNotifier.debugAssertNotDisposed(notifier);
+    expect(contexts.single, ErrorContext.assertion);
+    contexts.clear();
   });
 
   test('ChangeNotifier with mutating listener', () {
@@ -388,16 +461,16 @@ void main() {
     source.dispose();
 
     source.addListener(() {});
-    expect(lastErrorMessage, contains('TestNotifier was used after being disposed.'));
-    lastErrorMessage = null;
+    expect(lastError.toString(), contains('TestNotifier was used after being disposed.'));
+    lastError = null;
 
     source.dispose();
-    expect(lastErrorMessage, contains('TestNotifier was used after being disposed.'));
-    lastErrorMessage = null;
+    expect(lastError.toString(), contains('TestNotifier was used after being disposed.'));
+    lastError = null;
 
     source.notify();
-    expect(lastErrorMessage, contains('TestNotifier was used after being disposed.'));
-    lastErrorMessage = null;
+    expect(lastError.toString(), contains('TestNotifier was used after being disposed.'));
+    lastError = null;
   });
 
   test('Can remove listener on a disposed ChangeNotifier', () {
@@ -517,8 +590,8 @@ void main() {
 
     testNotifier.dispose();
 
-    expect(lastErrorMessage, contains('TestNotifier was used after being disposed.'));
-    lastErrorMessage = null;
+    expect(lastError.toString(), contains('TestNotifier was used after being disposed.'));
+    lastError = null;
   });
 
   test('Calling debugAssertNotDisposed works as intended', () {
@@ -528,8 +601,8 @@ void main() {
 
     ChangeNotifier.debugAssertNotDisposed(testNotifier);
 
-    expect(lastErrorMessage, contains('TestNotifier was used after being disposed.'));
-    lastErrorMessage = null;
+    expect(lastError.toString(), contains('TestNotifier was used after being disposed.'));
+    lastError = null;
   });
 
   test('notifyListener can be called recursively', () {

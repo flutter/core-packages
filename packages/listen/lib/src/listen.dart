@@ -10,8 +10,21 @@ import 'package:meta/meta.dart';
 /// Signature of callbacks that have no arguments and return no data.
 typedef VoidCallback = void Function();
 
-/// Signature of callbacks that are called when an error is thrown by a listener.
-typedef ErrorCallback = void Function(String message, StackTrace? stackTrace);
+/// Identifies the context in which an error was reported to [Listenable.onError].
+enum ErrorContext {
+  /// The error was thrown by a listener callback during [Listenable] notification.
+  listener,
+
+  /// The error was reported by a debug assertion or lifecycle check (e.g. using a disposed notifier).
+  assertion,
+}
+
+/// Signature of callbacks that are called when an error is reported by a listener or assertion.
+typedef ErrorCallback = void Function(
+  Object error,
+  StackTrace? stackTrace, {
+  ErrorContext? context,
+});
 
 /// Signature of callbacks that are called when an object is created.
 ///
@@ -58,11 +71,15 @@ abstract class Listenable {
   /// {@example /example/lib/listenable_merge.dart}
   factory Listenable.merge(Iterable<Listenable?> listenables) = _MergingListenable;
 
-  /// Error callback that is called when an error is thrown by a listener.
+  /// Error callback that is called when an error is thrown by a listener or assertion.
   ///
-  /// By default, errors are thrown as [StateError].
-  static ErrorCallback onError = (String message, StackTrace? stackTrace) {
-    throw StateError(message);
+  /// By default, errors are rethrown preserving their original [StackTrace].
+  static ErrorCallback onError = (
+    Object error,
+    StackTrace? stackTrace, {
+    ErrorContext? context,
+  }) {
+    Error.throwWithStackTrace(error, stackTrace ?? StackTrace.current);
   };
 
   /// Called when a new object is created.
@@ -171,10 +188,13 @@ mixin class ChangeNotifier implements Listenable {
     assert(() {
       if (notifier._debugDisposed) {
         Listenable.onError(
-          'A ${notifier.runtimeType} was used after being disposed.\n'
-          'Once you have called dispose() on a ${notifier.runtimeType}, it '
-          'can no longer be used.',
+          StateError(
+            'A ${notifier.runtimeType} was used after being disposed.\n'
+            'Once you have called dispose() on a ${notifier.runtimeType}, it '
+            'can no longer be used.',
+          ),
           StackTrace.current,
+          context: ErrorContext.assertion,
         );
       }
       return true;
@@ -424,7 +444,7 @@ mixin class ChangeNotifier implements Listenable {
       try {
         _listeners[i]?.call();
       } catch (exception, stack) {
-        Listenable.onError(exception.toString(), stack);
+        Listenable.onError(exception, stack, context: ErrorContext.listener);
       }
     }
 
