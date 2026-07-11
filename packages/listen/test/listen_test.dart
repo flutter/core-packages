@@ -60,7 +60,7 @@ void main() {
   setUp(() {
     lastError = null;
     lastContext = null;
-    Listenable.onError = (Object error, StackTrace? stackTrace, {ErrorContext? context}) {
+    Listenable.onError = (Object error, StackTrace? stackTrace, ErrorContext context) {
       lastError = error;
       lastContext = context;
     };
@@ -116,7 +116,7 @@ void main() {
 
     final ErrorCallback original = Listenable.onError;
     final List<Object> errors = [];
-    Listenable.onError = (Object error, StackTrace? stackTrace, {ErrorContext? context}) {
+    Listenable.onError = (Object error, StackTrace? stackTrace, ErrorContext context) {
       errors.add(error);
     };
     addTearDown(() {
@@ -190,7 +190,7 @@ void main() {
   test('Listenable.onError preserves runtime exception types', () {
     final List<Object> errors = [];
     final ErrorCallback original = Listenable.onError;
-    Listenable.onError = (Object error, StackTrace? stackTrace, {ErrorContext? context}) {
+    Listenable.onError = (Object error, StackTrace? stackTrace, ErrorContext context) {
       errors.add(error);
     };
     addTearDown(() {
@@ -210,7 +210,7 @@ void main() {
   test('Listenable.onError default implementation rethrows and preserves StackTrace', () {
     final stack = StackTrace.fromString('test_stack_trace_marker');
     try {
-      originalOnError(const FormatException('bad format'), stack);
+      originalOnError(const FormatException('bad format'), stack, ErrorContext.listener);
       fail('Expected originalOnError to throw');
     } catch (e, s) {
       expect(e, isA<FormatException>());
@@ -221,7 +221,7 @@ void main() {
   test('Listenable.onError reports correct ErrorContext across all failure types', () {
     final List<ErrorContext?> contexts = [];
     final ErrorCallback original = Listenable.onError;
-    Listenable.onError = (Object error, StackTrace? stackTrace, {ErrorContext? context}) {
+    Listenable.onError = (Object error, StackTrace? stackTrace, ErrorContext context) {
       contexts.add(context);
     };
     addTearDown(() {

@@ -1,3 +1,7 @@
+## 1.0.0-beta.4
+
+- `ErrorContext` is now a non-nullable parameter.
+
 ## 1.0.0-beta.3
 
 - Updates `ErrorCallback` to pass the raw error object and original `StackTrace`.
