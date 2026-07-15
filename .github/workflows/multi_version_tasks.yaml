@@ -14,6 +14,10 @@ on:
   pull_request:
     branches: [ main ]
 
+# Declare default permissions as read only.
+permissions:
+  contents: read
+
 jobs:
   analyze:
     name: Analyze and Test - Dart ${{ matrix.dart-sdk }}
@@ -34,6 +38,7 @@ jobs:
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
         with:
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Set up environment and tooling
         id: setup
@@ -42,18 +47,18 @@ jobs:
           dart-sdk: ${{ matrix.dart-sdk }}
 
       - name: Run Dart unit tests
-        if: ${{ !cancelled() && steps.setup.outcome == 'success' }}
+        if: !cancelled() && steps.setup.outcome == 'success'
         run: |
           dart pub global run flutter_plugin_tools test
 
       - name: Run analyze
         id: analyze
-        if: ${{ !cancelled() && steps.setup.outcome == 'success' }}
+        if: !cancelled() && steps.setup.outcome == 'success'
         run: |
           dart pub global run flutter_plugin_tools analyze
 
       - name: Run downgraded analyze
         # If regular analysis failed, no need to run downgraded analysis.
-        if: ${{ !cancelled() && steps.setup.outcome == 'success' && steps.analyze.outcome == 'success' }}
+        if: !cancelled() && steps.setup.outcome == 'success' && steps.analyze.outcome == 'success'
         run: |
           dart pub global run flutter_plugin_tools analyze --downgrade
