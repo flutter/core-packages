@@ -47,18 +47,18 @@ jobs:
           dart-sdk: ${{ matrix.dart-sdk }}
 
       - name: Run Dart unit tests
-        if: !cancelled() && steps.setup.outcome == 'success'
+        if: ${{ !cancelled() && steps.setup.outcome == 'success' }}
         run: |
           dart pub global run flutter_plugin_tools test
 
       - name: Run analyze
         id: analyze
-        if: !cancelled() && steps.setup.outcome == 'success'
+        if: ${{ !cancelled() && steps.setup.outcome == 'success' }}
         run: |
           dart pub global run flutter_plugin_tools analyze
 
       - name: Run downgraded analyze
         # If regular analysis failed, no need to run downgraded analysis.
-        if: !cancelled() && steps.setup.outcome == 'success' && steps.analyze.outcome == 'success'
+        if: ${{ !cancelled() && steps.setup.outcome == 'success' && steps.analyze.outcome == 'success' }}
         run: |
           dart pub global run flutter_plugin_tools analyze --downgrade

@@ -44,7 +44,7 @@ jobs:
       # missing version/CHANGELOG detection since PR-level overrides aren't available
       # in post-submit.
       - name: Run 'validate' for general repo best practices
-        if: !cancelled() && steps.setup.outcome == 'success'
+        if: ${{ !cancelled() && steps.setup.outcome == 'success' }}
         run: |
           if [ "$EVENT_NAME" = "push" ]; then
             dart pub global run flutter_plugin_tools validate --ignore-platform-interface-breaks
@@ -57,22 +57,22 @@ jobs:
           PR_NUMBER: ${{ github.event.number }}
 
       - name: Run 'format' to check for formatting violations
-        if: !cancelled() && steps.setup.outcome == 'success'
+        if: ${{ !cancelled() && steps.setup.outcome == 'success' }}
         run: |
           dart pub global run flutter_plugin_tools format --fail-on-change --no-swift
 
       - name: Run 'update-excerpts' to check for outdated README snippets
-        if: !cancelled() && steps.setup.outcome == 'success'
+        if: ${{ !cancelled() && steps.setup.outcome == 'success' }}
         run: |
           dart pub global run flutter_plugin_tools update-excerpts
 
       - name: Run 'license-check' to check for license issues
-        if: !cancelled() && steps.setup.outcome == 'success'
+        if: ${{ !cancelled() && steps.setup.outcome == 'success' }}
         run: |
           dart pub global run flutter_plugin_tools license-check
 
       # This is a relatively slow test, so keep it last.
       - name: Run 'publish-check' to make sure everything is in a publishable state
-        if: !cancelled() && steps.setup.outcome == 'success'
+        if: ${{ !cancelled() && steps.setup.outcome == 'success' }}
         run: |
           dart pub global run flutter_plugin_tools publish-check --allow-pre-release
