@@ -20,6 +20,12 @@ enum ErrorContext {
 }
 
 /// Signature of callbacks that are called when an error is reported by a listener or assertion.
+///
+/// The cause of the error can be read from `context`.
+///
+/// See also:
+///
+///  * [ErrorContext], which identifies the context in which an error was reported.
 typedef ErrorCallback = void Function(Object error, StackTrace? stackTrace, ErrorContext context);
 
 /// Signature of callbacks that are called when an object is created.
