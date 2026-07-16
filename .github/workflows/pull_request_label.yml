@@ -13,11 +13,13 @@ on:
     types: [opened, synchronize, reopened, closed]
 
 # Declare default permissions as read only.
-permissions: read-all
+permissions:
+  contents: read
 
 jobs:
   label:
     permissions:
+      contents: read
       pull-requests: write
     runs-on: ubuntu-latest
     steps:

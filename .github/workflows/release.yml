@@ -5,7 +5,8 @@ on:
       - main
 
 # Declare default permissions as read only.
-permissions: read-all
+permissions:
+  contents: read
 
 jobs:
   release:
@@ -21,6 +22,7 @@ jobs:
       uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
       with:
         fetch-depth: 0 # Fetch all history so the tool can get all the tags to determine version.
+        persist-credentials: false
     # Set up the latest stable release of Dart and tooling.
     - name: Set up environment and tooling
       id: setup
@@ -53,9 +55,18 @@ jobs:
         # verbose:true will produce too many logs that hang github actions web UI.
         verbose: false
 
+    - name: Configure Git
+      run: |
+        gh auth setup-git
+        git config --global user.name "$USER_NAME"
+        git config --global user.email "$USER_EMAIL"
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        USER_NAME: ${{ secrets.USER_NAME }}
+        USER_EMAIL: ${{ secrets.USER_EMAIL }}
     - name: run release
       run: |
-        git config set --global user.name "${{ secrets.USER_NAME }}"
-        git config set --global user.email "${{ secrets.USER_EMAIL }}"
         dart pub global run flutter_plugin_tools publish --all-changed --base-sha=HEAD~ --skip-confirmation --remote=origin
-      env: {PUB_CREDENTIALS: "${{ secrets.PUB_CREDENTIALS }}"}
+      env:
+        PUB_CREDENTIALS: ${{ secrets.PUB_CREDENTIALS }}
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

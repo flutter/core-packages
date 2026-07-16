@@ -14,6 +14,10 @@ on:
   pull_request:
     branches: [ main ]
 
+# Declare default permissions as read only.
+permissions:
+  contents: read
+
 jobs:
   analyze:
     name: Windows Test - Dart Stable
@@ -24,6 +28,7 @@ jobs:
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
         with:
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Set up environment and tooling
         uses: ./.github/actions/set-up-repo
