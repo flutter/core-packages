@@ -20,8 +20,13 @@ enum ErrorContext {
 }
 
 /// Signature of callbacks that are called when an error is reported by a listener or assertion.
-typedef ErrorCallback =
-    void Function(Object error, StackTrace? stackTrace, {ErrorContext? context});
+///
+/// The cause of the error can be read from `context`.
+///
+/// See also:
+///
+///  * [ErrorContext], which identifies the context in which an error was reported.
+typedef ErrorCallback = void Function(Object error, StackTrace? stackTrace, ErrorContext context);
 
 /// Signature of callbacks that are called when an object is created.
 ///
@@ -71,7 +76,7 @@ abstract class Listenable {
   /// Error callback that is called when an error is thrown by a listener or assertion.
   ///
   /// By default, errors are rethrown preserving their original [StackTrace].
-  static ErrorCallback onError = (Object error, StackTrace? stackTrace, {ErrorContext? context}) {
+  static ErrorCallback onError = (Object error, StackTrace? stackTrace, ErrorContext context) {
     Error.throwWithStackTrace(error, stackTrace ?? StackTrace.current);
   };
 
@@ -187,7 +192,7 @@ mixin class ChangeNotifier implements Listenable {
             'can no longer be used.',
           ),
           StackTrace.current,
-          context: ErrorContext.assertion,
+          ErrorContext.assertion,
         );
       }
       return true;
@@ -437,7 +442,7 @@ mixin class ChangeNotifier implements Listenable {
       try {
         _listeners[i]?.call();
       } catch (exception, stack) {
-        Listenable.onError(exception, stack, context: ErrorContext.listener);
+        Listenable.onError(exception, stack, ErrorContext.listener);
       }
     }
 
