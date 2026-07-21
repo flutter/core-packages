@@ -10,17 +10,13 @@ class Plane {
   Plane() : _normal = Vector3.zero(), constant = 0.0;
 
   /// Create a plane as a copy of [other].
-  Plane.copy(Plane other)
-    : _normal = Vector3.copy(other._normal),
-      constant = other.constant;
+  Plane.copy(Plane other) : _normal = Vector3.copy(other._normal), constant = other.constant;
 
   /// Create a plane from normal components and a [constant].
-  Plane.components(double x, double y, double z, this.constant)
-    : _normal = Vector3(x, y, z);
+  Plane.components(double x, double y, double z, this.constant) : _normal = Vector3(x, y, z);
 
   /// Create a plane from a normal vector and a [constant].
-  Plane.normalconstant(Vector3 normal_, this.constant)
-    : _normal = Vector3.copy(normal_);
+  Plane.normalconstant(Vector3 normal_, this.constant) : _normal = Vector3.copy(normal_);
   final Vector3 _normal;
 
   /// The constant term in the plane equation.
