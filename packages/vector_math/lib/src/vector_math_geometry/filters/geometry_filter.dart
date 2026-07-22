@@ -10,10 +10,10 @@ abstract class GeometryFilter {
   bool get inplace => false;
 
   /// Vertex attributes that must be present on the input mesh.
-  List<VertexAttrib> get requires => const <VertexAttrib>[];
+  List<VertexAttrib> get requires => <VertexAttrib>[];
 
   /// Vertex attributes that this filter guarantees on the output mesh.
-  List<VertexAttrib> get generates => const <VertexAttrib>[];
+  List<VertexAttrib> get generates => <VertexAttrib>[];
 
   /// Returns a copy of the mesh with any filter transforms applied.
   MeshGeometry filter(MeshGeometry mesh);
