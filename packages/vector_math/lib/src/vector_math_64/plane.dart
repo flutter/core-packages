@@ -2,21 +2,24 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-// TODO(stuartmorgan): Remove this and fix violations. See
-//  https://github.com/flutter/flutter/issues/186827
-// ignore_for_file: public_member_api_docs
-
 part of '../../vector_math_64.dart';
 
+/// Defines a plane with a [normal] vector and a [constant].
 class Plane {
+  /// Create a plane with a zero [normal] and zero [constant].
   Plane() : _normal = Vector3.zero(), constant = 0.0;
 
+  /// Create a plane as a copy of [other].
   Plane.copy(Plane other) : _normal = Vector3.copy(other._normal), constant = other.constant;
 
+  /// Create a plane from normal components and a [constant].
   Plane.components(double x, double y, double z, this.constant) : _normal = Vector3(x, y, z);
 
+  /// Create a plane from a normal vector and a [constant].
   Plane.normalconstant(Vector3 normal_, this.constant) : _normal = Vector3.copy(normal_);
   final Vector3 _normal;
+
+  /// The constant term in the plane equation.
   double constant;
 
   /// Find the intersection point between the three planes [a], [b] and [c] and
@@ -44,23 +47,28 @@ class Plane {
       ..z = (v1.z + v2.z + v3.z) / f;
   }
 
+  /// The normal vector of the plane.
   Vector3 get normal => _normal;
 
+  /// Copy the [normal] and [constant] from [o] into this.
   void copyFrom(Plane o) {
     _normal.setFrom(o._normal);
     constant = o.constant;
   }
 
+  /// Set the normal components and constant term of this plane.
   void setFromComponents(double x, double y, double z, double w) {
     _normal.setValues(x, y, z);
     constant = w;
   }
 
+  /// Normalize this plane so that [normal] has unit length.
   void normalize() {
     final double inverseLength = 1.0 / normal.length;
     _normal.scale(inverseLength);
     constant *= inverseLength;
   }
 
+  /// Return the signed distance from [point] to this plane.
   double distanceToVector3(Vector3 point) => _normal.dot(point) + constant;
 }

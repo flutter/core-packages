@@ -5,7 +5,7 @@ name: vector_math
 description: A vector math library for 2D and 3D applications, supporting 2D, 3D, and 4D matrices.
 repository: https://github.com/flutter/core-packages/tree/main/packages/vector_math
 issue_tracker: https://github.com/flutter/flutter/issues?q=is%3Aissue+is%3Aopen+label%3A%22p%3A+vector_math%22
-version: 2.4.0
+version: 2.4.1
 
 environment:
   sdk: ^3.10.0
