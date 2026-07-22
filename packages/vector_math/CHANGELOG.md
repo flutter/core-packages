@@ -1,3 +1,7 @@
+## 2.4.1
+
+* Documents the public `Plane` API.
+
 ## 2.4.0
 
 - Removes the deprecated `SimplexNoise` class.

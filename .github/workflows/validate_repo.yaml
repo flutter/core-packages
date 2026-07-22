@@ -14,6 +14,11 @@ on:
   pull_request:
     branches: [ main ]
 
+# Declare default permissions as read only.
+permissions:
+  contents: read
+  pull-requests: read
+
 jobs:
   analyze:
     name: validate
@@ -25,6 +30,7 @@ jobs:
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
         with:
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Set up environment and tooling
         id: setup
@@ -40,13 +46,15 @@ jobs:
       - name: Run 'validate' for general repo best practices
         if: ${{ !cancelled() && steps.setup.outcome == 'success' }}
         run: |
-          if [ "${{ github.event_name }}" == "push" ]; then
+          if [ "$EVENT_NAME" = "push" ]; then
             dart pub global run flutter_plugin_tools validate --ignore-platform-interface-breaks
           else
-            dart pub global run flutter_plugin_tools validate --check-for-missing-changes --pr-labels="$(gh api --jq '.labels.[].name' /repos/flutter/core-packages/pulls/${{ github.event.number }} | paste -sd ',' -)"
+            dart pub global run flutter_plugin_tools validate --check-for-missing-changes --pr-labels="$(gh api --jq '.labels.[].name' /repos/flutter/core-packages/pulls/$PR_NUMBER | paste -sd ',' -)"
           fi
         env:
           GH_TOKEN: ${{ github.token }}
+          EVENT_NAME: ${{ github.event_name }}
+          PR_NUMBER: ${{ github.event.number }}
 
       - name: Run 'format' to check for formatting violations
         if: ${{ !cancelled() && steps.setup.outcome == 'success' }}
