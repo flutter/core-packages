@@ -1,3 +1,7 @@
+## 1.0.0
+
+- Pushes stable version.
+
 ## 1.0.0-beta.4
 
 - `ErrorContext` is now a required positional, non-nullable parameter.
