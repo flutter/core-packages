@@ -1,3 +1,7 @@
+## 2.4.2
+
+* Documents the public geometry filter APIs.
+
 ## 2.4.1
 
 * Documents the public `Plane` API.

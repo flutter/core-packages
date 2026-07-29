@@ -2,12 +2,9 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-// TODO(stuartmorgan): Remove this and fix violations. See
-//  https://github.com/flutter/flutter/issues/186827
-// ignore_for_file: public_member_api_docs
-
 part of '../../../vector_math_geometry.dart';
 
+/// Reverses triangle winding and flips normals for a mesh.
 class InvertFilter extends InplaceGeometryFilter {
   @override
   void filterInplace(MeshGeometry mesh) {
