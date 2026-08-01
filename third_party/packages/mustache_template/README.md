@@ -7,34 +7,45 @@ See the [mustache manual](https://mustache.github.io/mustache.5.html) for detail
 This library passes all [mustache specification](https://github.com/mustache/spec/tree/master/specs) tests.
 
 ## Example usage
+
+<?code-excerpt "main.dart (example_usage)"?>
 ```dart
 import 'package:mustache_template/mustache_template.dart';
 
-main() {
-	var source = '''
-	  {{# names }}
+void main() {
+  exampleUsage();
+  nestedPaths();
+  partialsExample();
+  lambdasExample();
+}
+
+void exampleUsage() {
+  final String source = '''
+    {{# names }}
             <div>{{ lastname }}, {{ firstname }}</div>
-	  {{/ names }}
-	  {{^ names }}
-	    <div>No names.</div>
-	  {{/ names }}
-	  {{! I am a comment. }}
-	''';
+    {{/ names }}
+    {{^ names }}
+      <div>No names.</div>
+    {{/ names }}
+    {{! I am a comment. }}
+  ''';
 
-	var template = Template(source, name: 'template-filename.html');
+  final Template template = Template(source, name: 'template-filename.html');
 
-	var output = template.renderString({'names': [
-		{'firstname': 'Greg', 'lastname': 'Lowe'},
-		{'firstname': 'Bob', 'lastname': 'Johnson'}
-	]});
+  final String output = template.renderString(<String, dynamic>{
+    'names': <Map<String, String>>[
+      <String, String>{'firstname': 'Greg', 'lastname': 'Lowe'},
+      <String, String>{'firstname': 'Bob', 'lastname': 'Johnson'}
+    ]
+  });
 
-	print(output);
+  print(output);
 }
 ```
 
 A template is parsed when it is created, after parsing it can be rendered any number of times with different values. A TemplateException is thrown if there is a problem parsing or rendering the template.
 
-The Template contstructor allows passing a name, this name will be used in error messages. When working with a number of templates, it is important to pass a name so that the error messages specify which template caused the error.
+The Template constructor allows passing a name, this name will be used in error messages. When working with a number of templates, it is important to pass a name so that the error messages specify which template caused the error.
 
 By default all output from `{{variable}}` tags is html escaped, this behaviour can be changed by passing htmlEscapeValues : false to the Template constructor. You can also use a `{{{triple mustache}}}` tag, or a unescaped variable tag `{{&unescaped}}`, the output from these tags is not escaped.
 
@@ -53,65 +64,69 @@ By default all output from `{{variable}}` tags is html escaped, this behaviour c
 
 ## Nested paths
 
+<?code-excerpt "main.dart (nested_paths)"?>
 ```dart
-  var t = Template('{{ author.name }}');
-  var output = template.renderString({'author': {'name': 'Greg Lowe'}});
+void nestedPaths() {
+  final Template template = Template('{{ author.name }}');
+  final String output = template.renderString(<String, dynamic>{
+    'author': <String, String>{'name': 'Greg Lowe'}
+  });
+  print(output);
+}
 ```
 
 ## Partials - example usage
 
+<?code-excerpt "main.dart (partials)"?>
 ```dart
+void partialsExample() {
+  final Template partial = Template('{{ foo }}', name: 'partial');
 
-var partial = Template('{{ foo }}', name: 'partial');
+  Template? resolver(String name) {
+    if (name == 'partial-name') {
+      // Name of partial tag.
+      return partial;
+    }
+    return null;
+  }
 
-var resolver = (String name) {
-   if (name == 'partial-name') { // Name of partial tag.
-     return partial;
-   }
-};
+  final Template t = Template('{{> partial-name }}', partialResolver: resolver);
 
-var t = Template('{{> partial-name }}', partialResolver: resolver);
-
-var output = t.renderString({'foo': 'bar'}); // bar
-
+  final String output = t.renderString(<String, dynamic>{'foo': 'bar'}); 
+  print(output); // bar
+}
 ```
 
 ## Lambdas - example usage
 
+<?code-excerpt "main.dart (lambdas)"?>
 ```dart
-var t = Template('{{# foo }}');
-var lambda = (_) => 'bar';
-t.renderString({'foo': lambda}); // bar
+void lambdasExample() {
+  // Simple lambda
+  final Template t1 = Template('{{# foo }}');
+  final dynamic lambda1 = (_) => 'bar';
+  print(t1.renderString(<String, dynamic>{'foo': lambda1})); // bar
+
+  // Lambda returning text for a hidden section
+  final Template t2 = Template('{{# foo }}hidden{{/ foo }}');
+  final dynamic lambda2 = (_) => 'shown';
+  print(t2.renderString(<String, dynamic>{'foo': lambda2})); // shown
+
+  // Lambda Context
+  final Template t3 = Template('{{# foo }}oi{{/ foo }}');
+  final dynamic lambda3 = (LambdaContext ctx) => '<b>${ctx.renderString().toUpperCase()}</b>';
+  print(t3.renderString(<String, dynamic>{'foo': lambda3})); // <b>OI</b>
+
+  // Lambda Context with variables
+  final Template t4 = Template('{{# foo }}{{bar}}{{/ foo }}');
+  final dynamic lambda4 = (LambdaContext ctx) => '<b>${ctx.renderString().toUpperCase()}</b>';
+  print(t4.renderString(<String, dynamic>{'foo': lambda4, 'bar': 'pub'})); // <b>PUB</b>
+  
+  // Lambda Context re-parsing source
+  final Template t5 = Template('{{# foo }}{{bar}}{{/ foo }}');
+  final dynamic lambda5 = (LambdaContext ctx) => ctx.renderSource('${ctx.source} {{cmd}}');
+  print(t5.renderString(<String, dynamic>{'foo': lambda5, 'bar': 'pub', 'cmd': 'build'})); // pub build
+}
 ```
 
-```dart
-var t = Template('{{# foo }}hidden{{/ foo }}');
-var lambda = (_) => 'shown';
-t.renderString('foo': lambda); // shown
-```
-
-```dart
-var t = Template('{{# foo }}oi{{/ foo }}');
-var lambda = (LambdaContext ctx) => '<b>${ctx.renderString().toUpperCase()}</b>';
-t.renderString({'foo': lambda}); // <b>OI</b>
-```
-
-```dart
-var t = Template('{{# foo }}{{bar}}{{/ foo }}');
-var lambda = (LambdaContext ctx) => '<b>${ctx.renderString().toUpperCase()}</b>';
-t.renderString({'foo': lambda, 'bar': 'pub'}); // <b>PUB</b>
-```
-
-```dart
-var t = Template('{{# foo }}{{bar}}{{/ foo }}');
-var lambda = (LambdaContext ctx) => '<b>${ctx.renderString().toUpperCase()}</b>';
-t.renderString({'foo': lambda, 'bar': 'pub'}); // <b>PUB</b>
-```
-
-In the following example `LambdaContext.renderSource(source)` re-parses the source string in the current context, this is the default behaviour in many mustache implementations. Since re-parsing the content is slow, and often not required, this library makes this step optional.
-
-```dart
-var t = Template('{{# foo }}{{bar}}{{/ foo }}');
-var lambda = (LambdaContext ctx) => ctx.renderSource(ctx.source + ' {{cmd}}');
-t.renderString({'foo': lambda, 'bar': 'pub', 'cmd': 'build'}); // pub build
-```
+In the last lambda example `LambdaContext.renderSource(source)` re-parses the source string in the current context, this is the default behaviour in many mustache implementations. Since re-parsing the content is slow, and often not required, this library makes this step optional.
