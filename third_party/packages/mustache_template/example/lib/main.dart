@@ -68,7 +68,7 @@ void partialsExample() {
 // #docregion lambdas
 void lambdasExample() {
   // Simple lambda
-  final Template t1 = Template('{{# foo }}');
+  final Template t1 = Template('{{# foo }}inner{{/ foo }}');
   final dynamic lambda1 = (_) => 'bar';
   print(t1.renderString(<String, dynamic>{'foo': lambda1})); // bar
 
