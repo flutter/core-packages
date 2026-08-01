@@ -5,6 +5,7 @@
 // #docregion example_usage
 import 'package:mustache_template/mustache_template.dart';
 
+/// The main entrypoint for the example app.
 void main() {
   exampleUsage();
   nestedPaths();
@@ -12,6 +13,7 @@ void main() {
   lambdasExample();
 }
 
+/// Demonstrates basic usage of mustache templates.
 void exampleUsage() {
   final String source = '''
     {{# names }}
@@ -37,6 +39,7 @@ void exampleUsage() {
 // #enddocregion example_usage
 
 // #docregion nested_paths
+/// Demonstrates how to access nested map properties.
 void nestedPaths() {
   final Template template = Template('{{ author.name }}');
   final String output = template.renderString(<String, dynamic>{
@@ -47,6 +50,7 @@ void nestedPaths() {
 // #enddocregion nested_paths
 
 // #docregion partials
+/// Demonstrates the usage of partials with a custom resolver.
 void partialsExample() {
   final Template partial = Template('{{ foo }}', name: 'partial');
 
@@ -66,6 +70,7 @@ void partialsExample() {
 // #enddocregion partials
 
 // #docregion lambdas
+/// Demonstrates various usages of lambdas, including hidden sections and lambda contexts.
 void lambdasExample() {
   // Simple lambda
   final Template t1 = Template('{{# foo }}inner{{/ foo }}');
