@@ -9,5 +9,3 @@ dependencies:
   mustache_template:
     path: ../
 
-dev_dependencies:
-  lints: ^3.0.0

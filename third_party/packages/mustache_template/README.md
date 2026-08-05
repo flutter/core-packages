@@ -10,18 +10,6 @@ This library passes all [mustache specification](https://github.com/mustache/spe
 
 <?code-excerpt "main.dart (example_usage)"?>
 ```dart
-import 'package:mustache_template/mustache_template.dart';
-
-/// The main entrypoint for the example app.
-void main() {
-  exampleUsage();
-  nestedPaths();
-  partialsExample();
-  lambdasExample();
-}
-
-/// Demonstrates basic usage of mustache templates.
-void exampleUsage() {
   const String source = '''
     {{# names }}
             <div>{{ lastname }}, {{ firstname }}</div>
@@ -40,9 +28,6 @@ void exampleUsage() {
       <String, String>{'firstname': 'Bob', 'lastname': 'Johnson'},
     ],
   });
-
-  print(output);
-}
 ```
 
 A template is parsed when it is created, after parsing it can be rendered any number of times with different values. A TemplateException is thrown if there is a problem parsing or rendering the template.
@@ -68,22 +53,16 @@ By default all output from `{{variable}}` tags is html escaped, this behaviour c
 
 <?code-excerpt "main.dart (nested_paths)"?>
 ```dart
-/// Demonstrates how to access nested map properties.
-void nestedPaths() {
   final Template template = Template('The author is {{ author.name }}');
   final String output = template.renderString(<String, dynamic>{
     'author': <String, String>{'name': 'Greg Lowe'},
   });
-  print(output);
-}
 ```
 
 ## Partials - example usage
 
 <?code-excerpt "main.dart (partials)"?>
 ```dart
-/// Demonstrates the usage of partials with a custom resolver.
-void partialsExample() {
   final Template partial = Template('{{ foo }}', name: 'partial');
 
   Template? resolver(String name) {
@@ -97,49 +76,34 @@ void partialsExample() {
   final Template t = Template('{{> partial-name }}', partialResolver: resolver);
 
   final String output = t.renderString(<String, dynamic>{'foo': 'bar'});
-  print(output); // bar
-}
 ```
 
 ## Lambdas - example usage
 
 <?code-excerpt "main.dart (lambdas)"?>
 ```dart
-/// Demonstrates various usages of lambdas, including hidden sections and lambda contexts.
-void lambdasExample() {
   // Simple lambda
   final Template t1 = Template('{{# foo }}inner{{/ foo }}');
   Object lambda1(Object? _) => 'bar';
-  print(t1.renderString(<String, dynamic>{'foo': lambda1})); // bar
 
   // Lambda returning text for a hidden section
   final Template t2 = Template('{{# foo }}hidden{{/ foo }}');
   Object lambda2(Object? _) => 'shown';
-  print(t2.renderString(<String, dynamic>{'foo': lambda2})); // shown
 
   // Lambda Context
   final Template t3 = Template('{{# foo }}oi{{/ foo }}');
   Object lambda3(LambdaContext ctx) =>
       '<b>${ctx.renderString().toUpperCase()}</b>';
-  print(t3.renderString(<String, dynamic>{'foo': lambda3})); // <b>OI</b>
 
   // Lambda Context with variables
   final Template t4 = Template('{{# foo }}{{bar}}{{/ foo }}');
   Object lambda4(LambdaContext ctx) =>
       '<b>${ctx.renderString().toUpperCase()}</b>';
-  print(t4.renderString(
-      <String, dynamic>{'foo': lambda4, 'bar': 'pub'})); // <b>PUB</b>
 
   // Lambda Context re-parsing source
   final Template t5 = Template('{{# foo }}{{bar}}{{/ foo }}');
   Object lambda5(LambdaContext ctx) =>
       ctx.renderSource('${ctx.source} {{cmd}}');
-  print(t5.renderString(<String, dynamic>{
-    'foo': lambda5,
-    'bar': 'pub',
-    'cmd': 'build',
-  })); // pub build
-}
 ```
 
 In the last lambda example `LambdaContext.renderSource(source)` re-parses the source string in the current context, this is the default behaviour in many mustache implementations. Since re-parsing the content is slow, and often not required, this library makes this step optional.

@@ -1,3 +1,7 @@
+## 2.0.6
+
+* Adds an example app.
+
 ## 2.0.5
 
 * Updates metadata for move to https://github.com/flutter/core-packages.

@@ -60,6 +60,3 @@ gradlew.bat
 .project
 .classpath
 .settings
-
-# FVM Version Cache
-.fvm/
