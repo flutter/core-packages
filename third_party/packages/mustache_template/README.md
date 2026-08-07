@@ -8,9 +8,10 @@ This library passes all [mustache specification](https://github.com/mustache/spe
 
 ## Example usage
 
-<?code-excerpt "main.dart (example_usage)"?>
+<?code-excerpt path-base="example/lib"?>
+<?code-excerpt "readme_excerpts.dart (example_usage)"?>
 ```dart
-  const String source = '''
+  String source = '''
     {{# names }}
             <div>{{ lastname }}, {{ firstname }}</div>
     {{/ names }}
@@ -20,14 +21,16 @@ This library passes all [mustache specification](https://github.com/mustache/spe
     {{! I am a comment. }}
   ''';
 
-  final Template template = Template(source, name: 'template-filename.html');
+  Template template = Template(source, name: 'template-filename.html');
 
-  final String output = template.renderString(<String, dynamic>{
+  String output = template.renderString(<String, dynamic>{
     'names': <Map<String, String>>[
       <String, String>{'firstname': 'Greg', 'lastname': 'Lowe'},
-      <String, String>{'firstname': 'Bob', 'lastname': 'Johnson'},
-    ],
+      <String, String>{'firstname': 'Bob', 'lastname': 'Johnson'}
+    ]
   });
+
+  print(output);
 ```
 
 A template is parsed when it is created, after parsing it can be rendered any number of times with different values. A TemplateException is thrown if there is a problem parsing or rendering the template.
@@ -51,19 +54,20 @@ By default all output from `{{variable}}` tags is html escaped, this behaviour c
 
 ## Nested paths
 
-<?code-excerpt "main.dart (nested_paths)"?>
+<?code-excerpt "readme_excerpts.dart (nested_paths)"?>
 ```dart
-  final Template template = Template('The author is {{ author.name }}');
-  final String output = template.renderString(<String, dynamic>{
-    'author': <String, String>{'name': 'Greg Lowe'},
+  Template template = Template('{{ author.name }}');
+  String output = template.renderString(<String, dynamic>{
+    'author': <String, String>{'name': 'Greg Lowe'}
   });
+  print(output);
 ```
 
 ## Partials - example usage
 
-<?code-excerpt "main.dart (partials)"?>
+<?code-excerpt "readme_excerpts.dart (partials)"?>
 ```dart
-  final Template partial = Template('{{ foo }}', name: 'partial');
+  Template partial = Template('{{ foo }}', name: 'partial');
 
   Template? resolver(String name) {
     if (name == 'partial-name') {
@@ -73,37 +77,40 @@ By default all output from `{{variable}}` tags is html escaped, this behaviour c
     return null;
   }
 
-  final Template t = Template('{{> partial-name }}', partialResolver: resolver);
+  Template t = Template('{{> partial-name }}', partialResolver: resolver);
 
-  final String output = t.renderString(<String, dynamic>{'foo': 'bar'});
+  String output = t.renderString(<String, dynamic>{'foo': 'bar'}); 
+  print(output); // bar
 ```
 
 ## Lambdas - example usage
 
-<?code-excerpt "main.dart (lambdas)"?>
+<?code-excerpt "readme_excerpts.dart (lambdas)"?>
 ```dart
   // Simple lambda
-  final Template t1 = Template('{{# foo }}inner{{/ foo }}');
+  Template t1 = Template('{{# foo }}inner{{/ foo }}');
   Object lambda1(Object? _) => 'bar';
+  print(t1.renderString(<String, dynamic>{'foo': lambda1})); // bar
 
   // Lambda returning text for a hidden section
-  final Template t2 = Template('{{# foo }}hidden{{/ foo }}');
+  Template t2 = Template('{{# foo }}hidden{{/ foo }}');
   Object lambda2(Object? _) => 'shown';
+  print(t2.renderString(<String, dynamic>{'foo': lambda2})); // shown
 
   // Lambda Context
-  final Template t3 = Template('{{# foo }}oi{{/ foo }}');
-  Object lambda3(LambdaContext ctx) =>
-      '<b>${ctx.renderString().toUpperCase()}</b>';
+  Template t3 = Template('{{# foo }}oi{{/ foo }}');
+  Object lambda3(LambdaContext ctx) => '<b>${ctx.renderString().toUpperCase()}</b>';
+  print(t3.renderString(<String, dynamic>{'foo': lambda3})); // <b>OI</b>
 
   // Lambda Context with variables
-  final Template t4 = Template('{{# foo }}{{bar}}{{/ foo }}');
-  Object lambda4(LambdaContext ctx) =>
-      '<b>${ctx.renderString().toUpperCase()}</b>';
-
+  Template t4 = Template('{{# foo }}{{bar}}{{/ foo }}');
+  Object lambda4(LambdaContext ctx) => '<b>${ctx.renderString().toUpperCase()}</b>';
+  print(t4.renderString(<String, dynamic>{'foo': lambda4, 'bar': 'pub'})); // <b>PUB</b>
+  
   // Lambda Context re-parsing source
-  final Template t5 = Template('{{# foo }}{{bar}}{{/ foo }}');
-  Object lambda5(LambdaContext ctx) =>
-      ctx.renderSource('${ctx.source} {{cmd}}');
+  Template t5 = Template('{{# foo }}{{bar}}{{/ foo }}');
+  Object lambda5(LambdaContext ctx) => ctx.renderSource('${ctx.source} {{cmd}}');
+  print(t5.renderString(<String, dynamic>{'foo': lambda5, 'bar': 'pub', 'cmd': 'build'})); // pub build
 ```
 
 In the last lambda example `LambdaContext.renderSource(source)` re-parses the source string in the current context, this is the default behaviour in many mustache implementations. Since re-parsing the content is slow, and often not required, this library makes this step optional.
