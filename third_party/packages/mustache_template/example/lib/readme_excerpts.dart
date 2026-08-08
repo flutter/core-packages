@@ -12,6 +12,7 @@
 
 import 'package:mustache_template/mustache_template.dart';
 
+/// Example for basic usage of a mustache template.
 void exampleUsageSnippet() {
   // #docregion example_usage
   String source = '''
@@ -37,6 +38,7 @@ void exampleUsageSnippet() {
   print(output);
 }
 
+/// Example for rendering nested paths in a template.
 void nestedPathsSnippet() {
   // #docregion nested_paths
   Template template = Template('{{ author.name }}');
@@ -47,6 +49,7 @@ void nestedPathsSnippet() {
   print(output);
 }
 
+/// Example for using partials.
 void partialsSnippet() {
   // #docregion partials
   Template partial = Template('{{ foo }}', name: 'partial');
@@ -61,11 +64,12 @@ void partialsSnippet() {
 
   Template t = Template('{{> partial-name }}', partialResolver: resolver);
 
-  String output = t.renderString(<String, dynamic>{'foo': 'bar'}); 
+  String output = t.renderString(<String, dynamic>{'foo': 'bar'});
   // #enddocregion partials
   print(output); // bar
 }
 
+/// Example for using lambdas in a template.
 void lambdasSnippet() {
   // #docregion lambdas
   // Simple lambda
@@ -84,21 +88,29 @@ void lambdasSnippet() {
   // #docregion lambdas
   // Lambda Context
   Template t3 = Template('{{# foo }}oi{{/ foo }}');
-  Object lambda3(LambdaContext ctx) => '<b>${ctx.renderString().toUpperCase()}</b>';
+  Object lambda3(LambdaContext ctx) =>
+      '<b>${ctx.renderString().toUpperCase()}</b>';
   // #enddocregion lambdas
   print(t3.renderString(<String, dynamic>{'foo': lambda3})); // <b>OI</b>
 
   // #docregion lambdas
   // Lambda Context with variables
   Template t4 = Template('{{# foo }}{{bar}}{{/ foo }}');
-  Object lambda4(LambdaContext ctx) => '<b>${ctx.renderString().toUpperCase()}</b>';
+  Object lambda4(LambdaContext ctx) =>
+      '<b>${ctx.renderString().toUpperCase()}</b>';
   // #enddocregion lambdas
-  print(t4.renderString(<String, dynamic>{'foo': lambda4, 'bar': 'pub'})); // <b>PUB</b>
-  
+  print(t4.renderString(
+      <String, dynamic>{'foo': lambda4, 'bar': 'pub'})); // <b>PUB</b>
+
   // #docregion lambdas
   // Lambda Context re-parsing source
   Template t5 = Template('{{# foo }}{{bar}}{{/ foo }}');
-  Object lambda5(LambdaContext ctx) => ctx.renderSource('${ctx.source} {{cmd}}');
+  Object lambda5(LambdaContext ctx) =>
+      ctx.renderSource('${ctx.source} {{cmd}}');
   // #enddocregion lambdas
-  print(t5.renderString(<String, dynamic>{'foo': lambda5, 'bar': 'pub', 'cmd': 'build'})); // pub build
+  print(t5.renderString(<String, dynamic>{
+    'foo': lambda5,
+    'bar': 'pub',
+    'cmd': 'build'
+  })); // pub build
 }
