@@ -32,9 +32,9 @@ void exampleUsageSnippet() {
       <String, String>{'firstname': 'Bob', 'lastname': 'Johnson'}
     ]
   });
+  // #enddocregion example_usage
 
   print(output);
-  // #enddocregion example_usage
 }
 
 void nestedPathsSnippet() {
@@ -43,8 +43,8 @@ void nestedPathsSnippet() {
   String output = template.renderString(<String, dynamic>{
     'author': <String, String>{'name': 'Greg Lowe'}
   });
-  print(output);
   // #enddocregion nested_paths
+  print(output);
 }
 
 void partialsSnippet() {
@@ -62,8 +62,8 @@ void partialsSnippet() {
   Template t = Template('{{> partial-name }}', partialResolver: resolver);
 
   String output = t.renderString(<String, dynamic>{'foo': 'bar'}); 
-  print(output); // bar
   // #enddocregion partials
+  print(output); // bar
 }
 
 void lambdasSnippet() {
@@ -71,26 +71,34 @@ void lambdasSnippet() {
   // Simple lambda
   Template t1 = Template('{{# foo }}inner{{/ foo }}');
   Object lambda1(Object? _) => 'bar';
+  // #enddocregion lambdas
   print(t1.renderString(<String, dynamic>{'foo': lambda1})); // bar
 
+  // #docregion lambdas
   // Lambda returning text for a hidden section
   Template t2 = Template('{{# foo }}hidden{{/ foo }}');
   Object lambda2(Object? _) => 'shown';
+  // #enddocregion lambdas
   print(t2.renderString(<String, dynamic>{'foo': lambda2})); // shown
 
+  // #docregion lambdas
   // Lambda Context
   Template t3 = Template('{{# foo }}oi{{/ foo }}');
   Object lambda3(LambdaContext ctx) => '<b>${ctx.renderString().toUpperCase()}</b>';
+  // #enddocregion lambdas
   print(t3.renderString(<String, dynamic>{'foo': lambda3})); // <b>OI</b>
 
+  // #docregion lambdas
   // Lambda Context with variables
   Template t4 = Template('{{# foo }}{{bar}}{{/ foo }}');
   Object lambda4(LambdaContext ctx) => '<b>${ctx.renderString().toUpperCase()}</b>';
+  // #enddocregion lambdas
   print(t4.renderString(<String, dynamic>{'foo': lambda4, 'bar': 'pub'})); // <b>PUB</b>
   
+  // #docregion lambdas
   // Lambda Context re-parsing source
   Template t5 = Template('{{# foo }}{{bar}}{{/ foo }}');
   Object lambda5(LambdaContext ctx) => ctx.renderSource('${ctx.source} {{cmd}}');
-  print(t5.renderString(<String, dynamic>{'foo': lambda5, 'bar': 'pub', 'cmd': 'build'})); // pub build
   // #enddocregion lambdas
+  print(t5.renderString(<String, dynamic>{'foo': lambda5, 'bar': 'pub', 'cmd': 'build'})); // pub build
 }
