@@ -16,7 +16,7 @@ void main() {
 
 /// Demonstrates basic usage of mustache templates.
 void exampleUsage() {
-  const String source = '''
+  const source = '''
     {{# names }}
             <div>{{ lastname }}, {{ firstname }}</div>
     {{/ names }}
@@ -28,7 +28,7 @@ void exampleUsage() {
 
   final template = Template(source, name: 'template-filename.html');
 
-  final output = template.renderString(<String, dynamic>{
+  final String output = template.renderString(<String, dynamic>{
     'names': <Map<String, String>>[
       <String, String>{'firstname': 'Greg', 'lastname': 'Lowe'},
       <String, String>{'firstname': 'Bob', 'lastname': 'Johnson'},
@@ -41,7 +41,7 @@ void exampleUsage() {
 /// Demonstrates how to access nested map properties.
 void nestedPaths() {
   final template = Template('The author is {{ author.name }}');
-  final output = template.renderString(<String, dynamic>{
+  final String output = template.renderString(<String, dynamic>{
     'author': <String, String>{'name': 'Greg Lowe'},
   });
   print(output);
@@ -61,7 +61,7 @@ void partialsExample() {
 
   final t = Template('{{> partial-name }}', partialResolver: resolver);
 
-  final output = t.renderString(<String, dynamic>{'foo': 'bar'});
+  final String output = t.renderString(<String, dynamic>{'foo': 'bar'});
   print(output); // bar
 }
 

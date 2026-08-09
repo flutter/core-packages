@@ -15,7 +15,7 @@ import 'package:mustache_template/mustache_template.dart';
 /// Example for basic usage of a mustache template.
 void exampleUsageSnippet() {
   // #docregion example_usage
-  String source = '''
+  var source = '''
     {{# names }}
             <div>{{ lastname }}, {{ firstname }}</div>
     {{/ names }}
@@ -25,7 +25,7 @@ void exampleUsageSnippet() {
     {{! I am a comment. }}
   ''';
 
-  Template template = Template(source, name: 'template-filename.html');
+  var template = Template(source, name: 'template-filename.html');
 
   String output = template.renderString(<String, dynamic>{
     'names': <Map<String, String>>[
@@ -41,7 +41,7 @@ void exampleUsageSnippet() {
 /// Example for rendering nested paths in a template.
 void nestedPathsSnippet() {
   // #docregion nested_paths
-  Template template = Template('{{ author.name }}');
+  var template = Template('{{ author.name }}');
   String output = template.renderString(<String, dynamic>{
     'author': <String, String>{'name': 'Greg Lowe'}
   });
@@ -52,7 +52,7 @@ void nestedPathsSnippet() {
 /// Example for using partials.
 void partialsSnippet() {
   // #docregion partials
-  Template partial = Template('{{ foo }}', name: 'partial');
+  var partial = Template('{{ foo }}', name: 'partial');
 
   Template? resolver(String name) {
     if (name == 'partial-name') {
@@ -62,7 +62,7 @@ void partialsSnippet() {
     return null;
   }
 
-  Template t = Template('{{> partial-name }}', partialResolver: resolver);
+  var t = Template('{{> partial-name }}', partialResolver: resolver);
 
   String output = t.renderString(<String, dynamic>{'foo': 'bar'});
   // #enddocregion partials
@@ -73,21 +73,21 @@ void partialsSnippet() {
 void lambdasSnippet() {
   // #docregion lambdas
   // Simple lambda
-  Template t1 = Template('{{# foo }}inner{{/ foo }}');
+  var t1 = Template('{{# foo }}inner{{/ foo }}');
   Object lambda1(Object? _) => 'bar';
   // #enddocregion lambdas
   print(t1.renderString(<String, dynamic>{'foo': lambda1})); // bar
 
   // #docregion lambdas
   // Lambda returning text for a hidden section
-  Template t2 = Template('{{# foo }}hidden{{/ foo }}');
+  var t2 = Template('{{# foo }}hidden{{/ foo }}');
   Object lambda2(Object? _) => 'shown';
   // #enddocregion lambdas
   print(t2.renderString(<String, dynamic>{'foo': lambda2})); // shown
 
   // #docregion lambdas
   // Lambda Context
-  Template t3 = Template('{{# foo }}oi{{/ foo }}');
+  var t3 = Template('{{# foo }}oi{{/ foo }}');
   Object lambda3(LambdaContext ctx) =>
       '<b>${ctx.renderString().toUpperCase()}</b>';
   // #enddocregion lambdas
@@ -95,7 +95,7 @@ void lambdasSnippet() {
 
   // #docregion lambdas
   // Lambda Context with variables
-  Template t4 = Template('{{# foo }}{{bar}}{{/ foo }}');
+  var t4 = Template('{{# foo }}{{bar}}{{/ foo }}');
   Object lambda4(LambdaContext ctx) =>
       '<b>${ctx.renderString().toUpperCase()}</b>';
   // #enddocregion lambdas
@@ -104,7 +104,7 @@ void lambdasSnippet() {
 
   // #docregion lambdas
   // Lambda Context re-parsing source
-  Template t5 = Template('{{# foo }}{{bar}}{{/ foo }}');
+  var t5 = Template('{{# foo }}{{bar}}{{/ foo }}');
   Object lambda5(LambdaContext ctx) =>
       ctx.renderSource('${ctx.source} {{cmd}}');
   // #enddocregion lambdas

@@ -12,7 +12,7 @@ This library passes all [mustache specification](https://github.com/mustache/spe
 
 <?code-excerpt "readme_excerpts.dart (example_usage)"?>
 ```dart
-  String source = '''
+  var source = '''
     {{# names }}
             <div>{{ lastname }}, {{ firstname }}</div>
     {{/ names }}
@@ -22,7 +22,7 @@ This library passes all [mustache specification](https://github.com/mustache/spe
     {{! I am a comment. }}
   ''';
 
-  Template template = Template(source, name: 'template-filename.html');
+  var template = Template(source, name: 'template-filename.html');
 
   String output = template.renderString(<String, dynamic>{
     'names': <Map<String, String>>[
@@ -55,7 +55,7 @@ By default all output from `{{variable}}` tags is html escaped, this behaviour c
 
 <?code-excerpt "readme_excerpts.dart (nested_paths)"?>
 ```dart
-  Template template = Template('{{ author.name }}');
+  var template = Template('{{ author.name }}');
   String output = template.renderString(<String, dynamic>{
     'author': <String, String>{'name': 'Greg Lowe'}
   });
@@ -65,7 +65,7 @@ By default all output from `{{variable}}` tags is html escaped, this behaviour c
 
 <?code-excerpt "readme_excerpts.dart (partials)"?>
 ```dart
-  Template partial = Template('{{ foo }}', name: 'partial');
+  var partial = Template('{{ foo }}', name: 'partial');
 
   Template? resolver(String name) {
     if (name == 'partial-name') {
@@ -75,7 +75,7 @@ By default all output from `{{variable}}` tags is html escaped, this behaviour c
     return null;
   }
 
-  Template t = Template('{{> partial-name }}', partialResolver: resolver);
+  var t = Template('{{> partial-name }}', partialResolver: resolver);
 
   String output = t.renderString(<String, dynamic>{'foo': 'bar'}); 
 ```
@@ -85,23 +85,23 @@ By default all output from `{{variable}}` tags is html escaped, this behaviour c
 <?code-excerpt "readme_excerpts.dart (lambdas)"?>
 ```dart
   // Simple lambda
-  Template t1 = Template('{{# foo }}inner{{/ foo }}');
+  var t1 = Template('{{# foo }}inner{{/ foo }}');
   Object lambda1(Object? _) => 'bar';
 
   // Lambda returning text for a hidden section
-  Template t2 = Template('{{# foo }}hidden{{/ foo }}');
+  var t2 = Template('{{# foo }}hidden{{/ foo }}');
   Object lambda2(Object? _) => 'shown';
 
   // Lambda Context
-  Template t3 = Template('{{# foo }}oi{{/ foo }}');
+  var t3 = Template('{{# foo }}oi{{/ foo }}');
   Object lambda3(LambdaContext ctx) => '<b>${ctx.renderString().toUpperCase()}</b>';
 
   // Lambda Context with variables
-  Template t4 = Template('{{# foo }}{{bar}}{{/ foo }}');
+  var t4 = Template('{{# foo }}{{bar}}{{/ foo }}');
   Object lambda4(LambdaContext ctx) => '<b>${ctx.renderString().toUpperCase()}</b>';
   
   // Lambda Context re-parsing source
-  Template t5 = Template('{{# foo }}{{bar}}{{/ foo }}');
+  var t5 = Template('{{# foo }}{{bar}}{{/ foo }}');
   Object lambda5(LambdaContext ctx) => ctx.renderSource('${ctx.source} {{cmd}}');
 ```
 
