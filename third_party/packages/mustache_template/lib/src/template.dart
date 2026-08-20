@@ -14,11 +14,11 @@ class Template implements m.Template {
     String? name,
     m.PartialResolver? partialResolver,
     String delimiters = '{{ }}',
-  }) : _nodes = parser.parse(source, lenient, name, delimiters),
-       _lenient = lenient,
-       _htmlEscapeValues = htmlEscapeValues,
-       _name = name,
-       _partialResolver = partialResolver;
+  })  : _nodes = parser.parse(source, lenient, name, delimiters),
+        _lenient = lenient,
+        _htmlEscapeValues = htmlEscapeValues,
+        _name = name,
+        _partialResolver = partialResolver;
 
   @override
   final String source;
