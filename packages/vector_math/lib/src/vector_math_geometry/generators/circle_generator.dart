@@ -2,12 +2,10 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-// TODO(stuartmorgan): Remove this and fix violations. See
-//  https://github.com/flutter/flutter/issues/186827
-// ignore_for_file: public_member_api_docs
-
 part of '../../../vector_math_geometry.dart';
 
+/// Generates a flat, circular (or partial circle/pie-slice) mesh in the
+/// XZ plane, centered at the origin.
 class CircleGenerator extends GeometryGenerator {
   late double _radius;
   late int _segments;
@@ -20,6 +18,11 @@ class CircleGenerator extends GeometryGenerator {
   @override
   int get indexCount => _segments * 3;
 
+  /// Creates a circle mesh of the given [radius].
+  ///
+  /// [segments] controls how many triangles are used around the
+  /// circumference. [thetaStart] and [thetaLength] can be used to generate
+  /// only a slice of the circle, both given in radians.
   MeshGeometry createCircle(
     double radius, {
     GeometryGeneratorFlags? flags,
