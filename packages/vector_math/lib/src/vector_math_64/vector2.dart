@@ -47,24 +47,20 @@ class Vector2 implements Vector {
 
   /// Set the values of [result] to the minimum of [a] and [b] for each line.
   static void min(Vector2 a, Vector2 b, Vector2 result) {
-    result
-      ..x = math.min(a.x, b.x)
-      ..y = math.min(a.y, b.y);
+    result.setValues(math.min(a.x, b.x), math.min(a.y, b.y));
   }
 
   /// Set the values of [result] to the maximum of [a] and [b] for each line.
   static void max(Vector2 a, Vector2 b, Vector2 result) {
-    result
-      ..x = math.max(a.x, b.x)
-      ..y = math.max(a.y, b.y);
+    result.setValues(math.max(a.x, b.x), math.max(a.y, b.y));
   }
 
   /// Interpolate between [min] and [max] with the amount of [a] using a linear
   /// interpolation and store the values in [result].
   static void mix(Vector2 min, Vector2 max, double a, Vector2 result) {
-    result
-      ..x = min.x + a * (max.x - min.x)
-      ..y = min.y + a * (max.y - min.y);
+    final double x = min.x + a * (max.x - min.x);
+    final double y = min.y + a * (max.y - min.y);
+    result.setValues(x, y);
   }
 
   /// Set the values of the vector.
@@ -174,9 +170,13 @@ class Vector2 implements Vector {
 
   /// Normalize vector into [out].
   Vector2 normalizeInto(Vector2 out) {
-    out
-      ..setFrom(this)
-      ..normalize();
+    final double l = length;
+    if (l == 0.0) {
+      out.setValues(_v2storage[0], _v2storage[1]);
+    } else {
+      final double d = 1.0 / l;
+      out.setValues(_v2storage[0] * d, _v2storage[1] * d);
+    }
     return out;
   }
 
@@ -378,9 +378,7 @@ class Vector2 implements Vector {
 
   /// Copy this into [arg]. Returns [arg].
   Vector2 copyInto(Vector2 arg) {
-    final Float64List argStorage = arg._v2storage;
-    argStorage[1] = _v2storage[1];
-    argStorage[0] = _v2storage[0];
+    arg.setValues(_v2storage[0], _v2storage[1]);
     return arg;
   }
 

@@ -47,27 +47,28 @@ class Vector3 implements Vector {
 
   /// Set the values of [result] to the minimum of [a] and [b] for each line.
   static void min(Vector3 a, Vector3 b, Vector3 result) {
-    result
-      ..x = math.min(a.x, b.x)
-      ..y = math.min(a.y, b.y)
-      ..z = math.min(a.z, b.z);
+    final double x = math.min(a.x, b.x);
+    final double y = math.min(a.y, b.y);
+    final double z = math.min(a.z, b.z);
+    result.setValues(x, y, z);
   }
 
   /// Set the values of [result] to the maximum of [a] and [b] for each line.
   static void max(Vector3 a, Vector3 b, Vector3 result) {
-    result
-      ..x = math.max(a.x, b.x)
-      ..y = math.max(a.y, b.y)
-      ..z = math.max(a.z, b.z);
+    final double x = math.max(a.x, b.x);
+    final double y = math.max(a.y, b.y);
+    final double z = math.max(a.z, b.z);
+    result.setValues(x, y, z);
   }
 
   /// Interpolate between [min] and [max] with the amount of [a] using a linear
   /// interpolation and store the values in [result].
   static void mix(Vector3 min, Vector3 max, double a, Vector3 result) {
-    result
-      ..x = min.x + a * (max.x - min.x)
-      ..y = min.y + a * (max.y - min.y)
-      ..z = min.z + a * (max.z - min.z);
+    result.setValues(
+      min.x + a * (max.x - min.x),
+      min.y + a * (max.y - min.y),
+      min.z + a * (max.z - min.z),
+    );
   }
 
   /// Set the values of the vector.
@@ -190,9 +191,13 @@ class Vector3 implements Vector {
 
   /// Normalize vector into [out].
   Vector3 normalizeInto(Vector3 out) {
-    out
-      ..setFrom(this)
-      ..normalize();
+    final double l = length;
+    if (l == 0.0) {
+      out.setValues(_v3storage[0], _v3storage[1], _v3storage[2]);
+    } else {
+      final double d = 1.0 / l;
+      out.setValues(_v3storage[0] * d, _v3storage[1] * d, _v3storage[2] * d);
+    }
     return out;
   }
 
@@ -496,10 +501,7 @@ class Vector3 implements Vector {
 
   /// Copy this into [arg].
   Vector3 copyInto(Vector3 arg) {
-    final Float64List argStorage = arg._v3storage;
-    argStorage[2] = _v3storage[2];
-    argStorage[1] = _v3storage[1];
-    argStorage[0] = _v3storage[0];
+    arg.setValues(_v3storage[0], _v3storage[1], _v3storage[2]);
     return arg;
   }
 
