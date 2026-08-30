@@ -1,3 +1,10 @@
+## 2.4.3
+
+* Optimizes `normalizeInto`, `min`, `max` and `mix` on `Vector2`, `Vector3`
+  and `Vector4` to compute their result first and write the `out`/`result`
+  parameter with a single `setValues` call, and aligns `copyInto` with the
+  same pattern.
+
 ## 2.4.2
 
 * Documents the public geometry filter APIs.
