@@ -49,17 +49,17 @@ void main() {
     for (var i = 0; i < n; i++) {
       final Vector2 v2 = randV2();
       if (v2.length >= 1e-6) {
-        final Vector2 copy2 = v2.clone()..normalize();
+        final Vector2 copy2 = v2.normalized();
         expect(copy2.length, closeTo(1.0, 1e-6), reason: 'v2=$v2');
       }
       final Vector3 v3 = randV3();
       if (v3.length >= 1e-6) {
-        final Vector3 copy3 = v3.clone()..normalize();
+        final Vector3 copy3 = v3.normalized();
         expect(copy3.length, closeTo(1.0, 1e-6), reason: 'v3=$v3');
       }
       final Vector4 v4 = randV4();
       if (v4.length >= 1e-6) {
-        final Vector4 copy4 = v4.clone()..normalize();
+        final Vector4 copy4 = v4.normalized();
         expect(copy4.length, closeTo(1.0, 1e-6), reason: 'v4=$v4');
       }
     }
@@ -69,7 +69,7 @@ void main() {
     for (var i = 0; i < n; i++) {
       final Vector3 v3 = randV3();
       if (v3.length >= 1e-6) {
-        final Vector3 viaCopy = v3.clone()..normalize();
+        final Vector3 viaCopy = v3.normalized();
         final out = Vector3.zero();
         v3.normalizeInto(out);
         expect(out.x, closeTo(viaCopy.x, eps), reason: 'v3=$v3');
@@ -79,7 +79,7 @@ void main() {
 
       final Vector4 v4 = randV4();
       if (v4.length >= 1e-6) {
-        final Vector4 viaCopy4 = v4.clone()..normalize();
+        final Vector4 viaCopy4 = v4.normalized();
         final out4 = Vector4.zero();
         v4.normalizeInto(out4);
         expect(out4.x, closeTo(viaCopy4.x, eps));
@@ -166,7 +166,7 @@ void main() {
       final Vector3 v = randV3();
       final Vector3 viaQuat = q.rotated(v);
       final Matrix3 m = q.asRotationMatrix();
-      final Vector3 viaMatrix = m.transformed(v.clone());
+      final Vector3 viaMatrix = m.transformed(v);
       expect(viaMatrix.x, closeTo(viaQuat.x, 1e-6), reason: 'q=$q v=$v');
       expect(viaMatrix.y, closeTo(viaQuat.y, 1e-6), reason: 'q=$q v=$v');
       expect(viaMatrix.z, closeTo(viaQuat.z, 1e-6), reason: 'q=$q v=$v');
