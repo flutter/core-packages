@@ -143,7 +143,7 @@ void testQuaternionNormalize() {
 
   inputA.add(Quaternion(0.0, 1.0, 0.0, 1.0)..normalize());
   inputB.add(Vector3(1.0, 1.0, 1.0));
-  expectedOutput.add(Vector3(-1.0, 1.0, 1.0));
+  expectedOutput.add(Vector3(1.0, 1.0, -1.0));
 
   inputA.add(Quaternion.identity()..normalize());
   inputB.add(Vector3(1.0, 2.0, 3.0));
@@ -151,7 +151,7 @@ void testQuaternionNormalize() {
 
   inputA.add(Quaternion(0.18260, 0.54770, 0.73030, 0.36510)..normalize());
   inputB.add(Vector3(1.0, 0.0, 0.0));
-  expectedOutput.add(Vector3(-0.6667, -0.3333, 0.6667));
+  expectedOutput.add(Vector3(-0.6667, 0.7333, -0.1332));
 
   {
     inputA.add(Quaternion(1.0, 0.0, 0.0, 1.0)..normalize());
@@ -160,35 +160,35 @@ void testQuaternionNormalize() {
 
     inputA.add(Quaternion(1.0, 0.0, 0.0, 1.0)..normalize());
     inputB.add(Vector3(0.0, 1.0, 0.0));
-    expectedOutput.add(Vector3(0.0, 0.0, -1.0));
-
-    inputA.add(Quaternion(1.0, 0.0, 0.0, 1.0)..normalize());
-    inputB.add(Vector3(0.0, 0.0, 1.0));
-    expectedOutput.add(Vector3(0.0, 1.0, 0.0));
-  }
-
-  {
-    inputA.add(Quaternion(0.0, 1.0, 0.0, 1.0)..normalize());
-    inputB.add(Vector3(1.0, 0.0, 0.0));
     expectedOutput.add(Vector3(0.0, 0.0, 1.0));
 
+    inputA.add(Quaternion(1.0, 0.0, 0.0, 1.0)..normalize());
+    inputB.add(Vector3(0.0, 0.0, 1.0));
+    expectedOutput.add(Vector3(0.0, -1.0, 0.0));
+  }
+
+  {
+    inputA.add(Quaternion(0.0, 1.0, 0.0, 1.0)..normalize());
+    inputB.add(Vector3(1.0, 0.0, 0.0));
+    expectedOutput.add(Vector3(0.0, 0.0, -1.0));
+
     inputA.add(Quaternion(0.0, 1.0, 0.0, 1.0)..normalize());
     inputB.add(Vector3(0.0, 1.0, 0.0));
     expectedOutput.add(Vector3(0.0, 1.0, 0.0));
 
     inputA.add(Quaternion(0.0, 1.0, 0.0, 1.0)..normalize());
     inputB.add(Vector3(0.0, 0.0, 1.0));
-    expectedOutput.add(Vector3(-1.0, 0.0, 0.0));
+    expectedOutput.add(Vector3(1.0, 0.0, 0.0));
   }
 
   {
     inputA.add(Quaternion(0.0, 0.0, 1.0, 1.0)..normalize());
     inputB.add(Vector3(1.0, 0.0, 0.0));
-    expectedOutput.add(Vector3(0.0, -1.0, 0.0));
+    expectedOutput.add(Vector3(0.0, 1.0, 0.0));
 
     inputA.add(Quaternion(0.0, 0.0, 1.0, 1.0)..normalize());
     inputB.add(Vector3(0.0, 1.0, 0.0));
-    expectedOutput.add(Vector3(1.0, 0.0, 0.0));
+    expectedOutput.add(Vector3(-1.0, 0.0, 0.0));
 
     inputA.add(Quaternion(0.0, 0.0, 1.0, 1.0)..normalize());
     inputB.add(Vector3(0.0, 0.0, 1.0));

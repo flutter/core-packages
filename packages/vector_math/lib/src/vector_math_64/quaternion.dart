@@ -337,22 +337,18 @@ class Quaternion {
 
   /// Rotates [v] by this.
   Vector3 rotate(Vector3 v) {
-    // conjugate(this) * [v,0] * this
+    // this * [v,0] * conjugate(this)
     final double w = _qStorage[3];
     final double z = _qStorage[2];
     final double y = _qStorage[1];
     final double x = _qStorage[0];
-    final tiw = w;
-    final double tiz = -z;
-    final double tiy = -y;
-    final double tix = -x;
-    final double tx = tiw * v.x + tix * 0.0 + tiy * v.z - tiz * v.y;
-    final double ty = tiw * v.y + tiy * 0.0 + tiz * v.x - tix * v.z;
-    final double tz = tiw * v.z + tiz * 0.0 + tix * v.y - tiy * v.x;
-    final double tw = tiw * 0.0 - tix * v.x - tiy * v.y - tiz * v.z;
-    final double resultX = tw * x + tx * w + ty * z - tz * y;
-    final double resultY = tw * y + ty * w + tz * x - tx * z;
-    final double resultZ = tw * z + tz * w + tx * y - ty * x;
+    final double tx = w * v.x + y * v.z - z * v.y;
+    final double ty = w * v.y + z * v.x - x * v.z;
+    final double tz = w * v.z + x * v.y - y * v.x;
+    final double tw = -x * v.x - y * v.y - z * v.z;
+    final double resultX = -tw * x + tx * w - ty * z + tz * y;
+    final double resultY = -tw * y + ty * w - tz * x + tx * z;
+    final double resultZ = -tw * z + tz * w - tx * y + ty * x;
     final Float64List vStorage = v.storage;
     vStorage[2] = resultZ;
     vStorage[1] = resultY;
