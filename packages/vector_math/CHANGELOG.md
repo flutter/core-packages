@@ -1,3 +1,8 @@
+## 2.4.3
+
+* Fixes `Quaternion.rotate()`/`rotated()` applying the inverse of the
+  intended rotation in both the 32-bit and 64-bit variants.
+
 ## 2.4.2
 
 * Documents the public geometry filter APIs.
