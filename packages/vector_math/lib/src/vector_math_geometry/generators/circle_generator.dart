@@ -4,7 +4,7 @@
 
 part of '../../../vector_math_geometry.dart';
 
-/// Generates a flat, circular (or partial circle/pie-slice) mesh in the
+/// Generates a flat circular or partial-circle (sector) mesh in the
 /// XZ plane, centered at the origin.
 class CircleGenerator extends GeometryGenerator {
   late double _radius;
