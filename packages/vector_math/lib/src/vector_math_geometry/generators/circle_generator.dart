@@ -20,9 +20,12 @@ class CircleGenerator extends GeometryGenerator {
 
   /// Creates a circle mesh of the given [radius].
   ///
-  /// [segments] controls how many triangles are used around the
-  /// circumference. [thetaStart] and [thetaLength] can be used to generate
-  /// only a slice of the circle, both given in radians.
+  /// The [segments] parameter controls how many triangles are used around the
+  /// circumference. The [thetaStart] and [thetaLength] parameters can be used
+  /// to generate only a slice of the circle, both given in radians.
+  ///
+  /// The [flags] parameter configures which vertex attributes to generate, and
+  /// [filters] specifies any mesh transformations to apply after generation.
   MeshGeometry createCircle(
     double radius, {
     GeometryGeneratorFlags? flags,
