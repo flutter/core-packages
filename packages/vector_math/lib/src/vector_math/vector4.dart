@@ -46,30 +46,33 @@ class Vector4 implements Vector {
 
   /// Set the values of [result] to the minimum of [a] and [b] for each line.
   static void min(Vector4 a, Vector4 b, Vector4 result) {
-    result
-      ..x = math.min(a.x, b.x)
-      ..y = math.min(a.y, b.y)
-      ..z = math.min(a.z, b.z)
-      ..w = math.min(a.w, b.w);
+    result.setValues(
+      math.min(a.x, b.x),
+      math.min(a.y, b.y),
+      math.min(a.z, b.z),
+      math.min(a.w, b.w),
+    );
   }
 
   /// Set the values of [result] to the maximum of [a] and [b] for each line.
   static void max(Vector4 a, Vector4 b, Vector4 result) {
-    result
-      ..x = math.max(a.x, b.x)
-      ..y = math.max(a.y, b.y)
-      ..z = math.max(a.z, b.z)
-      ..w = math.max(a.w, b.w);
+    result.setValues(
+      math.max(a.x, b.x),
+      math.max(a.y, b.y),
+      math.max(a.z, b.z),
+      math.max(a.w, b.w),
+    );
   }
 
   /// Interpolate between [min] and [max] with the amount of [a] using a linear
   /// interpolation and store the values in [result].
   static void mix(Vector4 min, Vector4 max, double a, Vector4 result) {
-    result
-      ..x = min.x + a * (max.x - min.x)
-      ..y = min.y + a * (max.y - min.y)
-      ..z = min.z + a * (max.z - min.z)
-      ..w = min.w + a * (max.w - min.w);
+    result.setValues(
+      min.x + a * (max.x - min.x),
+      min.y + a * (max.y - min.y),
+      min.z + a * (max.z - min.z),
+      min.w + a * (max.w - min.w),
+    );
   }
 
   /// The components of the vector.
@@ -211,9 +214,17 @@ class Vector4 implements Vector {
 
   /// Normalize vector into [out].
   Vector4 normalizeInto(Vector4 out) {
-    out
-      ..setFrom(this)
-      ..normalize();
+    final double l = length;
+    if (l == 0.0) {
+      out.setValues(_v4storage[0], _v4storage[1], _v4storage[2], _v4storage[3]);
+    } else {
+      final double d = 1.0 / l;
+      final double x = _v4storage[0] * d;
+      final double y = _v4storage[1] * d;
+      final double z = _v4storage[2] * d;
+      final double w = _v4storage[3] * d;
+      out.setValues(x, y, z, w);
+    }
     return out;
   }
 
@@ -414,11 +425,7 @@ class Vector4 implements Vector {
 
   /// Copy this
   Vector4 copyInto(Vector4 arg) {
-    final Float32List argStorage = arg._v4storage;
-    argStorage[3] = _v4storage[3];
-    argStorage[2] = _v4storage[2];
-    argStorage[1] = _v4storage[1];
-    argStorage[0] = _v4storage[0];
+    arg.setValues(_v4storage[0], _v4storage[1], _v4storage[2], _v4storage[3]);
     return arg;
   }
 
