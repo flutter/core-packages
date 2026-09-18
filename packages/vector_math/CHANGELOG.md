@@ -1,3 +1,7 @@
+## 2.4.3
+
+* Documents the public `CircleGenerator` API.
+
 ## 2.4.2
 
 * Documents the public geometry filter APIs.
