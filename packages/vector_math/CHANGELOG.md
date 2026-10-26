@@ -1,3 +1,7 @@
+## 2.4.4
+
+* Documents the public `RingGenerator` API.
+
 ## 2.4.3
 
 * Documents the public `CircleGenerator` API.

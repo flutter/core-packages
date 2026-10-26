@@ -2,12 +2,10 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-// TODO(stuartmorgan): Remove this and fix violations. See
-//  https://github.com/flutter/flutter/issues/186827
-// ignore_for_file: public_member_api_docs
-
 part of '../../../vector_math_geometry.dart';
 
+/// Generates a flat ring (annulus) or partial-ring mesh in the XZ plane,
+/// centered at the origin.
 class RingGenerator extends GeometryGenerator {
   late double _innerRadius;
   late double _outerRadius;
@@ -22,6 +20,19 @@ class RingGenerator extends GeometryGenerator {
   @override
   int get indexCount => _segments * 3 * 2;
 
+  /// Creates a ring mesh between [innerRadius] and [outerRadius].
+  ///
+  /// The [segments] parameter controls how many quads are used around the
+  /// ring. The [thetaStart] and [thetaLength] parameters can be used to
+  /// generate only an arc of the ring, both given in radians.
+  ///
+  /// If [stripTextureCoordinates] is true, texture coordinates are mapped as
+  /// a strip: u goes from 0.0 on the inner edge to 1.0 on the outer edge, and
+  /// v goes from 0.0 to 1.0 along the ring. Otherwise, the vertex positions
+  /// are projected onto the texture from above.
+  ///
+  /// The [flags] parameter configures which vertex attributes to generate, and
+  /// [filters] specifies any mesh transformations to apply after generation.
   MeshGeometry createRing(
     double innerRadius,
     double outerRadius, {
