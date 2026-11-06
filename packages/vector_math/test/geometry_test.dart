@@ -84,6 +84,20 @@ void testTransformFilter() {
     expect(position.storage[1].abs(), equals(2.0));
     expect(position.storage[2].abs(), equals(2.0));
   }
+
+  // Verify full affine transform (translation + per-axis scale).
+  final mesh = MeshGeometry(2, <VertexAttrib>[VertexAttrib('POSITION', 3, 'float')]);
+  final meshPositions = mesh.getViewForAttrib('POSITION')! as Vector3List;
+  meshPositions[0] = Vector3(1.0, 2.0, 3.0);
+  meshPositions[1] = Vector3(-4.0, 0.5, 2.0);
+
+  final affine = Matrix4.identity()
+    ..translateByDouble(10.0, -5.0, 2.0, 1.0)
+    ..scaleByDouble(2.0, 3.0, 0.5, 1.0);
+  TransformFilter(affine).filterInplace(mesh);
+
+  relativeTest(meshPositions[0], Vector3(12.0, 1.0, 3.5));
+  relativeTest(meshPositions[1], Vector3(2.0, -3.5, 3.0));
 }
 
 void testFlatShadeFilter() {

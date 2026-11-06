@@ -20,9 +20,7 @@ class TransformFilter extends InplaceGeometryFilter {
     final VectorList<Vector>? position = mesh.getViewForAttrib('POSITION');
     if (position is Vector3List) {
       for (var i = 0; i < position.length; ++i) {
-        // multiplication always returns Vector3 here
-        // ignore: invalid_assignment
-        position[i] = transform * position[i];
+        position[i] = transform.transform3(position[i]);
       }
     }
   }

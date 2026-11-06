@@ -24,7 +24,7 @@ If you need help, consider asking for advice on the #hackers-new channel on [Dis
 
 <!-- Links -->
 [Contributor Guide]: https://github.com/flutter/core-packages/blob/main/CONTRIBUTING.md
-[AI contribution guidelines]: https://github.com/flutter/flutter/blob/main/docs/contributing/Tree-hygiene.md#ai-contribution-guidelines
+[AI contribution guidelines]: https://github.com/flutter/flutter/blob/master/CONTRIBUTING.ai.md#pull-requests
 [Tree Hygiene]: https://github.com/flutter/flutter/blob/master/docs/contributing/Tree-hygiene.md
 [Flutter style guide]: https://github.com/flutter/flutter/blob/master/docs/contributing/Style-guide-for-Flutter-repo.md
 [the auto-formatter]: https://github.com/flutter/packages/blob/main/script/tool/README.md#format-code
