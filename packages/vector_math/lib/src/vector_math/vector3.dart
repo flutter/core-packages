@@ -193,7 +193,7 @@ class Vector3 implements Vector {
   Vector3 normalizeInto(Vector3 out) {
     final double l = length;
     if (l == 0.0) {
-      out.setValues(_v3storage[0], _v3storage[1], _v3storage[2]);
+      out.setFrom(this);
     } else {
       final double d = 1.0 / l;
       out.setValues(_v3storage[0] * d, _v3storage[1] * d, _v3storage[2] * d);
@@ -501,7 +501,7 @@ class Vector3 implements Vector {
 
   /// Copy this into [arg].
   Vector3 copyInto(Vector3 arg) {
-    arg.setValues(_v3storage[0], _v3storage[1], _v3storage[2]);
+    arg.setFrom(this);
     return arg;
   }
 

@@ -172,7 +172,7 @@ class Vector2 implements Vector {
   Vector2 normalizeInto(Vector2 out) {
     final double l = length;
     if (l == 0.0) {
-      out.setValues(_v2storage[0], _v2storage[1]);
+      out.setFrom(this);
     } else {
       final double d = 1.0 / l;
       out.setValues(_v2storage[0] * d, _v2storage[1] * d);
@@ -378,7 +378,7 @@ class Vector2 implements Vector {
 
   /// Copy this into [arg]. Returns [arg].
   Vector2 copyInto(Vector2 arg) {
-    arg.setValues(_v2storage[0], _v2storage[1]);
+    arg.setFrom(this);
     return arg;
   }
 

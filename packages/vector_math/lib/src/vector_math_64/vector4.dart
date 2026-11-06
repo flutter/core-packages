@@ -216,7 +216,7 @@ class Vector4 implements Vector {
   Vector4 normalizeInto(Vector4 out) {
     final double l = length;
     if (l == 0.0) {
-      out.setValues(_v4storage[0], _v4storage[1], _v4storage[2], _v4storage[3]);
+      out.setFrom(this);
     } else {
       final double d = 1.0 / l;
       final double x = _v4storage[0] * d;
@@ -425,7 +425,7 @@ class Vector4 implements Vector {
 
   /// Copy this
   Vector4 copyInto(Vector4 arg) {
-    arg.setValues(_v4storage[0], _v4storage[1], _v4storage[2], _v4storage[3]);
+    arg.setFrom(this);
     return arg;
   }
 
