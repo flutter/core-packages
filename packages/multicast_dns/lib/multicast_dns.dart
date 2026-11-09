@@ -253,12 +253,20 @@ class MDnsClient {
         _incomingIPv4?.send(packet, _mDnsAddress!, selectedMDnsPort);
       } else {
         for (final RawDatagramSocket socket in _ipv4InterfaceSockets) {
-          socket.send(packet, _mDnsAddress!, selectedMDnsPort);
+          try {
+            socket.send(packet, _mDnsAddress!, selectedMDnsPort);
+          } on SocketException {
+            // An unavailable interface must not prevent querying others.
+          }
         }
       }
     } else {
       for (final RawDatagramSocket socket in _ipv6InterfaceSockets) {
-        socket.send(packet, _mDnsAddress!, selectedMDnsPort);
+        try {
+          socket.send(packet, _mDnsAddress!, selectedMDnsPort);
+        } on SocketException {
+          // An unavailable interface must not prevent querying others.
+        }
       }
     }
 
