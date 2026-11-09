@@ -2,12 +2,9 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-// TODO(stuartmorgan): Remove this and fix violations. See
-//  https://github.com/flutter/flutter/issues/186827
-// ignore_for_file: public_member_api_docs
-
 part of '../../../vector_math_geometry.dart';
 
+/// Generates a cube mesh centered at the origin.
 class CubeGenerator extends GeometryGenerator {
   late double _width;
   late double _height;
@@ -19,6 +16,14 @@ class CubeGenerator extends GeometryGenerator {
   @override
   int get indexCount => 36;
 
+  /// Creates a cube mesh with the given [width], [height], and [depth].
+  ///
+  /// The parameters are half-extents: the cube spans from negative to
+  /// positive values along each axis, so its overall dimensions are
+  /// `2 * width` by `2 * height` by `2 * depth`.
+  ///
+  /// The [flags] parameter configures which vertex attributes to generate, and
+  /// [filters] specifies any mesh transformations to apply after generation.
   MeshGeometry createCube(
     num width,
     num height,
