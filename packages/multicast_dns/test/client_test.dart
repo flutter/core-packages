@@ -153,6 +153,48 @@ void main() {
     expect(sockets.every((socket) => socket.closed), isTrue);
   });
 
+  test('Continues sending IPv4 multicast if one interface fails', () async {
+    final addresses = <InternetAddress>[
+      InternetAddress('192.0.2.2'),
+      InternetAddress('198.51.100.2'),
+    ];
+    final sockets = <FakeRawDatagramSocket>[];
+    final client = MDnsClient(
+      rawDatagramSocketFactory:
+          (
+            dynamic host,
+            int port, {
+            bool reuseAddress = true,
+            bool reusePort = true,
+            int ttl = 1,
+          }) async {
+            final socket = FakeRawDatagramSocket();
+            if (host is InternetAddress) {
+              socket.address = host;
+              if (host == addresses.first) {
+                socket.sendException = SocketException('Interface unavailable');
+              }
+            }
+            sockets.add(socket);
+            return socket;
+          },
+    );
+
+    await client.start(
+      interfacesFactory: (InternetAddressType type) async => <NetworkInterface>[
+        for (var i = 0; i < addresses.length; i++)
+          FakeNetworkInterface(<InterfaceAddress>[FakeInterfaceAddress(addresses[i])], i + 1),
+      ],
+    );
+
+    await expectLater(
+      client.lookup(ResourceRecordQuery.serverPointer('_'), timeout: Duration.zero).toList(),
+      completes,
+    );
+    expect(sockets.skip(1).map((socket) => socket.sentDatagrams), <int>[0, 1]);
+    client.stop();
+  });
+
   // group('Bind a single socket to ANY IPv4 and more than one when IPv6', () {
   //   final testCases = <Map<String, Object>>[
   //     <String, Object>{
@@ -284,6 +326,7 @@ class FakeRawDatagramSocket extends Fake implements RawDatagramSocket {
 
   final List<RawSocketOption> rawOptions = <RawSocketOption>[];
   int sentDatagrams = 0;
+  SocketException? sendException;
 
   @override
   void close() {
@@ -292,6 +335,9 @@ class FakeRawDatagramSocket extends Fake implements RawDatagramSocket {
 
   @override
   int send(List<int> buffer, InternetAddress address, int port) {
+    if (sendException case final SocketException exception) {
+      throw exception;
+    }
     sentDatagrams++;
     return buffer.length;
   }
