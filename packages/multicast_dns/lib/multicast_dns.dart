@@ -53,6 +53,7 @@ class MDnsClient {
   bool _starting = false;
   bool _started = false;
   RawDatagramSocket? _incomingIPv4;
+  final List<RawDatagramSocket> _ipv4InterfaceSockets = <RawDatagramSocket>[];
   final List<RawDatagramSocket> _ipv6InterfaceSockets = <RawDatagramSocket>[];
   final LookupResolver _resolver = LookupResolver();
   final ResourceRecordCache _cache = ResourceRecordCache();
@@ -156,6 +157,22 @@ class MDnsClient {
             interface.index,
           ),
         );
+      } else if (targetAddress.type == InternetAddressType.IPv4) {
+        final RawDatagramSocket socket = await _rawDatagramSocketFactory(
+          targetAddress,
+          selectedMDnsPort,
+          reuseAddress: true,
+          reusePort: true,
+          ttl: 255,
+        );
+        _ipv4InterfaceSockets.add(socket);
+        socket.setRawOption(
+          RawSocketOption(
+            RawSocketOption.levelIPv4,
+            RawSocketOption.IPv4MulticastInterface,
+            targetAddress.rawAddress,
+          ),
+        );
       }
 
       // Join multicast on this interface.
@@ -177,6 +194,11 @@ class MDnsClient {
 
     _incomingIPv4?.close();
     _incomingIPv4 = null;
+
+    for (final RawDatagramSocket socket in _ipv4InterfaceSockets) {
+      socket.close();
+    }
+    _ipv4InterfaceSockets.clear();
 
     for (final RawDatagramSocket socket in _ipv6InterfaceSockets) {
       socket.close();
@@ -226,8 +248,14 @@ class MDnsClient {
     final List<int> packet = query.encode();
 
     if (_mDnsAddress?.type == InternetAddressType.IPv4) {
-      // Send and listen on same "ANY" interface
-      _incomingIPv4?.send(packet, _mDnsAddress!, selectedMDnsPort);
+      if (_ipv4InterfaceSockets.isEmpty) {
+        // Preserve the previous fallback if no interfaces were discovered.
+        _incomingIPv4?.send(packet, _mDnsAddress!, selectedMDnsPort);
+      } else {
+        for (final RawDatagramSocket socket in _ipv4InterfaceSockets) {
+          socket.send(packet, _mDnsAddress!, selectedMDnsPort);
+        }
+      }
     } else {
       for (final RawDatagramSocket socket in _ipv6InterfaceSockets) {
         socket.send(packet, _mDnsAddress!, selectedMDnsPort);
