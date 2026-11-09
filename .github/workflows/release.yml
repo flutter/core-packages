@@ -3,6 +3,8 @@ on:
   push:
     branches:
       - main
+    tags:
+      - '*-v*'
 
 # Declare default permissions as read only.
 permissions:
@@ -10,8 +12,11 @@ permissions:
 
 jobs:
   release:
-    if: github.repository_owner == 'flutter'
+    if: github.repository_owner == 'flutter' && github.ref == 'refs/heads/main'
     name: release
+    outputs:
+      has_releases: ${{ steps.tag_release.outputs.has_releases }}
+      release_tags: ${{ steps.tag_release.outputs.release_tags }}
     permissions:
       # Release needs to push a tag back to the repo.
       contents: write
@@ -64,9 +69,165 @@ jobs:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         USER_NAME: ${{ secrets.USER_NAME }}
         USER_EMAIL: ${{ secrets.USER_EMAIL }}
-    - name: run release
+
+    - name: Tag changed packages for release
+      id: tag_release
+      shell: bash
       run: |
-        dart pub global run flutter_plugin_tools publish --all-changed --base-sha=HEAD~ --skip-confirmation --remote=origin
+        set -euo pipefail
+        git tag --points-at HEAD | sort > /tmp/tags_before.txt
+        dart pub global run flutter_plugin_tools publish \
+          --all-changed \
+          --base-sha=HEAD~ \
+          --skip-confirmation \
+          --remote=origin \
+          --tag-for-auto-publish
+        git tag --points-at HEAD | sort > /tmp/tags_after.txt
+        new_tags="$(comm -13 /tmp/tags_before.txt /tmp/tags_after.txt | tr '\n' ' ' | xargs)"
+        if [ -n "${new_tags}" ]; then
+          echo "has_releases=true" >> "${GITHUB_OUTPUT}"
+          echo "release_tags=${new_tags}" >> "${GITHUB_OUTPUT}"
+        else
+          echo "has_releases=false" >> "${GITHUB_OUTPUT}"
+          echo "release_tags=" >> "${GITHUB_OUTPUT}"
+        fi
       env:
-        PUB_CREDENTIALS: ${{ secrets.PUB_CREDENTIALS }}
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  stage-exit-gate:
+    name: stage-exit-gate
+    needs: [release]
+    if: >-
+      always() &&
+      !cancelled() &&
+      github.repository_owner == 'flutter' &&
+      ((needs.release.result == 'success' && needs.release.outputs.has_releases == 'true') ||
+       (needs.release.result == 'skipped' && startsWith(github.ref, 'refs/tags/')))
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Check out code
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+        with:
+          persist-credentials: false
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093 # v3.0.0
+        with:
+          workload_identity_provider: 'projects/305452601764/locations/global/workloadIdentityPools/builders/providers/github'
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@aa5489c8933f4cc7a4f7d45035b3b1440c9c10db # v3.0.1
+
+      - name: Clean up stale releases from staging repo
+        shell: bash
+        run: |
+          packages=$(gcloud artifacts packages list \
+            --project="oss-exit-gate-prod" \
+            --location="us" \
+            --repository="flutter-core-packages--pubdev" \
+            --format="value(name)" 2>/dev/null || true)
+          if [ -n "${packages}" ]; then
+            echo "${packages}" | xargs -r -I {} sh -c '
+              package_name=$(basename "{}")
+              echo "Deleting package: $package_name..."
+              gcloud artifacts packages delete "{}" \
+                --project="oss-exit-gate-prod" \
+                --location="us" \
+                --repository="flutter-core-packages--pubdev" \
+                --quiet
+            '
+          fi
+
+      - name: Stage package archives and upload OSS Exit Gate manifest
+        shell: bash
+        env:
+          GITHUB_REF_TYPE: ${{ github.ref_type }}
+          TAG_NAME: ${{ github.ref_name }}
+          RELEASE_TAGS: ${{ needs.release.outputs.release_tags }}
+          RUN_ID: ${{ github.run_id }}
+          RUN_ATTEMPT: ${{ github.run_attempt }}
+        run: |
+          set -euo pipefail
+          if [ "${GITHUB_REF_TYPE}" = "tag" ]; then
+            tags_to_stage="${TAG_NAME}"
+          else
+            tags_to_stage="${RELEASE_TAGS}"
+          fi
+
+          python3 - "${tags_to_stage}" <<'PY'
+          import json
+          import os
+          import re
+          import subprocess
+          import sys
+
+          raw_tags = sys.argv[1].split()
+          if not raw_tags:
+              raise SystemExit("No release tags provided to stage.")
+
+          tag_re = re.compile(r"^([A-Za-z0-9_]+)-v([0-9]+\.[0-9]+\.[0-9]+(?:[+-][A-Za-z0-9._-]+)?)$")
+          staged = []
+
+          for tag in raw_tags:
+              m = tag_re.match(tag)
+              if not m:
+                  raise SystemExit(f"Invalid release tag format: {tag!r}")
+              pkg_name, version = m.group(1), m.group(2)
+
+              pkg_dir = None
+              for candidate in (
+                  os.path.join("packages", pkg_name),
+                  os.path.join("third_party", "packages", pkg_name),
+              ):
+                  if os.path.isdir(candidate):
+                      pkg_dir = candidate
+                      break
+              if pkg_dir is None:
+                  raise SystemExit(f"Package directory not found for {pkg_name!r}")
+
+              archive = f"{pkg_name}-{version}.tar.gz"
+              subprocess.run(
+                  [
+                      "tar",
+                      "--exclude=.dart_tool",
+                      "--exclude=build",
+                      "-czf",
+                      archive,
+                      "-C",
+                      pkg_dir,
+                      ".",
+                  ],
+                  check=True,
+              )
+
+              subprocess.run(
+                  [
+                      "gcloud",
+                      "artifacts",
+                      "generic",
+                      "upload",
+                      "--project=oss-exit-gate-prod",
+                      "--location=us",
+                      "--repository=flutter-core-packages--pubdev",
+                      f"--package={pkg_name}",
+                      f"--version={version}",
+                      f"--source={archive}",
+                  ],
+                  check=True,
+              )
+              staged.append({"name": pkg_name, "version": version})
+
+          manifest = {
+              "publish_all": False,
+              "publishing_groups": [{"packages": staged}],
+          }
+          with open("manifest.json", "w", encoding="utf-8") as fh:
+              json.dump(manifest, fh, indent=2)
+              fh.write("\n")
+          PY
+
+          gcloud storage cp manifest.json \
+            "gs://oss-exit-gate-prod-projects-bucket/flutter-core-packages/pubdev/manifests/manifest-${RUN_ID}-${RUN_ATTEMPT}.json"
