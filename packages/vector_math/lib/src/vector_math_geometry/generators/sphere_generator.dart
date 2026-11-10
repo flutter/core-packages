@@ -2,12 +2,10 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-// TODO(stuartmorgan): Remove this and fix violations. See
-//  https://github.com/flutter/flutter/issues/186827
-// ignore_for_file: public_member_api_docs
-
 part of '../../../vector_math_geometry.dart';
 
+/// Generates a UV sphere mesh centered at the origin, with its poles on the
+/// Y axis.
 class SphereGenerator extends GeometryGenerator {
   late double _radius;
   late int _latSegments;
@@ -19,6 +17,14 @@ class SphereGenerator extends GeometryGenerator {
   @override
   int get indexCount => 6 * _lonSegments * _latSegments;
 
+  /// Creates a sphere mesh of the given [radius].
+  ///
+  /// The [latSegments] parameter controls how many bands the sphere is divided
+  /// into from pole to pole, and [lonSegments] controls how many segments are
+  /// used around the Y axis.
+  ///
+  /// The [flags] parameter configures which vertex attributes to generate, and
+  /// [filters] specifies any mesh transformations to apply after generation.
   MeshGeometry createSphere(
     num radius, {
     int latSegments = 16,

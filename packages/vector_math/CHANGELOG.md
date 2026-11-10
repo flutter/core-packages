@@ -1,3 +1,7 @@
+## 2.4.5
+
+* Documents the public `SphereGenerator` API.
+
 ## 2.4.4
 
 * Replaces dynamic multiplication in `TransformFilter.filterInplace` with `Matrix4.transform3` to fix an analyzer error on newer Dart SDKs.
