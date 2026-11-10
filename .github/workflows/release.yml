@@ -49,6 +49,7 @@ jobs:
       with:
         ref: ${{ github.sha }}
         running-workflow-name: 'release'
+        ignore-checks: triage
         repo-token: ${{ secrets.GITHUB_TOKEN }}
         wait-interval: 180 # seconds
         allowed-conclusions: success,neutral
