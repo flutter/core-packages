@@ -1,3 +1,10 @@
+## 2.4.5
+
+* Optimizes `normalizeInto`, `min`, `max` and `mix` on `Vector2`, `Vector3`
+  and `Vector4` to compute their result first and write the `out`/`result`
+  parameter with a single `setValues` call, and makes `copyInto` write its
+  argument with a single `setFrom` call.
+
 ## 2.4.4
 
 * Replaces dynamic multiplication in `TransformFilter.filterInplace` with `Matrix4.transform3` to fix an analyzer error on newer Dart SDKs.
