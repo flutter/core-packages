@@ -11,7 +11,7 @@ repo_name: flutter/core-packages
 # in legacy version analysis.
 # TODO(stuartmorgan): Set up legacy analysis in this repo. For now this matches
 # the N-2 used in flutter/packages, but we aren't actually testing N-1 or N-2.
-min_dart: '3.10.0'
+min_dart: '3.12.0'
 
 # The list of external packages that are allowed as dependencies.
 # All entries here must have an explanation for why they are here. See
