@@ -7,9 +7,10 @@ repo_name: flutter/core-packages
 # package can have a minimum SDK version of 3.10.0, 3.11.0, 3.12.0, etc., but
 # not 3.9.0.
 #
-# The major and minor version here should match the lowest version in the
-# multi-version test matrix (.github/workflows/multi_version_tasks.yaml), which
-# tracks the N-2 version used in flutter/packages.
+# The major and minor version here should match the lowest version analyzed
+# in legacy version analysis.
+# TODO(stuartmorgan): Set up legacy analysis in this repo. For now this matches
+# the N-2 used in flutter/packages.
 min_dart: '3.12.0'
 
 # The list of external packages that are allowed as dependencies.
