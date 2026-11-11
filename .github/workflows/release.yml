@@ -28,7 +28,7 @@ jobs:
       id: setup
       uses: ./.github/actions/set-up-repo
       with:
-        dart-sdk: 3.12.0
+        dart-sdk: 3.14.0
 
     # Give some time for checks to start becoming populated.
     # Because of latency in Github Webhooks, any checks that don't use GitHub
