@@ -35,11 +35,10 @@ class TagType {
 }
 
 class Parser {
-  Parser(String source, String? templateName, String delimiters, {bool lenient = false})
+  Parser(String source, String? templateName, String delimiters, {this._lenient = false})
     : _source = source,
       _templateName = templateName,
       _delimiters = delimiters,
-      _lenient = lenient,
       _scanner = Scanner(source, templateName, delimiters);
 
   final String _source;

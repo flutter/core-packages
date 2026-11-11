@@ -47,8 +47,7 @@ typedef RawDatagramSocketFactory =
 /// section 5.1 of [RFC 6762](https://tools.ietf.org/html/rfc6762).
 class MDnsClient {
   /// Create a new [MDnsClient].
-  MDnsClient({RawDatagramSocketFactory rawDatagramSocketFactory = RawDatagramSocket.bind})
-    : _rawDatagramSocketFactory = rawDatagramSocketFactory;
+  MDnsClient({this._rawDatagramSocketFactory = RawDatagramSocket.bind});
 
   bool _starting = false;
   bool _started = false;
