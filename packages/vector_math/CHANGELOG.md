@@ -1,3 +1,7 @@
+## NEXT
+
+* Updates minimum supported SDK version to Flutter 3.44/Dart 3.12.
+
 ## 2.4.4
 
 * Replaces dynamic multiplication in `TransformFilter.filterInplace` with `Matrix4.transform3` to fix an analyzer error on newer Dart SDKs.
