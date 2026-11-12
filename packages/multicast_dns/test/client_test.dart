@@ -171,8 +171,8 @@ void main() {
             final socket = FakeRawDatagramSocket();
             if (host is InternetAddress) {
               socket.address = host;
-              if (host == addresses.first) {
-                socket.sendException = SocketException('Interface unavailable');
+              if (host.address == addresses.first.address) {
+                socket.sendException = const SocketException('Interface unavailable');
               }
             }
             sockets.add(socket);
@@ -193,6 +193,56 @@ void main() {
     );
     expect(sockets.skip(1).map((socket) => socket.sentDatagrams), <int>[0, 1]);
     client.stop();
+  });
+
+  test('Closes sockets and allows restart when interface socket creation fails', () async {
+    final addresses = <InternetAddress>[
+      InternetAddress('192.0.2.2'),
+      InternetAddress('198.51.100.2'),
+    ];
+    final sockets = <FakeRawDatagramSocket>[];
+    var failInterfaceSockets = true;
+    var interfaceSocketCount = 0;
+    final client = MDnsClient(
+      rawDatagramSocketFactory:
+          (
+            dynamic host,
+            int port, {
+            bool reuseAddress = true,
+            bool reusePort = true,
+            int ttl = 1,
+          }) async {
+            final socket = FakeRawDatagramSocket();
+            if (host is InternetAddress) {
+              socket.address = host;
+              interfaceSocketCount++;
+              if (failInterfaceSockets && interfaceSocketCount == 2) {
+                throw const SocketException('Interface unavailable');
+              }
+            }
+            sockets.add(socket);
+            return socket;
+          },
+    );
+
+    Future<Iterable<NetworkInterface>> interfacesFactory(InternetAddressType type) async =>
+        <NetworkInterface>[
+          for (var i = 0; i < addresses.length; i++)
+            FakeNetworkInterface(<InterfaceAddress>[FakeInterfaceAddress(addresses[i])], i + 1),
+        ];
+
+    await expectLater(
+      client.start(interfacesFactory: interfacesFactory),
+      throwsA(isA<SocketException>()),
+    );
+    expect(sockets, hasLength(2));
+    expect(sockets.every((socket) => socket.closed), isTrue);
+
+    failInterfaceSockets = false;
+    await client.start(interfacesFactory: interfacesFactory);
+    expect(sockets.skip(2).every((socket) => !socket.closed), isTrue);
+    client.stop();
+    expect(sockets.every((socket) => socket.closed), isTrue);
   });
 
   // group('Bind a single socket to ANY IPv4 and more than one when IPv6', () {
