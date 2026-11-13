@@ -7,7 +7,7 @@ repository: https://github.com/flutter/core-packages/tree/main/packages/flutter_
 issue_tracker: https://github.com/flutter/flutter/issues?q=is%3Aissue+is%3Aopen+label%3A%22p%3A%20flutter_hook_config%22
 
 environment:
-  sdk: ^3.10.0
+  sdk: ^3.12.0
 
 dependencies:
   hooks: ^2.0.0

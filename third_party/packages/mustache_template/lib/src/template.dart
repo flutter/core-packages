@@ -10,15 +10,13 @@ class Template implements m.Template {
   Template.fromSource(
     this.source, {
     bool lenient = false,
-    bool htmlEscapeValues = true,
+    this._htmlEscapeValues = true,
     String? name,
-    m.PartialResolver? partialResolver,
+    this._partialResolver,
     String delimiters = '{{ }}',
   }) : _nodes = parser.parse(source, lenient, name, delimiters),
        _lenient = lenient,
-       _htmlEscapeValues = htmlEscapeValues,
-       _name = name,
-       _partialResolver = partialResolver;
+       _name = name;
 
   @override
   final String source;
