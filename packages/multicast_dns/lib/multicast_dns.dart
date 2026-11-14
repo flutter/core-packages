@@ -138,7 +138,19 @@ class MDnsClient {
       )).toList();
 
       for (final interface in interfaces) {
-        final InternetAddress targetAddress = interface.addresses[0];
+        // Interfaces may have addresses of multiple families, and the order
+        // of [NetworkInterface.addresses] is platform-dependent, so select
+        // the first address of the family being listened on.
+        InternetAddress? targetAddress;
+        for (final InterfaceAddress address in interface.addresses) {
+          if (address.type == listenAddress.type) {
+            targetAddress = address;
+            break;
+          }
+        }
+        if (targetAddress == null) {
+          continue;
+        }
 
         // Ensure that we're using this address/interface for multicast.
         if (targetAddress.type == InternetAddressType.IPv6) {
