@@ -2,6 +2,10 @@
 
 * Updates minimum supported SDK version to Flutter 3.44/Dart 3.12.
 
+## 0.3.3+2
+
+* Sends IPv4 mDNS queries over each configured network interface.
+
 ## 0.3.3+1
 
 * Updates metadata for move to https://github.com/flutter/core-packages.

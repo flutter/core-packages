@@ -4,7 +4,7 @@
 
 import 'dart:async';
 import 'dart:io';
-// import 'dart:typed_data';
+import 'dart:typed_data';
 
 import 'package:multicast_dns/multicast_dns.dart';
 import 'package:test/fake.dart';
@@ -104,6 +104,232 @@ void main() {
     await client.start(interfacesFactory: (InternetAddressType type) async => <NetworkInterface>[]);
     await client.start();
     await client.lookup(ResourceRecordQuery.serverPointer('_')).toList();
+  });
+
+  test('Sends IPv4 multicast on each interface', () async {
+    final addresses = <InternetAddress>[
+      InternetAddress('192.0.2.2'),
+      InternetAddress('198.51.100.2'),
+    ];
+    final sockets = <FakeRawDatagramSocket>[];
+    final client = MDnsClient(
+      rawDatagramSocketFactory:
+          (
+            dynamic host,
+            int port, {
+            bool reuseAddress = true,
+            bool reusePort = true,
+            int ttl = 1,
+          }) async {
+            final socket = FakeRawDatagramSocket();
+            if (host is InternetAddress) {
+              socket.address = host;
+            }
+            sockets.add(socket);
+            return socket;
+          },
+    );
+
+    await client.start(
+      interfacesFactory: (InternetAddressType type) async => <NetworkInterface>[
+        for (var i = 0; i < addresses.length; i++)
+          FakeNetworkInterface(<InterfaceAddress>[FakeInterfaceAddress(addresses[i])], i + 1),
+      ],
+    );
+
+    expect(sockets, hasLength(addresses.length + 1));
+    for (var i = 0; i < addresses.length; i++) {
+      final List<RawSocketOption> options = sockets[i + 1].rawOptions;
+      expect(options, hasLength(1));
+      expect(options.single.level, RawSocketOption.levelIPv4);
+      expect(options.single.option, RawSocketOption.IPv4MulticastInterface);
+      expect(options.single.value, addresses[i].rawAddress);
+    }
+
+    await client.lookup(ResourceRecordQuery.serverPointer('_'), timeout: Duration.zero).toList();
+    expect(sockets.skip(1).map((socket) => socket.sentDatagrams), <int>[1, 1]);
+
+    client.stop();
+    expect(sockets.every((socket) => socket.closed), isTrue);
+  });
+
+  test('Continues sending IPv4 multicast if one interface fails', () async {
+    final addresses = <InternetAddress>[
+      InternetAddress('192.0.2.2'),
+      InternetAddress('198.51.100.2'),
+    ];
+    final sockets = <FakeRawDatagramSocket>[];
+    final client = MDnsClient(
+      rawDatagramSocketFactory:
+          (
+            dynamic host,
+            int port, {
+            bool reuseAddress = true,
+            bool reusePort = true,
+            int ttl = 1,
+          }) async {
+            final socket = FakeRawDatagramSocket();
+            if (host is InternetAddress) {
+              socket.address = host;
+              if (host.address == addresses.first.address) {
+                socket.sendException = const SocketException('Interface unavailable');
+              }
+            }
+            sockets.add(socket);
+            return socket;
+          },
+    );
+
+    await client.start(
+      interfacesFactory: (InternetAddressType type) async => <NetworkInterface>[
+        for (var i = 0; i < addresses.length; i++)
+          FakeNetworkInterface(<InterfaceAddress>[FakeInterfaceAddress(addresses[i])], i + 1),
+      ],
+    );
+
+    await expectLater(
+      client.lookup(ResourceRecordQuery.serverPointer('_'), timeout: Duration.zero).toList(),
+      completes,
+    );
+    expect(sockets.skip(1).map((socket) => socket.sentDatagrams), <int>[0, 1]);
+    client.stop();
+  });
+
+  test('Closes sockets and allows restart when interface socket creation fails', () async {
+    final addresses = <InternetAddress>[
+      InternetAddress('192.0.2.2'),
+      InternetAddress('198.51.100.2'),
+    ];
+    final sockets = <FakeRawDatagramSocket>[];
+    var failInterfaceSockets = true;
+    var interfaceSocketCount = 0;
+    final client = MDnsClient(
+      rawDatagramSocketFactory:
+          (
+            dynamic host,
+            int port, {
+            bool reuseAddress = true,
+            bool reusePort = true,
+            int ttl = 1,
+          }) async {
+            final socket = FakeRawDatagramSocket();
+            if (host is InternetAddress) {
+              socket.address = host;
+              interfaceSocketCount++;
+              if (failInterfaceSockets && interfaceSocketCount == 2) {
+                throw const SocketException('Interface unavailable');
+              }
+            }
+            sockets.add(socket);
+            return socket;
+          },
+    );
+
+    Future<Iterable<NetworkInterface>> interfacesFactory(InternetAddressType type) async =>
+        <NetworkInterface>[
+          for (var i = 0; i < addresses.length; i++)
+            FakeNetworkInterface(<InterfaceAddress>[FakeInterfaceAddress(addresses[i])], i + 1),
+        ];
+
+    await expectLater(
+      client.start(interfacesFactory: interfacesFactory),
+      throwsA(isA<SocketException>()),
+    );
+    expect(sockets, hasLength(2));
+    expect(sockets.every((socket) => socket.closed), isTrue);
+
+    failInterfaceSockets = false;
+    await client.start(interfacesFactory: interfacesFactory);
+    expect(sockets.skip(2).every((socket) => !socket.closed), isTrue);
+    client.stop();
+    expect(sockets.every((socket) => socket.closed), isTrue);
+  });
+
+  test('Selects the listening-family address on a dual-stack interface', () async {
+    final ipv4Address = InternetAddress('192.0.2.2');
+    final ipv6Address = InternetAddress('fe80::1');
+    final sockets = <FakeRawDatagramSocket>[];
+    final client = MDnsClient(
+      rawDatagramSocketFactory:
+          (
+            dynamic host,
+            int port, {
+            bool reuseAddress = true,
+            bool reusePort = true,
+            int ttl = 1,
+          }) async {
+            final socket = FakeRawDatagramSocket();
+            if (host is InternetAddress) {
+              socket.address = host;
+            }
+            sockets.add(socket);
+            return socket;
+          },
+    );
+
+    // The IPv6 link-local address is listed first, as can happen on
+    // dual-stack interfaces where address order is platform-dependent.
+    await client.start(
+      interfacesFactory: (InternetAddressType type) async => <NetworkInterface>[
+        FakeNetworkInterface(<InterfaceAddress>[
+          FakeInterfaceAddress(ipv6Address),
+          FakeInterfaceAddress(ipv4Address),
+        ], 1),
+      ],
+    );
+
+    // The incoming socket plus exactly one interface socket, bound to the
+    // IPv4 address with the IPv4 multicast interface option.
+    expect(sockets, hasLength(2));
+    expect(sockets[1].address.address, ipv4Address.address);
+    final List<RawSocketOption> options = sockets[1].rawOptions;
+    expect(options, hasLength(1));
+    expect(options.single.level, RawSocketOption.levelIPv4);
+    expect(options.single.option, RawSocketOption.IPv4MulticastInterface);
+
+    await client.lookup(ResourceRecordQuery.serverPointer('_'), timeout: Duration.zero).toList();
+    expect(sockets[1].sentDatagrams, 1);
+
+    client.stop();
+    expect(sockets.every((socket) => socket.closed), isTrue);
+  });
+
+  test('Skips interfaces that have no address of the listening family', () async {
+    final addresses = <InternetAddress>[InternetAddress('192.0.2.2')];
+    final sockets = <FakeRawDatagramSocket>[];
+    final client = MDnsClient(
+      rawDatagramSocketFactory:
+          (
+            dynamic host,
+            int port, {
+            bool reuseAddress = true,
+            bool reusePort = true,
+            int ttl = 1,
+          }) async {
+            final socket = FakeRawDatagramSocket();
+            if (host is InternetAddress) {
+              socket.address = host;
+            }
+            sockets.add(socket);
+            return socket;
+          },
+    );
+
+    await client.start(
+      interfacesFactory: (InternetAddressType type) async => <NetworkInterface>[
+        FakeNetworkInterface(const <InterfaceAddress>[], 1),
+        FakeNetworkInterface(<InterfaceAddress>[FakeInterfaceAddress(addresses.first)], 2),
+      ],
+    );
+
+    // Only the incoming socket and the usable interface get sockets.
+    expect(sockets, hasLength(2));
+
+    await client.lookup(ResourceRecordQuery.serverPointer('_'), timeout: Duration.zero).toList();
+    expect(sockets[1].sentDatagrams, 1);
+
+    client.stop();
+    expect(sockets.every((socket) => socket.closed), isTrue);
   });
 
   // group('Bind a single socket to ANY IPv4 and more than one when IPv6', () {
@@ -235,6 +461,10 @@ class FakeRawDatagramSocket extends Fake implements RawDatagramSocket {
 
   bool closed = false;
 
+  final List<RawSocketOption> rawOptions = <RawSocketOption>[];
+  int sentDatagrams = 0;
+  SocketException? sendException;
+
   @override
   void close() {
     closed = true;
@@ -242,6 +472,10 @@ class FakeRawDatagramSocket extends Fake implements RawDatagramSocket {
 
   @override
   int send(List<int> buffer, InternetAddress address, int port) {
+    if (sendException case final SocketException exception) {
+      throw exception;
+    }
+    sentDatagrams++;
     return buffer.length;
   }
 
@@ -251,8 +485,33 @@ class FakeRawDatagramSocket extends Fake implements RawDatagramSocket {
   }
   @override
   void setRawOption(RawSocketOption option) {
-    // nothing to do here
+    rawOptions.add(option);
   }
+}
+
+class FakeNetworkInterface extends Fake implements NetworkInterface {
+  FakeNetworkInterface(this.addresses, this.index);
+
+  @override
+  final List<InterfaceAddress> addresses;
+
+  @override
+  final int index;
+}
+
+class FakeInterfaceAddress extends Fake implements InterfaceAddress {
+  FakeInterfaceAddress(this._address);
+
+  final InternetAddress _address;
+
+  @override
+  String get address => _address.address;
+
+  @override
+  Uint8List get rawAddress => _address.rawAddress;
+
+  @override
+  InternetAddressType get type => _address.type;
 }
 
 class FakeRawDatagramSocketThatSendsError extends Fake implements RawDatagramSocket {
