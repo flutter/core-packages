@@ -1,5 +1,7 @@
-## NEXT
+## 0.3.3+2
 
+* Fixes `MDnsClient.start` completing before the client is started when another call to `start` is still in progress.
+* Fixes `MDnsClient.start` being ignored after an earlier call to `start` failed.
 * Updates minimum supported SDK version to Flutter 3.44/Dart 3.12.
 
 ## 0.3.3+1

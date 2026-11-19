@@ -106,6 +106,59 @@ void main() {
     await client.lookup(ResourceRecordQuery.serverPointer('_')).toList();
   });
 
+  test('start() waits for a start that is already in progress', () async {
+    final socketCompleter = Completer<RawDatagramSocket>();
+    final client = MDnsClient(
+      rawDatagramSocketFactory:
+          (dynamic host, int port, {bool reuseAddress = true, bool reusePort = true, int ttl = 1}) {
+            return socketCompleter.future;
+          },
+    );
+
+    final Future<void> firstStart = client.start(
+      interfacesFactory: (InternetAddressType type) async => <NetworkInterface>[],
+    );
+    var secondStartCompleted = false;
+    final Future<void> secondStart = client.start().then((_) {
+      secondStartCompleted = true;
+    });
+    await pumpEventQueue();
+    expect(secondStartCompleted, isFalse);
+
+    socketCompleter.complete(FakeRawDatagramSocket());
+    await firstStart;
+    await secondStart;
+    expect(secondStartCompleted, isTrue);
+  });
+
+  test('start() can be called again after a failed start', () async {
+    var bindAttempts = 0;
+    final client = MDnsClient(
+      rawDatagramSocketFactory:
+          (
+            dynamic host,
+            int port, {
+            bool reuseAddress = true,
+            bool reusePort = true,
+            int ttl = 1,
+          }) async {
+            bindAttempts++;
+            if (bindAttempts == 1) {
+              throw const SocketException('Failed to bind');
+            }
+            return FakeRawDatagramSocket();
+          },
+    );
+
+    await expectLater(
+      client.start(interfacesFactory: (InternetAddressType type) async => <NetworkInterface>[]),
+      throwsA(isA<SocketException>()),
+    );
+    await client.start(interfacesFactory: (InternetAddressType type) async => <NetworkInterface>[]);
+
+    expect(bindAttempts, 2);
+  });
+
   // group('Bind a single socket to ANY IPv4 and more than one when IPv6', () {
   //   final testCases = <Map<String, Object>>[
   //     <String, Object>{

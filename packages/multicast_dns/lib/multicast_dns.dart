@@ -49,7 +49,7 @@ class MDnsClient {
   /// Create a new [MDnsClient].
   MDnsClient({this._rawDatagramSocketFactory = RawDatagramSocket.bind});
 
-  bool _starting = false;
+  Future<void>? _starting;
   bool _started = false;
   RawDatagramSocket? _incomingIPv4;
   final List<RawDatagramSocket> _ipv6InterfaceSockets = <RawDatagramSocket>[];
@@ -87,7 +87,8 @@ class MDnsClient {
   /// passed to the current [Zone]'s error handler.
   ///
   /// Subsequent calls to this method are ignored while the mDNS client is in
-  /// started state.
+  /// started state. If the client is still starting, the returned future
+  /// completes when that start completes.
   Future<void> start({
     InternetAddress? listenAddress,
     NetworkInterfacesFactory? interfacesFactory,
@@ -103,11 +104,25 @@ class MDnsClient {
           listenAddress.address == InternetAddress.anyIPv6.address,
     );
 
-    if (_started || _starting) {
+    if (_started) {
       return;
     }
-    _starting = true;
+    return _starting ??= _start(
+      listenAddress: listenAddress,
+      interfacesFactory: interfacesFactory,
+      mDnsPort: mDnsPort,
+      mDnsAddress: mDnsAddress,
+      onError: onError,
+    ).whenComplete(() => _starting = null);
+  }
 
+  Future<void> _start({
+    required InternetAddress listenAddress,
+    required NetworkInterfacesFactory interfacesFactory,
+    required int mDnsPort,
+    required InternetAddress? mDnsAddress,
+    required Function? onError,
+  }) async {
     final int selectedMDnsPort = _mDnsPort = mDnsPort;
     _mDnsAddress = mDnsAddress;
 
@@ -162,7 +177,6 @@ class MDnsClient {
     }
     incoming.listen((RawSocketEvent event) => _handleIncoming(event, incoming), onError: onError);
     _started = true;
-    _starting = false;
   }
 
   /// Stop the client and close any associated sockets.
@@ -170,7 +184,7 @@ class MDnsClient {
     if (!_started) {
       return;
     }
-    if (_starting) {
+    if (_starting != null) {
       throw StateError('Cannot stop mDNS client while it is starting.');
     }
 
